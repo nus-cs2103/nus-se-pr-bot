@@ -9,38 +9,49 @@ var _titleRegex = /^\[(\w+)\]\[(\w+)(\-(\w+)){0,1}\]/;
 
 var classMapping = config.get('classes');
 
+var tagTutorsIfNoTeamIdExists = function(accuser, pr, classTutors) {
+  // unknown team ID, but at least there's class
+  // so we assign all tutors in that class
+  var comment = '';
+  var tutors = {}
+
+  for (var i in classTutors) {
+    tutors[classTutors[i]] = true;
+  }
+
+  for (var tutor in tutors) {
+    comment += "@" + tutor + " ";
+  }
+  comment += "- from PR bot, please review this.";
+  console.log ("Bot has commented on PR #" + pr.number);
+  accuser.comment(pr, comment);
+};
+
 accuser.addWorker()
   .filter(function(pr){
     return pr.assignee === null;
   })
   .do(function(pr) {
     var result = _titleRegex.exec(pr.title);
-    if (result !== null) {
-      var activityId = result[1];
-      var classId = result[2];
-      var teamId = result[4];
+    if (result === null) {
+      return;
+    }
+    var activityId = result[1];
+    var classId = result[2];
+    var teamId = result[4];
 
-      if (classMapping[classId]) {
-        if (classMapping[classId][teamId]) {
-          console.log ("Bot has assigned " + classMapping[classId][teamId] + " to PR #" + pr.number);
-          //accuser.comment(pr, "By the bot: @" + classMapping[classId][teamId] + " has been assigned.");
-          accuser.accuse(pr, classMapping[classId][teamId]);
-        } else {
-          // unknown team ID, but at least there's class
-          // so we assign all tutors in that class
-          var tutors = {}
-          for (var i in classMapping[classId]) {
-            tutors[classMapping[classId][i]] = true;
-          }
-          var comment = '';
-          for (var tutor in tutors) {
-            comment += "@" + tutor + " ";
-          }
-          comment += "- from PR bot, please review this.";
-          console.log ("Bot has commented on PR #" + pr.number);
-          accuser.comment(pr, comment);
-        }
-      }
+    if (!classMapping[classId]) {
+      return;
+    }
+
+    var tutor = classMapping[classId][teamId];
+    if (tutor) {
+      // the team ID exists
+      console.log ("Bot has assigned " + tutor + " to PR #" + pr.number);
+      // accuser.comment(pr, "By the bot: @" + tutor + " has been assigned.");
+      accuser.accuse(pr, tutor);
+    } else {
+      tagTutorsIfNoTeamIdExists(accuser, pr, classMapping[classId])
     }
   });
 
