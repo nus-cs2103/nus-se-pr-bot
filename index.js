@@ -9,6 +9,13 @@ var _titleRegex = /^\[(\w+)\]\[(\w+)(\-(\w+)){0,1}\]/;
 
 var classMapping = config.get('classes');
 
+var tagTutor = function(accuser, pr, tutor) {
+  // the team ID exists
+  console.log ("Bot has assigned " + tutor + " to PR #" + pr.number);
+  // accuser.comment(pr, "By the bot: @" + tutor + " has been assigned.");
+  accuser.accuse(pr, tutor);
+}
+
 var tagTutorsIfNoTeamIdExists = function(accuser, pr, classTutors) {
   // unknown team ID, but at least there's class
   // so we assign all tutors in that class
@@ -46,12 +53,9 @@ accuser.addWorker()
 
     var tutor = classMapping[classId][teamId];
     if (tutor) {
-      // the team ID exists
-      console.log ("Bot has assigned " + tutor + " to PR #" + pr.number);
-      // accuser.comment(pr, "By the bot: @" + tutor + " has been assigned.");
-      accuser.accuse(pr, tutor);
+      tagTutor(accuser, pr, tutor);
     } else {
-      tagTutorsIfNoTeamIdExists(accuser, pr, classMapping[classId])
+      tagTutorsIfNoTeamIdExists(accuser, pr, classMapping[classId]);
     }
   });
 
