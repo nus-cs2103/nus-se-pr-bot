@@ -20,18 +20,20 @@ var tagTutorsIfNoTeamIdExists = function(accuser, pr, classTutors) {
   // unknown team ID, but at least there's class
   // so we assign all tutors in that class
   var comment = '';
-  var tutors = {}
+  var tutorsHashmap = {}
 
   // this part ensures that we do not repeat tutors' names
   for (var i in classTutors) {
-    tutors[classTutors[i]] = true;
+    tutorsHashmap[classTutors[i]] = true;
   }
 
-  for (var tutor in tutors) {
+  for (var tutor in tutorsHashmap) {
     comment += "@" + tutor + " ";
   }
   comment += "- from PR bot, please review this.";
   console.log ("Bot has commented on PR #" + pr.number);
+  // let us just assign someone to look at this first.
+  accuser.accuse(pr, tutors[Object.keys(tutors)[0]]);
   accuser.comment(pr, comment);
 };
 
