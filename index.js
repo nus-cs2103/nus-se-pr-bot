@@ -22,6 +22,7 @@ var tagTutorsIfNoTeamIdExists = function(accuser, pr, classTutors) {
   var comment = '';
   var tutors = {}
 
+  // this part ensures that we do not repeat tutors' names
   for (var i in classTutors) {
     tutors[classTutors[i]] = true;
   }
@@ -34,20 +35,27 @@ var tagTutorsIfNoTeamIdExists = function(accuser, pr, classTutors) {
   accuser.comment(pr, comment);
 };
 
-accuser.addWorker()
-  .filter(function(pr){
+var addressBookLevel1 = accuser.addRepository('nus-cs2103-AY1617S1', 'addressbook-level1');
+
+addressBookLevel1.newWorker()
+  .filter(function(repository, pr){
+    // ensure that we only work with PRs that do not have an assignee
     return pr.assignee === null;
   })
-  .do(function(pr) {
+  .do(function(repository, pr) {
     var result = _titleRegex.exec(pr.title);
+
     if (result === null) {
+      // we ignore the PR if we cannot parse the title into our pre-defined regex
       return;
     }
+
     var activityId = result[1];
     var classId = result[2];
     var teamId = result[4];
 
     if (!classMapping[classId]) {
+      // the class ID fetched is invalid.
       return;
     }
 
@@ -62,5 +70,4 @@ accuser.addWorker()
 console.log ("Server has started");
 
 accuser
-  .watch('nus-cs2103-AY1617S1', 'addressbook-level1')
   .run();

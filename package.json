@@ -1,15 +1,20 @@
 {
   "name": "cs2103-pr-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pull Request Assigning Bot based on Accuser",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "homepage": "https://github.com/mauris/cs2103-pr-bot",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mauris/cs2103-pr-bot.git"
+  },
+  "author": "Sam Yong <mauris@hotmail.sg>",
   "license": "MIT",
   "dependencies": {
-    "accuser": "^1.0.1",
+    "accuser": "^1.1.0",
     "config": "^1.21.0"
   }
 }
