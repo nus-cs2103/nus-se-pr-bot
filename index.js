@@ -31,7 +31,7 @@ var tagTutorsIfNoTeamIdExists = function(accuser, pr, classTutors) {
     comment += "@" + tutor + " ";
   }
   comment += "- from PR bot, please review this.";
-  var tutor = tutorsHashmap[Object.keys(tutorsHashmap)[0]];
+  var tutor = Object.keys(tutorsHashmap)[0];
   console.log ("Bot has assigned @" + tutor + " to PR #" + pr.number);
   // let us just assign someone to look at this first.
   accuser.accuse(pr, tutor);
