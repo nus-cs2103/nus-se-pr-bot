@@ -1,7 +1,7 @@
 var Accuser = require('accuser');
 var config = require("config");
 
-var accuser = new Accuser({debug: true});
+var accuser = new Accuser();
 
 accuser.authenticate(config.get('github.auth'));
 
@@ -11,7 +11,7 @@ var classMapping = config.get('classes');
 
 var tagTutor = function(accuser, pr, tutor) {
   // the team ID exists
-  console.log ("Bot has assigned " + tutor + " to PR #" + pr.number);
+  console.log ("Bot has assigned @" + tutor + " to PR #" + pr.number);
   // accuser.comment(pr, "By the bot: @" + tutor + " has been assigned.");
   accuser.accuse(pr, tutor);
 }
