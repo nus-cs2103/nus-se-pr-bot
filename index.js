@@ -1,7 +1,7 @@
 var Accuser = require('accuser');
 var config = require("config");
 
-var accuser = new Accuser();
+var accuser = new Accuser({debug: true});
 
 accuser.authenticate(config.get('github.auth'));
 
@@ -31,9 +31,11 @@ var tagTutorsIfNoTeamIdExists = function(accuser, pr, classTutors) {
     comment += "@" + tutor + " ";
   }
   comment += "- from PR bot, please review this.";
-  console.log ("Bot has commented on PR #" + pr.number);
+  var tutor = tutorsHashmap[Object.keys(tutorsHashmap)[0]];
+  console.log ("Bot has assigned @" + tutor + " to PR #" + pr.number);
   // let us just assign someone to look at this first.
-  accuser.accuse(pr, tutorsHashmap[Object.keys(tutorsHashmap)[0]]);
+  accuser.accuse(pr, tutor);
+  console.log ("Bot has commented on PR #" + pr.number);
   accuser.comment(pr, comment);
 };
 
