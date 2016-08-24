@@ -14,29 +14,6 @@ var tagTutor = function(accuser, pr, tutor) {
   console.log ("Bot has assigned @" + tutor + " to PR #" + pr.number);
   // accuser.comment(pr, "By the bot: @" + tutor + " has been assigned.");
   accuser.accuse(pr, tutor);
-}
-
-var tagTutorsIfNoTeamIdExists = function(accuser, pr, classTutors) {
-  // unknown team ID, but at least there's class
-  // so we assign all tutors in that class
-  var comment = '';
-  var tutorsHashmap = {}
-
-  // this part ensures that we do not repeat tutors' names
-  for (var i in classTutors) {
-    tutorsHashmap[classTutors[i]] = true;
-  }
-
-  for (var tutor in tutorsHashmap) {
-    comment += "@" + tutor + " ";
-  }
-  comment += "- from PR bot, please review this.";
-  var tutor = Object.keys(tutorsHashmap)[0];
-  console.log ("Bot has assigned @" + tutor + " to PR #" + pr.number);
-  // let us just assign someone to look at this first.
-  accuser.accuse(pr, tutor);
-  console.log ("Bot has commented on PR #" + pr.number);
-  accuser.comment(pr, comment);
 };
 
 var addressBookLevel1 = accuser.addRepository('nus-cs2103-AY1617S1', 'addressbook-level1');
@@ -66,8 +43,6 @@ addressBookLevel1.newWorker()
     var tutor = classMapping[classId][teamId];
     if (tutor) {
       tagTutor(accuser, pr, tutor);
-    } else {
-      tagTutorsIfNoTeamIdExists(accuser, pr, classMapping[classId]);
     }
   });
 
