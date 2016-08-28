@@ -52,7 +52,7 @@ module.exports = function(accuser, repoName) {
       var classId = result[2];
       var teamId = result[4];
 
-      if (!classMapping[classId]) {
+      if (!classMapping[classId] || !teamId) {
         // the class ID fetched is invalid.
         warnInvalidTitle(repository, issue);
         return;
