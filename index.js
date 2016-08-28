@@ -10,4 +10,4 @@ require('./repos/addressbook-level1')(accuser);
 console.log ("Server has started");
 
 accuser
-  .run();
+  .run({assignee: "none"});
