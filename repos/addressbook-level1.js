@@ -36,7 +36,7 @@ module.exports = function(accuser) {
   addressBookLevel1.newWorker()
     .filter(function(repository, issue){
       // ensure that we only work with PRs that do not have an assignee
-      return issue.assignee === null && issue.pull_request;
+      return issue.pull_request;
     })
     .do(function(repository, issue) {
       var result = utility._titleRegex.exec(issue.title);
