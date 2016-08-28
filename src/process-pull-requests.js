@@ -2,8 +2,8 @@ var config = require("config");
 var utility = require('../utility');
 var classMapping = config.get('classes');
 
-module.exports = function(accuser) {
-  var addressBookLevel1 = accuser.addRepository('nus-cs2103-AY1617S1', 'addressbook-level1');
+module.exports = function(accuser, repoName) {
+  var repo = accuser.addRepository('nus-cs2103-AY1617S1', repoName);
   var FormatCheckLabel = "FormatCheckRequested";
 
   var warnInvalidTitle = function(repo, issue) {
@@ -33,7 +33,7 @@ module.exports = function(accuser) {
     return result;
   };
 
-  addressBookLevel1.newWorker()
+  repo.newWorker()
     .filter(function(repository, issue){
       // ensure that we only work with PRs that do not have an assignee
       return issue.pull_request;

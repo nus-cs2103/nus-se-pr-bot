@@ -5,7 +5,8 @@ var accuser = new Accuser();
 
 accuser.authenticate(config.get('github.auth'));
 
-require('./repos/process-pull-requests')(accuser);
+var initializer = require('./repos/process-pull-requests');
+initializer(accuser, 'addressbook-level1');
 
 console.log ("Server has started");
 
