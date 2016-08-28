@@ -11,6 +11,7 @@ module.exports = function(accuser) {
       return;
     }
 
+    console.log("Adding warning for format fail to PR #" + issue.number);
     accuser.addLabels(repo, issue, ["FormatCheckRequested"]);
     var comment = "Hi @" + issue.user.login + ", your pull request title is invalid."
       + " It should be in the format of `[Activity ID][Team ID] Your name`,"
@@ -59,9 +60,11 @@ module.exports = function(accuser) {
       var tutor = classMapping[classId][teamId];
       if (tutor) {
         if (hasNoFormatCheckRequestedLabel(issue)) {
+          console.log("Removing format check label from PR #" + issue.number);
           accuser.removeLabel(repository, issue, FormatCheckLabel);
         }
 
+        console.log("Assigning tutors to PR #" + issue.number);
         accuser.accuse(repository, issue, tutor);
       }
     });
