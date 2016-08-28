@@ -5,7 +5,7 @@ var accuser = new Accuser();
 
 accuser.authenticate(config.get('github.auth'));
 
-var initializer = require('./repos/process-pull-requests');
+var initializer = require('./src/initializer');
 initializer(accuser, 'addressbook-level1');
 initializer(accuser, 'addressbook-level2');
 
