@@ -30,7 +30,7 @@ module.exports = function(accuser) {
       }
     });
     return result;
-  }
+  };
 
   addressBookLevel1.newWorker()
     .filter(function(repository, issue){
@@ -42,6 +42,7 @@ module.exports = function(accuser) {
 
       if (result === null) {
         // we ignore the PR if we cannot parse the title into our issuee-defined regex
+        warnInvalidTitle(repository, issue);
         return;
       }
 
@@ -51,6 +52,7 @@ module.exports = function(accuser) {
 
       if (!classMapping[classId]) {
         // the class ID fetched is invalid.
+        warnInvalidTitle(repository, issue);
         return;
       }
 
