@@ -39,6 +39,7 @@ module.exports = function(accuser, repoName) {
       return issue.pull_request;
     })
     .do(function(repository, issue) {
+      console.log("Looking at PR #" + issue.number);
       var result = utility._titleRegex.exec(issue.title);
 
       if (result === null) {
