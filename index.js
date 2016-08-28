@@ -5,7 +5,7 @@ var accuser = new Accuser();
 
 accuser.authenticate(config.get('github.auth'));
 
-require('./repos/addressbook-level1')(accuser);
+require('./repos/process-pull-requests')(accuser);
 
 console.log ("Server has started");
 
