@@ -7,7 +7,7 @@ module.exports = function(accuser) {
   var FormatCheckLabel = "FormatCheckRequested";
 
   var warnInvalidTitle = function(repo, issue) {
-    if (hasNoFormatCheckRequestedLabel(issue)) {
+    if (hasFormatCheckRequestedLabel(issue)) {
       return;
     }
 
@@ -23,11 +23,11 @@ module.exports = function(accuser) {
     accuser.comment(repo, issue, comment);
   };
 
-  var hasNoFormatCheckRequestedLabel = function(issue) {
-    var result = true;
+  var hasFormatCheckRequestedLabel = function(issue) {
+    var result = false;
     issue.labels.forEach(function(label){
-      if (label.name === FormatCheckLabel) {
-        result = false;
+      if (label.name.toLowerCase() == FormatCheckLabel.toLowerCase()) {
+        result = true;
       }
     });
     return result;
@@ -59,7 +59,7 @@ module.exports = function(accuser) {
 
       var tutor = classMapping[classId][teamId];
       if (tutor) {
-        if (hasNoFormatCheckRequestedLabel(issue)) {
+        if (hasFormatCheckRequestedLabel(issue)) {
           console.log("Removing format check label from PR #" + issue.number);
           accuser.removeLabel(repository, issue, FormatCheckLabel);
         }
