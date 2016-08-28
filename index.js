@@ -7,7 +7,6 @@ accuser.authenticate(config.get('github.auth'));
 
 var initializer = require('./src/initializer');
 initializer(accuser, 'addressbook-level1');
-initializer(accuser, 'addressbook-level2');
 
 console.log ("Server has started");
 
