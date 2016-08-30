@@ -6,7 +6,7 @@ module.exports = function(accuser, repoName) {
   var repo = accuser.addRepository('nus-cs2103-AY1617S1', repoName);
   var FormatCheckLabel = "FormatCheckRequested";
 
-  var warnInvalidTitle = function(repo, issue) {
+  var warnInvalidTitle = function(repository, issue) {
     if (hasFormatCheckRequestedLabel(issue)) {
       return;
     }
@@ -20,7 +20,7 @@ module.exports = function(accuser, repoName) {
       + " spaces (e.g. `[W14-A2]` means Wednesday 2pm (14 hrs), Phase A, Team 2)."
       + " Please follow the instructions given strictly and edit your title for reprocessing."
       + "\n\nNote that this comment is posted by a bot sorting all the pull request submissions."
-    accuser.comment(repo, issue, comment);
+    accuser.comment(repository, issue, comment);
   };
 
   var hasFormatCheckRequestedLabel = function(issue) {
@@ -43,6 +43,7 @@ module.exports = function(accuser, repoName) {
       var result = utility._titleRegex.exec(issue.title);
 
       if (result === null) {
+        console.log('Cannot parse title of PR #' + issue.number);
         // we ignore the PR if we cannot parse the title into our issuee-defined regex
         warnInvalidTitle(repository, issue);
         return;
@@ -54,6 +55,7 @@ module.exports = function(accuser, repoName) {
 
       if (!classMapping[classId] || !teamId) {
         // the class ID fetched is invalid.
+        console.log('wrong class or team ID for PR #' + issue.number);
         warnInvalidTitle(repository, issue);
         return;
       }
@@ -61,7 +63,7 @@ module.exports = function(accuser, repoName) {
       var tutor = classMapping[classId][teamId];
 
       if (!tutor) {
-        console.log('no tutor found for ' + issue.number);
+        console.log('no tutor found for PR #' + issue.number);
         return;
       }
 
