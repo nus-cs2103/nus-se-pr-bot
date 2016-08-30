@@ -52,13 +52,18 @@ module.exports = function(accuser, repoName) {
       var classId = result[2];
       var teamId = result[4];
 
-      if (!classMapping[classId] || !teamId || !classMapping[classId][teamId]) {
+      if (!classMapping[classId] || !teamId) {
         // the class ID fetched is invalid.
         warnInvalidTitle(repository, issue);
         return;
       }
 
       var tutor = classMapping[classId][teamId];
+
+      if (!tutor) {
+        console.log('no tutor found for ' + issue.number);
+        return;
+      }
 
       if (hasFormatCheckRequestedLabel(issue)) {
         console.log("Removing format check label from PR #" + issue.number);
