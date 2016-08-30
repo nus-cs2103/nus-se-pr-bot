@@ -59,14 +59,13 @@ module.exports = function(accuser, repoName) {
       }
 
       var tutor = classMapping[classId][teamId];
-      if (tutor) {
-        if (hasFormatCheckRequestedLabel(issue)) {
-          console.log("Removing format check label from PR #" + issue.number);
-          accuser.removeLabel(repository, issue, FormatCheckLabel);
-        }
 
-        console.log("Assigning tutors to PR #" + issue.number);
-        accuser.accuse(repository, issue, tutor);
+      if (hasFormatCheckRequestedLabel(issue)) {
+        console.log("Removing format check label from PR #" + issue.number);
+        accuser.removeLabel(repository, issue, FormatCheckLabel);
       }
+
+      console.log("Assigning tutors to PR #" + issue.number);
+      accuser.accuse(repository, issue, tutor);
     });
 };
