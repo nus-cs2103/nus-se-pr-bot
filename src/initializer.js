@@ -19,7 +19,8 @@ module.exports = function(accuser, repoName) {
       + " for Tutorial 2 Activity 3) and `[Team ID]` has one dash only and no"
       + " spaces (e.g. `[W14-A2]` means Wednesday 2pm (14 hrs), Phase A, Team 2)."
       + " Please follow the instructions given strictly and edit your title for reprocessing."
-      + "\n\nNote that this comment is posted by a bot sorting all the pull request submissions."
+      + "\n\nNote: this comment is posted by a bot. If you believe this is done in error, please"
+      + " create an issue at (cs2103-pr-bot)[https://github.com/mauris/cs2103-pr-bot/issues] and add a link to this PR."
     accuser.comment(repository, issue, comment);
   };
 
