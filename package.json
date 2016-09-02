@@ -13,6 +13,9 @@
   },
   "author": "Sam Yong <mauris@hotmail.sg>",
   "license": "MIT",
+  "engines": {
+    "node": "^6.3.0"
+  },
   "dependencies": {
     "accuser": "^1.2.0",
     "config": "^1.21.0"
