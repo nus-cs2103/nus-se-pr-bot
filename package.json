@@ -18,9 +18,8 @@
   },
   "dependencies": {
     "accuser": "^1.2.0",
-    "config": "^1.21.0"
-  },
-  "devDependencies": {
+    "config": "^1.21.0",
     "dotenv": "^2.0.0"
-  }
+  },
+  "devDependencies": {}
 }
