@@ -6,10 +6,8 @@ var Accuser = require('accuser');
 var accuser = new Accuser();
 
 var githubAuthToken = {
-  "auth": {
-    "type": "oauth",
-    "token": process.env.GITHUB_TOKEN
-  }
+  "type": "oauth",
+  "token": process.env.GITHUB_TOKEN
 };
 
 accuser.authenticate(githubAuthToken);
