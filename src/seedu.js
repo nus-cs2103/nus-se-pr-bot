@@ -1,6 +1,4 @@
-var config = require("config");
 var utility = require('../utility');
-var classMapping = config.get('classes');
 
 module.exports = function(accuser, repoName) {
   var repo = accuser.addRepository('se-edu', repoName);
