@@ -18,4 +18,8 @@ Any changes to the functionality of this bot requires the approval of the module
 
 ## Deployment
 
-The repository is configured to deploy whenever new changes are made to this repository. Ensure that changes are tested locally before pushing. Changes should go into the `develop` branch first before merging into `master` for deployment. 
+The repository is configured to deploy whenever new changes are made to this repository. Ensure that changes are tested locally before pushing. Changes should go into the `develop` branch first before merging into `master` for deployment.
+
+# License
+
+Code released under the MIT license.
