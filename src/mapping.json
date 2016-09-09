@@ -1,0 +1,105 @@
+{
+  "classes": {
+    "W09": {
+      "1": "damithc",
+      "2": "damithc",
+      "3": "ashley-si",
+      "4": "ashley-si"
+    },
+    "W10": {
+      "3": "damithc",
+      "4": "damithc",
+      "1": "OuyangDanwen",
+      "2": "OuyangDanwen"
+    },
+    "W11": {
+      "1": "cmkumar87",
+      "2": "cmkumar87",
+      "3": "jeffryhartanto",
+      "4": "okkhoy"
+    },
+    "W13": {
+      "1": "okkhoy",
+      "2": "okkhoy",
+      "3": "michelletan",
+      "4": "okkhoy"
+    },
+    "W14": {
+      "1": "crphang",
+      "2": "crphang",
+      "3": "michelletan",
+      "4": "damithc"
+    },
+    "W15": {
+      "1": "AlvianPrasetya",
+      "2": "AlvianPrasetya",
+      "3": "okkhoy",
+      "4": "okkhoy"
+    },
+    "T09": {
+      "1": "nirandiw",
+      "2": "nirandiw",
+      "3": "mauris",
+      "4": "mauris"
+    },
+    "T10": {
+      "1": "nirandiw",
+      "2": "nirandiw",
+      "3": "mauris",
+      "4": "mauris"
+    },
+    "T11": {
+      "1": ["xdshang"],
+      "2": ["xdshang"],
+      "3": "kychua",
+      "4": "kychua"
+    },
+    "T13": {
+      "1": "okkhoy",
+      "2": "okkhoy",
+      "3": "zhongwei-z",
+      "4": "zhongwei-z"
+    },
+    "T14": {
+      "1": "nishantbudhdev",
+      "2": "nishantbudhdev",
+      "3": "hang15",
+      "4": "hang15"
+    },
+    "T15": {
+      "1": "K1ang",
+      "2": "K1ang",
+      "3": "nishantbudhdev",
+      "4": "nishantbudhdev"
+    },
+    "T16": {
+      "1": "pierceandy",
+      "2": "pierceandy",
+      "3": "lohvht",
+      "4": "lohvht"
+    },
+    "T17": {
+      "1": ["joelt-92", "pixelducky"],
+      "2": ["joelt-92", "pixelducky"],
+      "3": ["joelt-92", "pixelducky"]
+    },
+    "F09": {
+      "1": "jeffryhartanto",
+      "2": "jeffryhartanto",
+      "3": "chanjunweimy",
+      "4": "chanjunweimy"
+    },
+    "F10": {
+      "1": "candiie",
+      "2": "KulaniT",
+      "3": "chanjunweimy",
+      "4": "chanjunweimy"
+    },
+    "F11": {
+      "1": "candiie",
+      "2": ["joelt-92", "pixelducky"],
+      "3": "cmkumar87",
+      "4": "cmkumar87"
+    }
+  }
+}
