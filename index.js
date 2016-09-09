@@ -1,5 +1,5 @@
 // Load dotenv first
-require('dotenv').config();
+require('dotenv').config({silent: true});
 
 var Accuser = require('accuser');
 
