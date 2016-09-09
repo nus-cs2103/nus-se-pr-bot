@@ -1,6 +1,5 @@
-var config = require("config");
 var utility = require('../utility');
-var classMapping = config.get('classes');
+var classMapping = require('./mapping')['classes'];
 
 module.exports = function(accuser, repoName) {
   var repo = accuser.addRepository('nus-cs2103-AY1617S1', repoName);
