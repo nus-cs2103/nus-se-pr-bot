@@ -1,8 +1,18 @@
+// Load dotenv first
+require('dotenv').config();
+
 var Accuser = require('accuser');
 
 var accuser = new Accuser();
 
-accuser.authenticate(config.get('github.auth'));
+var githubAuthToken = {
+  "auth": {
+    "type": "oauth",
+    "token": process.env.GITHUB_TOKEN
+  }
+};
+
+accuser.authenticate(githubAuthToken);
 
 var initializeSemesterRepositories = require('./src/semester');
 initializeSemesterRepositories(accuser, 'addressbook-level1');
