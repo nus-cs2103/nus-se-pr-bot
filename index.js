@@ -19,11 +19,13 @@ accuser.authenticate(githubAuthToken);
 //initializeSemesterRepositories(accuser, 'addressbook-level4');
 
 var intializeSeEduRepositories = require('./src/seedu');
-intializeSeEduRepositories(accuser, 'rcs');
 intializeSeEduRepositories(accuser, 'addressbook-level1');
 intializeSeEduRepositories(accuser, 'addressbook-level2');
 intializeSeEduRepositories(accuser, 'addressbook-level3');
 intializeSeEduRepositories(accuser, 'addressbook-level4');
+
+var intializeSeEduRcsRepository = require('./src/seedu-rcs');
+intializeSeEduRcsRepository(accuser, 'rcs');
 
 console.log ("Server has started");
 
