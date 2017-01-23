@@ -19,6 +19,7 @@ initializeSemesterRepositories(accuser, 'addressbook-level3');
 initializeSemesterRepositories(accuser, 'addressbook-level4');
 
 var intializeSeEduRepositories = require('./src/seedu');
+intializeSeEduRepositories(accuser, 'rcs');
 intializeSeEduRepositories(accuser, 'addressbook-level1');
 intializeSeEduRepositories(accuser, 'addressbook-level2');
 intializeSeEduRepositories(accuser, 'addressbook-level3');
