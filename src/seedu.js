@@ -17,7 +17,7 @@ module.exports = function(accuser, repoName) {
       }
 
       console.log("Commenting and closing se-edu " + repoName + " PR #" + issue.number);
-      accuser.comment(repository, issue, "This PR should be against a repo in the org [nus-cs2103-AY1617S1](https://github.com/nus-cs2103-AY1617S1), "
+      accuser.comment(repository, issue, "This PR should be against a repo in the org [nus-cs2103-AY1617S2](https://github.com/nus-cs2103-AY1617S2), "
         + "not against the repo in se-edu org :-)\n\nClosing ..."
         + "\n\nNote: this comment is posted by a bot. If you believe this is done in error, please"
         + " create an issue at [cs2103-pr-bot](https://github.com/mauris/cs2103-pr-bot/issues) and add a link to this PR.");
