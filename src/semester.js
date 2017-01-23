@@ -3,48 +3,48 @@ var classMapping = require('./mapping')['classes'];
 
 let semesterAccount = 'nus-cs2103-AY1617S2';
 
-let warnInvalidTitle = (repository, issue) => {
-  if (hasFormatCheckRequestedLabel(issue)) {
-    return;
-  }
-
-  console.log("Adding warning for format fail to PR #" + issue.number);
-  accuser.addLabels(repo, issue, ["FormatCheckRequested"]);
-  var comment = "Hi @" + issue.user.login + ", your pull request title is invalid."
-    + " It should be in the format of `[Activity ID][Team ID] Your name`,"
-    + " where `[Activity Id]` has no dashes or spaces (e.g. `[T2A3]` stands"
-    + " for Tutorial 2 Activity 3) and `[Team ID]` has one dash only and no"
-    + " spaces (e.g. `[W14-A2]` means Wednesday 2pm (14 hrs), Phase A, Team 2)."
-    + " Please follow the instructions given strictly and edit your title for reprocessing."
-    + "\n\nSubmit only one activity per pull request (unless otherwise stated in instructions) and"
-    + " do remember to create your branches from the commit where the `master` branch is pointing at so that each "
-    + " PR you submit only consist of commits meant for the activity."
-    + "\n\nNote: this comment is posted by a bot. If you believe this is done in error, please"
-    + " create an issue at [cs2103-pr-bot](https://github.com/mauris/cs2103-pr-bot/issues) and add a link to this PR."
-  accuser.comment(repository, issue, comment);
-};
-
-var hasFormatCheckRequestedLabel = (issue) => {
-  var result = false;
-  issue.labels.forEach(function(label){
-    if (label.name.toLowerCase() == FormatCheckLabel.toLowerCase()) {
-      result = true;
-    }
-  });
-  return result;
-};
-
-let assignTutor = (repository, issue, tutor) => {
-  if (!tutor) {
-    console.log('no tutor found for PR #' + issue.number);
-    return;
-  }
-
-  console.log("Assigning tutors to PR #" + issue.number);
-  accuser.accuse(repository, issue, tutor);
-};
-
 module.exports = (accuser, repoName) => {
+  let warnInvalidTitle = (repository, issue) => {
+    if (hasFormatCheckRequestedLabel(issue)) {
+      return;
+    }
+
+    console.log("Adding warning for format fail to PR #" + issue.number);
+    accuser.addLabels(repo, issue, ["FormatCheckRequested"]);
+    var comment = "Hi @" + issue.user.login + ", your pull request title is invalid."
+      + " It should be in the format of `[Activity ID][Team ID] Your name`,"
+      + " where `[Activity Id]` has no dashes or spaces (e.g. `[T2A3]` stands"
+      + " for Tutorial 2 Activity 3) and `[Team ID]` has one dash only and no"
+      + " spaces (e.g. `[W14-A2]` means Wednesday 2pm (14 hrs), Phase A, Team 2)."
+      + " Please follow the instructions given strictly and edit your title for reprocessing."
+      + "\n\nSubmit only one activity per pull request (unless otherwise stated in instructions) and"
+      + " do remember to create your branches from the commit where the `master` branch is pointing at so that each "
+      + " PR you submit only consist of commits meant for the activity."
+      + "\n\nNote: this comment is posted by a bot. If you believe this is done in error, please"
+      + " create an issue at [cs2103-pr-bot](https://github.com/mauris/cs2103-pr-bot/issues) and add a link to this PR."
+    accuser.comment(repository, issue, comment);
+  };
+
+  var hasFormatCheckRequestedLabel = (issue) => {
+    var result = false;
+    issue.labels.forEach(function(label){
+      if (label.name.toLowerCase() == FormatCheckLabel.toLowerCase()) {
+        result = true;
+      }
+    });
+    return result;
+  };
+
+  let assignTutor = (repository, issue, tutor) => {
+    if (!tutor) {
+      console.log('no tutor found for PR #' + issue.number);
+      return;
+    }
+
+    console.log("Assigning tutors to PR #" + issue.number);
+    accuser.accuse(repository, issue, tutor);
+  };
+
   let repo = accuser.addRepository(semesterAccount, repoName);
   let FormatCheckLabel = "FormatCheckRequested";
 
