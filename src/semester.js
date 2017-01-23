@@ -1,8 +1,10 @@
 var utility = require('../utility');
 var classMapping = require('./mapping')['classes'];
 
+let semesterAccount = 'nus-cs2103-AY1617S2';
+
 module.exports = function(accuser, repoName) {
-  var repo = accuser.addRepository('nus-cs2103-AY1617S1', repoName);
+  var repo = accuser.addRepository(semesterAccount, repoName);
   var FormatCheckLabel = "FormatCheckRequested";
 
   var warnInvalidTitle = function(repository, issue) {
