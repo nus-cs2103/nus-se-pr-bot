@@ -1,17 +1,19 @@
 var utility = require('../utility');
 
-module.exports = function(accuser, repoName) {
+module.exports = (accuser, repoName) => {
   var repo = accuser.addRepository('se-edu', repoName);
 
   repo.newWorker()
-    .filter(function(repository, issue){
+    .filter((repository, issue) => {
       // ensure that we only work with PRs that do not have an assignee
       return issue.pull_request;
     })
-    .do(function(repository, issue) {
+    .do((repository, issue) => {
       console.log("Looking at se-edu PR #" + issue.number);
       var result = utility._titleRegex.exec(issue.title);
 
+      // The PR is probably a legtimate one.
+      // so we shall terminate.
       if (result === null) {
         return;
       }
