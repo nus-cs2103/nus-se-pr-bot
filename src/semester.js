@@ -75,8 +75,8 @@ module.exports = (accuser, repoName) => {
         return;
       }
 
-      var tutor = classMapping[classId][teamId];
-      assignTutor(repository, issue, tutor);
+      //var tutor = classMapping[classId][teamId];
+      //assignTutor(repository, issue, tutor);
 
       if (hasFormatCheckRequestedLabel(issue)) {
         console.log("Removing format check label from PR #" + issue.number);
