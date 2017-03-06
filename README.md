@@ -6,6 +6,8 @@ The bot uses [Accuser](https://github.com/mauris/accuser), a library that enable
 
 The Github access token is to be stored in an environment variable called `GITHUB_TOKEN`. You may create a file `.env` in the root folder of this repository to set the environment variables for this bot.
 
+The tutors' mapping to the tutorial classes are found in the `src/mapping.json` file.
+
 # Contributing
 
 ## Reporting a Bug
