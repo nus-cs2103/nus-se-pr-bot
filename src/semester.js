@@ -1,4 +1,4 @@
-var utility = require('../utility');
+var utility = require('./utility');
 var classMapping = require('./mapping')['classes'];
 
 let semesterAccount = 'nus-cs2103-AY1617S2';

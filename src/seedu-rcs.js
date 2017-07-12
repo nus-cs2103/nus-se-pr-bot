@@ -1,4 +1,4 @@
-var utility = require('../utility');
+var utility = require('./utility');
 
 module.exports = (accuser, repoName) => {
   var repo = accuser.addRepository('se-edu', repoName);
