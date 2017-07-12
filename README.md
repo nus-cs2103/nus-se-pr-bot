@@ -4,8 +4,8 @@ This repository holds the source code to the pull request pre-processing bot tha
 
 There are two goals the bot is achieving for the CS2103 Teaching Team:
 
-  1. CS2103 PR Bot ensures that students provide sufficient information on their pull requests so that the bot can identify the students' tutors and assign the tutors to the correct pull request for reviewing purpose.
-  2. CS2103 PR Bot also ensures that students submit their pull requests to the correct repository, given that there is a distinction between repositories on `se-edu` vs the repositories forked for the semester. 
+  1. Ensures that students provide sufficient information on their pull requests so that the bot can identify the students' tutors and assign the tutors to the correct pull request for reviewing purpose.
+  2. Ensures that students submit their pull requests to the correct repository, given that there is a distinction between repositories on `se-edu` vs the repositories forked for the semester.
 
 The bot uses [Accuser](https://github.com/mauris/accuser), a library that enables this bot to process PRs and issues on repositories we selected.
 
@@ -22,6 +22,17 @@ Webhooks require the bot to expose a HTTP URL endpoint which Github can perform 
 Interval polling on the other hand would require the bot to request information periodically from Github through their API resources. Authentication is handled by giving the bot access to a Github account which has read/write access to all the repositories it process. However, the bot has to determine which pieces of information are new and which were previously processed. This can be seen as a pull model.
 
 In our case, CS2103 PR Bot employs the interval polling method to retrieve pull requests' information from Github on those repositories that the bot is watching. The bot is currently registered on Github with the handle [nus-cs2103-bot](https://github.com/nus-cs2103-bot). All comments sent from the bot will be shown from that account. The authentication details of the account are currently with Prof Damith and a Github authentication token (env variable `GITHUB_TOKEN`) is used for automated access to Github.
+
+# Deployment
+
+## Requirements
+
+The bot requires the following in the production environment:
+
+- Node.js v6.3.0 or newer installed
+- Internet access (outgoing on HTTP/HTTPS)
+
+All Node.js dependencies and their version numbers are described in `package.json`.
 
 # Contributing
 
