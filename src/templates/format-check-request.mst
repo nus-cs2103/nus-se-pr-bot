@@ -1,4 +1,4 @@
-Hi @{{student.username}}, your pull request title is invalid.
+Hi @{{username}}, your pull request title is invalid.
 
 It should be in the format of `[Activity ID][Team ID] Your Name`, where `[Activity Id]` has no dashes or spaces (e.g. `[T2A3]` stands for Tutorial 2 Activity 3) and `[Team ID]` has one dash only and no spaces (e.g. `[W14-A2]` means Wednesday 2pm (14 hrs), Phase A, Team 2).
 
