@@ -13,10 +13,10 @@ var githubAuthToken = {
 accuser.authenticate(githubAuthToken);
 
 var initializeSemesterRepositories = require('./src/semester');
-initializeSemesterRepositories(accuser, 'addressbook-level1');
-initializeSemesterRepositories(accuser, 'addressbook-level2');
-initializeSemesterRepositories(accuser, 'addressbook-level3');
-initializeSemesterRepositories(accuser, 'addressbook-level4');
+//initializeSemesterRepositories(accuser, 'addressbook-level1');
+//initializeSemesterRepositories(accuser, 'addressbook-level2');
+//initializeSemesterRepositories(accuser, 'addressbook-level3');
+//initializeSemesterRepositories(accuser, 'addressbook-level4');
 
 var intializeSeEduRepositories = require('./src/seedu');
 intializeSeEduRepositories(accuser, 'addressbook-level1');
