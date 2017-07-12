@@ -8,6 +8,16 @@ The Github access token is to be stored in an environment variable called `GITHU
 
 The tutors' mapping to the tutorial classes are found in the `src/mapping.json` file.
 
+## Architecture
+
+There are two main way of getting information about the repositories that the bot is watching: webhooks or interval polling.
+
+Webhooks require the bot to expose a HTTP URL endpoint which Github can perform a HTTP request to whenever there are new changes to the repository. Specifically for Github, new PRs can be received as notifications through this endpoint. This can be thought of as a push model. However, having an unsecured HTTP resource available to the internet may subject the bot to spam or denial of service attacks. The need to secure the HTTP resource may also pose additional requirements which may be out of scope for the bot.
+
+Interval polling on the other hand would require the bot to request information periodically from Github through their API resources. Authentication is handled by giving the bot access to a Github account which has read/write access to all the repositories it process. However, the bot has to determine which pieces of information are new and which were previously processed. This can be seen as a pull model.
+
+In our case, CS2103 PR Bot employs the interval polling method to retrieve pull requests' information from Github on those repositories that the bot is watching. The bot is currently registered on Github with the handle [nus-cs2103-bot](https://github.com/nus-cs2103-bot). All comments sent from the bot will be shown from that account. The authentication details of the account are currently with Prof Damith and a Github authentication token is used for automated access to Github.
+
 # Contributing
 
 ## Reporting a Bug
