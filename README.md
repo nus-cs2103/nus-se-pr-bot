@@ -1,6 +1,6 @@
 # CS2103 PR Bot
 
-This repository holds the source code to the pull request pre-processing bot that processes student submission to Github in the National University of Singapore, School of Computing CS2103: Software Engineering class.
+This repository holds the source code to the pull request pre-processing bot that processes student submission to Github in the National University of Singapore, School of Computing [CS2103: Software Engineering](http://www.comp.nus.edu.sg/~cs2103/) class.
 
 The bot uses [Accuser](https://github.com/mauris/accuser), a library that enables this bot to process PRs and issues on repositories we selected.
 
@@ -16,7 +16,7 @@ Webhooks require the bot to expose a HTTP URL endpoint which Github can perform 
 
 Interval polling on the other hand would require the bot to request information periodically from Github through their API resources. Authentication is handled by giving the bot access to a Github account which has read/write access to all the repositories it process. However, the bot has to determine which pieces of information are new and which were previously processed. This can be seen as a pull model.
 
-In our case, CS2103 PR Bot employs the interval polling method to retrieve pull requests' information from Github on those repositories that the bot is watching. The bot is currently registered on Github with the handle [nus-cs2103-bot](https://github.com/nus-cs2103-bot). All comments sent from the bot will be shown from that account. The authentication details of the account are currently with Prof Damith and a Github authentication token is used for automated access to Github.
+In our case, CS2103 PR Bot employs the interval polling method to retrieve pull requests' information from Github on those repositories that the bot is watching. The bot is currently registered on Github with the handle [nus-cs2103-bot](https://github.com/nus-cs2103-bot). All comments sent from the bot will be shown from that account. The authentication details of the account are currently with Prof Damith and a Github authentication token (env variable `GITHUB_TOKEN`) is used for automated access to Github.
 
 # Contributing
 
