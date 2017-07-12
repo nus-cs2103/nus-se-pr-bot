@@ -2,6 +2,11 @@
 
 This repository holds the source code to the pull request pre-processing bot that processes student submission to Github in the National University of Singapore, School of Computing [CS2103: Software Engineering](http://www.comp.nus.edu.sg/~cs2103/) class.
 
+There are two goals the bot is achieving for the CS2103 Teaching Team:
+
+  1. CS2103 PR Bot ensures that students provide sufficient information on their pull requests so that the bot can identify the students' tutors and assign the tutors to the correct pull request for reviewing purpose.
+  2. CS2103 PR Bot also ensures that students submit their pull requests to the correct repository, given that there is a distinction between repositories on `se-edu` vs the repositories forked for the semester. 
+
 The bot uses [Accuser](https://github.com/mauris/accuser), a library that enables this bot to process PRs and issues on repositories we selected.
 
 The Github access token is to be stored in an environment variable called `GITHUB_TOKEN`. You may create a file `.env` in the root folder of this repository to set the environment variables for this bot.
