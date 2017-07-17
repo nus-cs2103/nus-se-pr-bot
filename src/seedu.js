@@ -1,6 +1,6 @@
 var utility = require('./utility');
 
-module.exports = (accuser, repoName) => {
+module.exports = (accuser, repoName, titleRegex) => {
   var repo = accuser.addRepository('se-edu', repoName);
 
   repo.newWorker()

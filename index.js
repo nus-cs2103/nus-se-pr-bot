@@ -1,6 +1,7 @@
 // Load dotenv first
 require('dotenv').config({silent: true});
 
+var utility = require('./utility');
 var Accuser = require('accuser');
 
 var accuser = new Accuser();
@@ -19,15 +20,15 @@ var initializeSemesterRepositories = require('./src/semester');
 //initializeSemesterRepositories(accuser, 'addressbook-level4');
 
 var intializeSeEduRepositories = require('./src/seedu');
-intializeSeEduRepositories(accuser, 'addressbook-level1');
-intializeSeEduRepositories(accuser, 'addressbook-level2');
-intializeSeEduRepositories(accuser, 'addressbook-level3');
-intializeSeEduRepositories(accuser, 'addressbook-level4');
+intializeSeEduRepositories(accuser, 'addressbook-level1', utility._titleRegex);
+intializeSeEduRepositories(accuser, 'addressbook-level2', utility._titleRegex);
+intializeSeEduRepositories(accuser, 'addressbook-level3', utility._titleRegex);
+intializeSeEduRepositories(accuser, 'addressbook-level4', utility._titleRegex);
 
-var intializeSeEduRcsRepository = require('./src/seedu-rcs');
-intializeSeEduRcsRepository(accuser, 'rcs');
+// note that rcs repository has a different title regex string
+intializeSeEduRepositories(accuser, 'rcs', utility._rcsTitleRegex);
 
-console.log ("Server has started");
+console.log ("Bot Service has started");
 
 accuser
   .run({assignee: "none"});
