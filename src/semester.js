@@ -4,6 +4,7 @@ let semesterAccount = require('./data.json')['semesterAccount'];
 var mu = require('mu2');
 mu.root = __dirname + '/templates';
 
+let FormatCheckLabel = "FormatCheckRequested";
 
 module.exports = (accuser, repoName) => {
   mu.compile('format-check-request.mst');
@@ -12,7 +13,6 @@ module.exports = (accuser, repoName) => {
     if (hasFormatCheckRequestedLabel(issue)) {
       return;
     }
-    let FormatCheckLabel = "FormatCheckRequested";
 
     console.log("Adding warning for format fail to PR #" + issue.number);
     accuser.addLabels(repo, issue, [FormatCheckLabel]);
@@ -23,9 +23,12 @@ module.exports = (accuser, repoName) => {
     accuser.comment(repository, issue, comment);
   };
 
+  // Checks if the issue has a label that matches with the FormatCheckLabel
+  // method checks insensitively.
   var hasFormatCheckRequestedLabel = (issue) => {
     var result = false;
     issue.labels.forEach(function(label){
+      // find a case insensitive match for the label
       if (label.name.toLowerCase() == FormatCheckLabel.toLowerCase()) {
         result = true;
       }
@@ -76,7 +79,9 @@ module.exports = (accuser, repoName) => {
       assignTutor(repository, issue, tutor);
 
       if (hasFormatCheckRequestedLabel(issue)) {
-        console.log("Removing format check label from PR #" + issue.number);
+        // now that the issue has a valid title, but the "Format Check Requested"
+        // label is still on it, let's remove the label.
+        console.log("Removing format check request label from PR #" + issue.number);
         accuser.removeLabel(repository, issue, FormatCheckLabel);
       }
     });

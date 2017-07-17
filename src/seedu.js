@@ -16,13 +16,13 @@ module.exports = (accuser, repoName, titleRegex) => {
       console.log("Looking at se-edu PR #" + issue.number);
       var result = titleRegex.exec(issue.title);
 
-      // The PR is probably a legtimate one.
-      // so we shall terminate.
+      // The PR is probably a legtimate one based on title regex no match
+      // so we shall skip this issue.
       if (result === null) {
         return;
       }
 
-      console.log("Commenting and closing se-edu " + repoName + " PR #" + issue.number);
+      console.log("Commenting & closing se-edu/" + repoName + " PR #" + issue.number);
       let view = {
         semesterAccount: semesterAccount
       };
