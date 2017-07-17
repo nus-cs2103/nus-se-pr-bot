@@ -13,7 +13,7 @@ module.exports = (accuser, repoName, titleRegex) => {
       return issue.pull_request;
     })
     .do((repository, issue) => {
-      console.log("Looking at se-edu PR #" + issue.number);
+      console.log("Looking at se-edu/" + repoName + " PR #" + issue.number);
       var result = titleRegex.exec(issue.title);
 
       // The PR is probably a legtimate one based on title regex no match
