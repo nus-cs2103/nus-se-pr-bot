@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/mauris/cs2103-pr-bot",
+  "homepage": "https://github.com/nus-cs2103/cs2103-pr-bot",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mauris/cs2103-pr-bot.git"
+    "url": "https://github.com/nus-cs2103/cs2103-pr-bot.git"
   },
   "author": "Sam Yong <mauris@hotmail.sg>",
   "license": "MIT",

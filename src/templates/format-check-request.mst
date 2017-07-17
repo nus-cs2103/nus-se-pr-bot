@@ -6,4 +6,4 @@ Please follow the instructions given strictly and edit your title for reprocessi
 
 Submit only one activity per pull request (unless otherwise stated in instructions) and do remember to create your branches from the commit where the `master` branch is pointing at so that each PR you submit only consist of commits meant for the activity.
 
-Note: this comment is posted by a bot. If you believe this is done in error, please create an issue at [cs2103-pr-bot](https://github.com/mauris/cs2103-pr-bot/issues) and add a link to this PR.
+Note: this comment is posted by a bot. If you believe this is done in error, please create an issue at [cs2103-pr-bot](https://github.com/nus-cs2103/cs2103-pr-bot/issues) and add a link to this PR.
