@@ -14,11 +14,17 @@ var githubAuthToken = {
 
 accuser.authenticate(githubAuthToken);
 
+// this section of code initializes Accuser for the current semester's repository
+// currentLevel in data.json determines which highest level repository is already
+//    made available to the students.
+// previous semesters are no longer handled by this bot.
 var initializeSemesterRepositories = require('./src/semester');
 for (var level = 1; level < currentLevel; ++level) {
   initializeSemesterRepositories(accuser, 'addressbook-level' + level);
 }
 
+// this section of code ensures that student do not send pull requests to the
+// se-edu repositories.
 var intializeSeEduRepositories = require('./src/seedu');
 intializeSeEduRepositories(accuser, 'addressbook-level1', utility._titleRegex);
 intializeSeEduRepositories(accuser, 'addressbook-level2', utility._titleRegex);
@@ -30,5 +36,7 @@ intializeSeEduRepositories(accuser, 'rcs', utility._rcsTitleRegex);
 
 console.log ("Bot Service has started");
 
+
+// start the bot
 accuser
-  .run({assignee: "none"});
+  .run({ assignee: "none" });
