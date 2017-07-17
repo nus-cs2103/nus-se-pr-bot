@@ -1,9 +1,9 @@
 var utility = require('./utility');
 var classMapping = require('./mapping')['classes'];
+let semesterAccount = require('./data.json')['semesterAccount'];
 var mu = require('mu2');
 mu.root = __dirname + '/templates';
 
-let semesterAccount = 'nus-cs2103-AY1617S2';
 
 module.exports = (accuser, repoName) => {
   mu.compile('format-check-request.mst');
