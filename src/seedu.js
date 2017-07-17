@@ -1,6 +1,10 @@
 var utility = require('./utility');
+let semesterAccount = require('./data.json')['semesterAccount'];
+var mu = require('mu2');
+mu.root = __dirname + '/templates';
 
 module.exports = (accuser, repoName, titleRegex) => {
+  mu.compile('wrong-repository.mst');
   var repo = accuser.addRepository('se-edu', repoName);
 
   repo.newWorker()
@@ -10,7 +14,7 @@ module.exports = (accuser, repoName, titleRegex) => {
     })
     .do((repository, issue) => {
       console.log("Looking at se-edu PR #" + issue.number);
-      var result = utility._titleRegex.exec(issue.title);
+      var result = titleRegex.exec(issue.title);
 
       // The PR is probably a legtimate one.
       // so we shall terminate.
@@ -19,10 +23,11 @@ module.exports = (accuser, repoName, titleRegex) => {
       }
 
       console.log("Commenting and closing se-edu " + repoName + " PR #" + issue.number);
-      accuser.comment(repository, issue, "This PR should be against a repo in the org [nus-cs2103-AY1617S2](https://github.com/nus-cs2103-AY1617S2), "
-        + "not against the repo in se-edu org :-)\n\nClosing ..."
-        + "\n\nNote: this comment is posted by a bot. If you believe this is done in error, please"
-        + " create an issue at [cs2103-pr-bot](https://github.com/mauris/cs2103-pr-bot/issues) and add a link to this PR.");
+      let view = {
+        semesterAccount: semesterAccount
+      };
+      var comment = mu.render('wrong-repository.mst', view);
+      accuser.comment(repository, issue, comment);
       accuser.close(repository, issue);
     });
 };
