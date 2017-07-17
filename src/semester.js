@@ -1,13 +1,13 @@
 var utility = require('./utility');
-var classMapping = require('./mapping')['classes'];
-let semesterAccount = require('./data.json')['semesterAccount'];
+var classMapping = require('./data')['classes'];
+let semesterAccount = require('./data')['semesterAccount'];
 var mu = require('mu2');
 mu.root = __dirname + '/templates';
 
 let FormatCheckLabel = "FormatCheckRequested";
 
 module.exports = (accuser, repoName) => {
-  mu.compile('format-check-request.mst');
+  mu.compile('format-check-request.mst', () => {});
 
   let warnInvalidTitle = (repository, issue) => {
     if (hasFormatCheckRequestedLabel(issue)) {

@@ -3,7 +3,7 @@ require('dotenv').config({silent: true});
 
 var utility = require('./src/utility');
 var Accuser = require('accuser');
-let currentLevel = require('./src/data.json')['currentLevel'];
+let currentLevel = require('./src/data')['currentLevel'];
 
 var accuser = new Accuser();
 

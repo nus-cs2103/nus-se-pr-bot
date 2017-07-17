@@ -1,10 +1,10 @@
 var utility = require('./utility');
-let semesterAccount = require('./data.json')['semesterAccount'];
+let semesterAccount = require('./data')['semesterAccount'];
 var mu = require('mu2');
 mu.root = __dirname + '/templates';
 
 module.exports = (accuser, repoName, titleRegex) => {
-  mu.compile('wrong-repository.mst');
+  mu.compile('wrong-repository.mst', () => {});
   var repo = accuser.addRepository('se-edu', repoName);
 
   repo.newWorker()
