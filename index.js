@@ -1,8 +1,9 @@
 // Load dotenv first
 require('dotenv').config({silent: true});
 
-var utility = require('./utility');
+var utility = require('./src/utility');
 var Accuser = require('accuser');
+let currentLevel = require('./src/data.json')['currentLevel'];
 
 var accuser = new Accuser();
 
@@ -14,10 +15,9 @@ var githubAuthToken = {
 accuser.authenticate(githubAuthToken);
 
 var initializeSemesterRepositories = require('./src/semester');
-//initializeSemesterRepositories(accuser, 'addressbook-level1');
-//initializeSemesterRepositories(accuser, 'addressbook-level2');
-//initializeSemesterRepositories(accuser, 'addressbook-level3');
-//initializeSemesterRepositories(accuser, 'addressbook-level4');
+for (var level = 1; level < currentLevel; ++level) {
+  initializeSemesterRepositories(accuser, 'addressbook-level' + level);
+}
 
 var intializeSeEduRepositories = require('./src/seedu');
 intializeSeEduRepositories(accuser, 'addressbook-level1', utility._titleRegex);
