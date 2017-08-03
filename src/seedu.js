@@ -1,6 +1,6 @@
-var utility = require('./utility');
+const utility = require('./utility');
 let semesterAccount = require('./data')['semesterAccount'];
-var mu = require('mu2');
+const mu = require('mu2');
 mu.root = __dirname + '/templates';
 
 module.exports = (accuser, repoName, titleRegex) => {
