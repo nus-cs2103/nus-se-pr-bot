@@ -9,7 +9,7 @@ There are two goals the bot is achieving for the CS2103 Teaching Team:
 
 The bot uses [Accuser](https://github.com/mauris/accuser), a library that enables this bot to process PRs and issues on repositories we selected.
 
-The Github access token is to be stored in an environment variable called `GITHUB_TOKEN`. You may create a file `.env` in the root folder of this repository to set the environment variables for this bot.
+The Github access token is to be stored in an environment variable called `GITHUB_TOKEN`. Tokens can be created and managed for [nus-cs2103-bot](https://github.com/nus-cs2103-bot) by signing to the account and visiting Settings > Developer Settings > Personal Access Tokens. Do not commit the token into the repository for security reasons. You may create a file `.env` in the root folder of this repository to set the environment variables for this bot.
 
 The current semester's Github account / organization name can be set in the `src/data.json`, along with the highest level of `addressbook` (1-4) repository setting in the same file. The tutors' tutorial class mapping can also be set in the `src/data.json` file.
 
