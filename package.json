@@ -11,7 +11,13 @@
     "type": "git",
     "url": "https://github.com/nus-cs2103/cs2103-pr-bot.git"
   },
-  "author": "Sam Yong <mauris@hotmail.sg>",
+  "contributors": [
+    {
+      "name": "Sam Yong",
+      "email": "mauris@hotmail.sg",
+      "url": "http://mauris.sg/"
+    }
+  ],
   "license": "MIT",
   "engines": {
     "node": "^6.3.0"
