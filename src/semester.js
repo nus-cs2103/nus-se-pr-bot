@@ -1,7 +1,7 @@
-var utility = require('./utility');
-var classMapping = require('./data')['classes'];
+const utility = require('./utility');
+const classMapping = require('./data')['classes'];
 let semesterAccount = require('./data')['semesterAccount'];
-var mu = require('mu2');
+const mu = require('mu2');
 mu.root = __dirname + '/templates';
 
 let FormatCheckLabel = "FormatCheckRequested";
