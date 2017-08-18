@@ -64,7 +64,8 @@ module.exports = (accuser, repoName) => {
         return;
       }
 
-      var activityId = result[1];
+      // Activity ID can be retrieved using:
+      // var activityId = result[1];
       var classId = result[2];
       var teamId = result[4];
 
