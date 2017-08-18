@@ -7,12 +7,14 @@ Thank you for your interest in working on CS2103's PR Bot. We welcome your patch
 1. Fork this repository to your account
 
 2. Clone your fork of this repository
-
-    git clone https://github.com/<yourname>/cs2103-pr-bot
+````
+    git clone https://github.com/{yourUsername}/cs2103-pr-bot
+````
 
 3. Install dependencies
-
+````
     npm install
+````
 
 ## Code Reviews
 
@@ -58,4 +60,4 @@ A barrier for introducing new installation dependencies is especially high:
 
 ## Code of Conduct
 
-Please refer to `CODE_OF_CONDUCT.md` for our Contributor Covenant Code of Conduct.
+Please refer to [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for our Contributor Covenant Code of Conduct.
