@@ -36,6 +36,8 @@ All Node.js dependencies and their version numbers are described in `package.jso
 
 # Contributing
 
+You may find more information about contributing to `cs2103-pr-bot` in the [`CONTRIBUTING.md`](CONTRIBUTING.md) file.
+
 ## Reporting a Bug
 
 To report a bug, create an [issue](https://github.com/nus-cs2103/cs2103-pr-bot/issues). Ensure that you search for existing issues reported first before making yours. If it is a possible bug with the underlying library Accuser, [create an issue there](https://github.com/mauris/accuser/issues).

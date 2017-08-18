@@ -1,6 +1,6 @@
 const utility = require('./utility');
-const classMapping = require('./data')['classes'];
-let semesterAccount = require('./data')['semesterAccount'];
+const classMapping = require('./data').classes;
+let semesterAccount = require('./data').semesterAccount;
 const mu = require('mu2');
 mu.root = __dirname + '/templates';
 
