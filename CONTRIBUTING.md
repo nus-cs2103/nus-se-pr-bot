@@ -45,7 +45,7 @@ All submissions, including submissions by project members, require review. We wi
 
 To use the code linter, run
 
-    gulp lint
+    npm run lint
 
 ## Adding dependencies
 
