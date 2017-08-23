@@ -9,7 +9,7 @@ module.exports = (accuser, repoName, titleRegex) => {
 
   repo.newWorker()
     .filter((repository, issue) => {
-      // ensure that we only work with PRs that do not have an assigneet
+      // ensure that we only work with PRs that do not have an assignee
       return issue.pull_request;
     })
     .do((repository, issue) => {
