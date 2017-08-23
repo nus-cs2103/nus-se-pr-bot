@@ -8,7 +8,7 @@ module.exports = (accuser, repoName, titleRegex) => {
 
   repo.newWorker()
     .filter((repository, issue) => {
-      // ensure that we only work with PRs that do not have an assignee
+      // ensure that we only work with PRs that do not have an assigneet
       return issue.pull_request;
     })
     .do((repository, issue) => {
@@ -25,8 +25,10 @@ module.exports = (accuser, repoName, titleRegex) => {
       let view = {
         semesterAccount: semesterAccount
       };
-      var comment = mu.render('wrong-repository.mst', view);
-      accuser.comment(repository, issue, comment);
-      accuser.close(repository, issue);
+      let commentStream = mu.render('wrong-repository.mst', view);
+      utility.castStreamToString(commentStream, comment => {
+        accuser.comment(repository, issue, comment);
+        accuser.close(repository, issue);
+      });
     });
 };

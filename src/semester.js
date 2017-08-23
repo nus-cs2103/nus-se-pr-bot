@@ -19,8 +19,8 @@ module.exports = (accuser, repoName) => {
     let student = {
       username: issue.user.login
     };
-    var comment = mu.render('format-check-request.mst', student);
-    accuser.comment(repository, issue, comment);
+    let commentStream = mu.render('format-check-request.mst', student);
+    utility.castStreamToString(commentStream, comment => accuser.comment(repository, issue, comment));
   };
 
   // Checks if the issue has a label that matches with the FormatCheckLabel
