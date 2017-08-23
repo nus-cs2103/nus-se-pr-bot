@@ -1,4 +1,3 @@
-const utility = require('./utility');
 let semesterAccount = require('./data').semesterAccount;
 const mu = require('mu2');
 mu.root = __dirname + '/templates';
