@@ -1,3 +1,4 @@
+const utility = require('./utility');
 let semesterAccount = require('./data').semesterAccount;
 const mu = require('mu2');
 mu.root = __dirname + '/templates';
@@ -26,9 +27,10 @@ module.exports = (accuser, repoName, titleRegex) => {
         semesterAccount: semesterAccount
       };
       let commentStream = mu.render('wrong-repository.mst', view);
-      utility.castStreamToString(commentStream, comment => {
-        accuser.comment(repository, issue, comment);
-        accuser.close(repository, issue);
-      });
+      utility.castStreamToString(commentStream)
+        .then(comment => {
+          accuser.comment(repository, issue, comment);
+          accuser.close(repository, issue);
+        });
     });
 };
