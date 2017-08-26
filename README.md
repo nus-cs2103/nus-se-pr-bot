@@ -42,6 +42,14 @@ You may find more information about contributing to `cs2103-pr-bot` in the [`CON
 
 To report a bug, create an [issue](https://github.com/nus-cs2103/cs2103-pr-bot/issues). Ensure that you search for existing issues reported first before making yours. If it is a possible bug with the underlying library Accuser, [create an issue there](https://github.com/mauris/accuser/issues).
 
+# Testing
+
+PR bot uses `Jest` for testing. Ensure that dev dependency is installed. To run tests:
+
+    npm test
+    
+All test files should be named `*.test.js` and reside in the `test` directory
+
 # License
 
 Code released under the MIT license.
