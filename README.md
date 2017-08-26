@@ -1,5 +1,4 @@
-# CS2103 PR Bot
-
+# CS2103 PR Bot [![Build Status](https://travis-ci.org/nus-cs2103/cs2103-pr-bot.svg?branch=master)](https://travis-ci.org/nus-cs2103/cs2103-pr-bot)
 This repository holds the source code to the pull request pre-processing bot that processes student submission to Github in the National University of Singapore, School of Computing [CS2103: Software Engineering](http://www.comp.nus.edu.sg/~cs2103/) class.
 
 There are two goals the bot is achieving for the CS2103 Teaching Team:
@@ -41,6 +40,14 @@ You may find more information about contributing to `cs2103-pr-bot` in the [`CON
 ## Reporting a Bug
 
 To report a bug, create an [issue](https://github.com/nus-cs2103/cs2103-pr-bot/issues). Ensure that you search for existing issues reported first before making yours. If it is a possible bug with the underlying library Accuser, [create an issue there](https://github.com/mauris/accuser/issues).
+
+# Testing
+
+PR bot uses `Jest` for testing. Ensure that dev dependency is installed. To run tests:
+
+    npm test
+
+All test files should be named `*.test.js` and reside in the `test` directory
 
 # License
 
