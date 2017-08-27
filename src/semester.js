@@ -67,8 +67,8 @@ module.exports = (accuser, repoName) => {
 
       // Activity ID can be retrieved using:
       // var activityId = result[1];
-      var classId = result[2];
-      var teamId = result[4];
+      var classId = result[1];
+      var teamId = result[2];
 
       if (!classMapping[classId] || !teamId) {
         // the class ID fetched is invalid.

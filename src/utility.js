@@ -11,7 +11,7 @@ const castStreamToString = (stream) => {
 };
 
 module.exports = {
-  _titleRegex: /^\[(\w+)\]\[([WTF]{1}\d{2})(-[ABC]{1}(\d{1})){0,1}\]/i,
+  _titleRegex: /^\[W\d{1,2}\.\d{1,2}\D?\]\[([WTF]\d{2})-[AB](\d)\]/i,
   _rcsTitleRegex: /^Add(ing|ed){0,1}\s.+\.txt/i,
   castStreamToString: castStreamToString
 };
