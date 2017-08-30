@@ -4,7 +4,7 @@
   "description": "Pull Request Assigning Bot based on Accuser",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --verbose",
+    "test": "jest --verbose",
     "lint": "eslint src"
   },
   "homepage": "https://github.com/nus-cs2103/cs2103-pr-bot",
