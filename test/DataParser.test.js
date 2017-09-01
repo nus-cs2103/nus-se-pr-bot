@@ -8,5 +8,5 @@ it('should extract data correctly', () => {
       'labels': ['team.nonExistent', 'tutorial.nonExistent']
     }
   };
-  expect(new Parser().parse(process.env.PWD + '/data.sample.csv')).toEqual(expected);
+  expect(Parser.parse(path.join(process.env.PWD, '/data.sample.csv'))).toEqual(expected);
 });

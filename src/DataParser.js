@@ -1,13 +1,14 @@
 const Papa = require('babyparse');
 
 class DataParser {
-  parse(dataPath) {
+  static parse(dataPath) {
     let rows = Papa.parseFiles(dataPath).data;
 
     // First row include headers
     let headers = rows[0];
     let indexRange = Array.from(Array(headers.length).keys());
-    let getIndicesForHeader = header => indexRange.filter(index => headers[index].toLowerCase() === header.toLowerCase());
+    let getIndicesForHeader =
+      header => indexRange.filter(index => headers[index].toLowerCase() === header.toLowerCase());
     let githubIdIndex = getIndicesForHeader('Github ID')[0];
     let tutorIndex = getIndicesForHeader('Tutor')[0];
     let reviewerIndex = getIndicesForHeader('Reviewer')[0];
@@ -30,7 +31,7 @@ class DataParser {
       data[githubId] = {
         tutor, reviewer, labels
       };
-    })
+    });
 
     return data;
   }
