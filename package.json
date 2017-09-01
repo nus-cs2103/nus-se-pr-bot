@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "accuser": "^1.2.0",
+    "babyparse": "^0.4.6",
     "bluebird": "^3.5.0",
     "dotenv": "^2.0.0",
     "mu2": "^0.5.21"
