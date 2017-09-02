@@ -3,7 +3,7 @@ require('dotenv').config({ silent: true });
 
 const utility = require('./src/utility');
 const Accuser = require('accuser');
-let currentLevel = require('./src/data')['currentLevel'];
+let currentLevel = require('./config')['currentLevel'];
 
 const accuser = new Accuser();
 
@@ -19,7 +19,7 @@ accuser.authenticate(githubAuthToken);
 //    made available to the students.
 // previous semesters are no longer handled by this bot.
 let initializeSemesterRepositories = require('./src/semester');
-for (var level = 1; level < currentLevel; ++level) {
+for (var level = 1; level <= currentLevel; ++level) {
   initializeSemesterRepositories(accuser, 'addressbook-level' + level);
 }
 
