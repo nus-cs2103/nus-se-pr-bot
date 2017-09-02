@@ -1,13 +1,26 @@
 const utility = require('./utility');
 const path = require('path');
-let dataMapping = require('./DataParser').parse(path.join(process.env.PWD, 'data.csv'));
+let dataMapping = require('./DataParser').parse(path.join(__dirname, 'data.csv'));
 let semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
-mu.root = __dirname + '/templates';
+mu.root = path.json(__dirname, '/templates');
 
-let FormatCheckLabel = "FormatCheckRequested";
+let FormatCheckLabel = 'FormatCheckRequested';
 
 module.exports = (accuser, repoName) => {
+  // Checks if the issue has a label that matches with the FormatCheckLabel
+  // method checks insensitively.
+  let hasFormatCheckRequestedLabel = (issue) => {
+    let result = false;
+    issue.labels.forEach(label => {
+      // find a case insensitive match for the label
+      if (label.name.toLowerCase() === FormatCheckLabel.toLowerCase()) {
+        result = true;
+      }
+    });
+    return result;
+  };
+
   mu.compile('format-check-request.mst', () => {});
 
   let warnInvalidTitle = (repository, issue) => {
@@ -15,8 +28,8 @@ module.exports = (accuser, repoName) => {
       return;
     }
 
-    console.log("Adding warning for format fail to PR #" + issue.number);
-    accuser.addLabels(repo, issue, [FormatCheckLabel]);
+    console.log('Adding warning for format fail to PR #' + issue.number);
+    accuser.addLabels(repository, issue, [FormatCheckLabel]);
     let student = {
       username: issue.user.login
     };
@@ -25,26 +38,13 @@ module.exports = (accuser, repoName) => {
       .then(comment => accuser.comment(repository, issue, comment));
   };
 
-  // Checks if the issue has a label that matches with the FormatCheckLabel
-  // method checks insensitively.
-  var hasFormatCheckRequestedLabel = (issue) => {
-    var result = false;
-    issue.labels.forEach(function(label){
-      // find a case insensitive match for the label
-      if (label.name.toLowerCase() == FormatCheckLabel.toLowerCase()) {
-        result = true;
-      }
-    });
-    return result;
-  };
-
   let assignReviewer = (repository, issue, reviewer) => {
     if (!reviewer) {
       console.log('no reviewer found for PR #' + issue.number);
       return;
     }
 
-    console.log("Assigning reviewer to PR #" + issue.number);
+    console.log('Assigning reviewer to PR #' + issue.number);
     accuser.accuse(repository, issue, reviewer);
   };
 
@@ -56,8 +56,8 @@ module.exports = (accuser, repoName) => {
       return issue.pull_request;
     })
     .do((repository, issue) => {
-      console.log("Looking at PR #" + issue.number);
-      var result = utility._titleRegex.exec(issue.title);
+      console.log('Looking at PR #' + issue.number);
+      let result = utility._titleRegex.exec(issue.title);
 
       if (result === null) {
         console.log('Cannot parse title of PR #' + issue.number);
@@ -84,7 +84,7 @@ module.exports = (accuser, repoName) => {
       if (hasFormatCheckRequestedLabel(issue)) {
         // now that the issue has a valid title, but the "Format Check Requested"
         // label is still on it, let's remove the label.
-        console.log("Removing format check request label from PR #" + issue.number);
+        console.log('Removing format check request label from PR #' + issue.number);
         accuser.removeLabel(repository, issue, FormatCheckLabel);
       }
     });
