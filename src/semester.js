@@ -1,6 +1,7 @@
 const utility = require('./utility');
-const classMapping = require('./data').classes;
-let semesterAccount = require('./data').semesterAccount;
+const path = require('path');
+let dataMapping = require('./DataParser').parse(path.join(process.env.PWD, 'data.csv'));
+let semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
 mu.root = __dirname + '/templates';
 
@@ -37,14 +38,14 @@ module.exports = (accuser, repoName) => {
     return result;
   };
 
-  let assignTutor = (repository, issue, tutor) => {
-    if (!tutor) {
-      console.log('no tutor found for PR #' + issue.number);
+  let assignReviewer = (repository, issue, reviewer) => {
+    if (!reviewer) {
+      console.log('no reviewer found for PR #' + issue.number);
       return;
     }
 
-    console.log("Assigning tutors to PR #" + issue.number);
-    accuser.accuse(repository, issue, tutor);
+    console.log("Assigning reviewer to PR #" + issue.number);
+    accuser.accuse(repository, issue, reviewer);
   };
 
   let repo = accuser.addRepository(semesterAccount, repoName);
@@ -65,20 +66,20 @@ module.exports = (accuser, repoName) => {
         return;
       }
 
-      // Activity ID can be retrieved using:
-      // var activityId = result[1];
-      var classId = result[1];
-      var teamId = result[2];
+      let studentGithubId = issue.user.login;
 
-      if (!classMapping[classId] || !teamId) {
-        // the class ID fetched is invalid.
-        console.log('wrong class or team ID for PR #' + issue.number);
+      if (!dataMapping[studentGithubId]) {
+        // not a student of this course
+        console.log('student ' + studentGithubId + ' is not in this course');
         warnInvalidTitle(repository, issue);
         return;
       }
 
-      var tutor = classMapping[classId][teamId];
-      assignTutor(repository, issue, tutor);
+      let reviewer = dataMapping[studentGithubId].reviewer;
+      assignReviewer(repository, issue, reviewer);
+
+      let labels = dataMapping[studentGithubId].labels;
+      accuser.addLabels(repository, issue, labels);
 
       if (hasFormatCheckRequestedLabel(issue)) {
         // now that the issue has a valid title, but the "Format Check Requested"
