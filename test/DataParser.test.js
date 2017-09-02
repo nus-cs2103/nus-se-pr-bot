@@ -1,4 +1,5 @@
 const Parser = require('../src/DataParser');
+const path = require('path');
 
 it('should extract data correctly', () => {
   let expected = {
@@ -8,5 +9,5 @@ it('should extract data correctly', () => {
       'labels': ['team.nonExistent', 'tutorial.nonExistent']
     }
   };
-  expect(Parser.parse(path.join(process.env.PWD, '/data.sample.csv'))).toEqual(expected);
+  expect(Parser.parse(path.join(__dirname, '../data.sample.csv'))).toEqual(expected);
 });

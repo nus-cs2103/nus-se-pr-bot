@@ -1,6 +1,6 @@
 const utility = require('./utility');
 const path = require('path');
-let dataMapping = require('./DataParser').parse(path.join(__dirname, 'data.csv'));
+let dataMapping = require('./DataParser').parse(path.join(__dirname, '../data.csv'));
 let semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
 mu.root = path.json(__dirname, '/templates');
