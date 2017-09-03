@@ -38,7 +38,7 @@ intializeSeEduRepositories(accuser, 'rcs', utility._rcsTitleRegex);
 // this section of code ensures that students do not send pull requests created for practice against
 // upstream se-edu and semester repo
 let initializePracticeForkRepository = require('./src/practiceFork');
-let practiceRepositories = ['samplerepo-things'];
+let practiceRepositories = ['samplerepo-pr-practice'];
 let practiceAccounts = ['se-edu', semesterAccount];
 practiceAccounts.forEach(account => {
   practiceRepositories.forEach(repo => initializePracticeForkRepository(accuser, account, repo));
