@@ -3,7 +3,7 @@ const path = require('path');
 let semesterAccount = require('./data').semesterAccount;
 let semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
-mu.root = path.join(__dirname, '/templates');
+mu.root = path.join(__dirname, 'templates');
 
 module.exports = (accuser, repoName, titleRegex) => {
   mu.compile('wrong-repository.mst', () => {});
