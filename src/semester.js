@@ -23,7 +23,20 @@ module.exports = (accuser, repoName) => {
 
   mu.compile('format-check-request.mst', () => {});
 
-  let warnInvalidTitle = (repository, issue) => {
+  // Checks if the issue has a label that matches with the FormatCheckLabel
+  // method checks insensitively.
+  const hasFormatCheckRequestedLabel = (issue) => {
+    var result = false;
+    issue.labels.forEach(label => {
+      // find a case insensitive match for the label
+      if (label.name.toLowerCase() === FormatCheckLabel.toLowerCase()) {
+        result = true;
+      }
+    });
+    return result;
+  };
+
+  const warnInvalidTitle = (repository, issue) => {
     if (hasFormatCheckRequestedLabel(issue)) {
       return;
     }
@@ -57,6 +70,7 @@ module.exports = (accuser, repoName) => {
     })
     .do((repository, issue) => {
       console.log('Looking at PR #' + issue.number);
+
       let result = utility._titleRegex.exec(issue.title);
 
       if (result === null) {
@@ -66,8 +80,6 @@ module.exports = (accuser, repoName) => {
         return;
       }
 
-      let studentGithubId = issue.user.login;
-
       if (!dataMapping[studentGithubId]) {
         // not a student of this course
         console.log('student ' + studentGithubId + ' is not in this course');
@@ -75,14 +87,14 @@ module.exports = (accuser, repoName) => {
         return;
       }
 
-      let reviewer = dataMapping[studentGithubId].reviewer;
+      const reviewer = dataMapping[studentGithubId].reviewer;
       assignReviewer(repository, issue, reviewer);
 
-      let labels = dataMapping[studentGithubId].labels;
+      const labels = dataMapping[studentGithubId].labels;
       accuser.addLabels(repository, issue, labels);
 
       if (hasFormatCheckRequestedLabel(issue)) {
-        // now that the issue has a valid title, but the "Format Check Requested"
+        // now that the issue has a valid title, but the 'Format Check Requested'
         // label is still on it, let's remove the label.
         console.log('Removing format check request label from PR #' + issue.number);
         accuser.removeLabel(repository, issue, FormatCheckLabel);
