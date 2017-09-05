@@ -1,13 +1,26 @@
 const utility = require('./utility');
 const path = require('path');
-const classMapping = require('./data').classes;
-let semesterAccount = require('./data').semesterAccount;
+let dataMapping = require('./DataParser').parse(path.join(__dirname, '../data.csv'));
+let semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
 mu.root = path.join(__dirname, '/templates');
 
-const FormatCheckLabel = 'FormatCheckRequested';
+let FormatCheckLabel = 'FormatCheckRequested';
 
 module.exports = (accuser, repoName) => {
+  // Checks if the issue has a label that matches with the FormatCheckLabel
+  // method checks insensitively.
+  let hasFormatCheckRequestedLabel = (issue) => {
+    let result = false;
+    issue.labels.forEach(label => {
+      // find a case insensitive match for the label
+      if (label.name.toLowerCase() === FormatCheckLabel.toLowerCase()) {
+        result = true;
+      }
+    });
+    return result;
+  };
+
   mu.compile('format-check-request.mst', () => {});
 
   // Checks if the issue has a label that matches with the FormatCheckLabel
@@ -38,14 +51,14 @@ module.exports = (accuser, repoName) => {
       .then(comment => accuser.comment(repository, issue, comment));
   };
 
-  const assignTutor = (repository, issue, tutor) => {
-    if (!tutor) {
-      console.log('no tutor found for PR #' + issue.number);
+  let assignReviewer = (repository, issue, reviewer) => {
+    if (!reviewer) {
+      console.log('no reviewer found for PR #' + issue.number);
       return;
     }
 
-    console.log('Assigning tutors to PR #' + issue.number);
-    accuser.accuse(repository, issue, tutor);
+    console.log('Assigning reviewer to PR #' + issue.number);
+    accuser.accuse(repository, issue, reviewer);
   };
 
   let repo = accuser.addRepository(semesterAccount, repoName);
@@ -57,7 +70,8 @@ module.exports = (accuser, repoName) => {
     })
     .do((repository, issue) => {
       console.log('Looking at PR #' + issue.number);
-      const result = utility._titleRegex.exec(issue.title);
+
+      let result = utility._titleRegex.exec(issue.title);
 
       if (result === null) {
         console.log('Cannot parse title of PR #' + issue.number);
@@ -66,20 +80,18 @@ module.exports = (accuser, repoName) => {
         return;
       }
 
-      // Activity ID can be retrieved using:
-      // var activityId = result[1];
-      const classId = result[1];
-      const teamId = result[2];
-
-      if (!classMapping[classId] || !teamId) {
-        // the class ID fetched is invalid.
-        console.log('wrong class or team ID for PR #' + issue.number);
+      if (!dataMapping[studentGithubId]) {
+        // not a student of this course
+        console.log('student ' + studentGithubId + ' is not in this course');
         warnInvalidTitle(repository, issue);
         return;
       }
 
-      const tutor = classMapping[classId][teamId];
-      assignTutor(repository, issue, tutor);
+      const reviewer = dataMapping[studentGithubId].reviewer;
+      assignReviewer(repository, issue, reviewer);
+
+      const labels = dataMapping[studentGithubId].labels;
+      accuser.addLabels(repository, issue, labels);
 
       if (hasFormatCheckRequestedLabel(issue)) {
         // now that the issue has a valid title, but the 'Format Check Requested'
