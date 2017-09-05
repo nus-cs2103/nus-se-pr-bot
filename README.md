@@ -45,15 +45,12 @@ To report a bug, create an [issue](https://github.com/nus-cs2103/cs2103-pr-bot/i
 
 # Testing
 
-PR bot uses `Jest` for testing. Ensure that dev dependency is installed. To run tests:
+PR bot uses `Jest` for testing. Ensure that dev dependency is installed. To run tests during development:
 
-    TEST_GITHUB_TOKEN=<personal token> npm test
+    npm run testDev
 
 All test files should be named `*.test.js` and reside in the `test` directory.
-Jest is configured to watch for changes after `npm test`. See [this] (http://facebook.github.io/jest/docs/en/cli.html#watchall).
-
-    Warning: The bot can modify your repo. Make sure to use a test account.
-
+Jest is configured to watch for changes. See [this] (http://facebook.github.io/jest/docs/en/cli.html#watchall).
 
 # License
 
