@@ -3,7 +3,9 @@ require('dotenv').config({ silent: true });
 
 const utility = require('./src/utility');
 const Accuser = require('accuser');
+
 let currentLevel = require('./config')['currentLevel'];
+let semesterAccount = require('./config').semesterAccount;
 
 const accuser = new Accuser();
 
@@ -33,6 +35,15 @@ intializeSeEduRepositories(accuser, 'addressbook-level4', utility._titleRegex);
 
 // note that rcs repository has a different title regex string
 intializeSeEduRepositories(accuser, 'rcs', utility._rcsTitleRegex);
+
+// this section of code ensures that students do not send pull requests created for practice against
+// upstream se-edu and semester repo
+let initializePracticeForkRepository = require('./src/practiceFork');
+let practiceRepositories = ['samplerepo-pr-practice'];
+let practiceAccounts = ['se-edu', semesterAccount];
+practiceAccounts.forEach(account => {
+  practiceRepositories.forEach(repo => initializePracticeForkRepository(accuser, account, repo));
+});
 
 console.log("Bot Service has started");
 
