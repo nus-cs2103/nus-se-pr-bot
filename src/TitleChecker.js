@@ -1,22 +1,19 @@
 class TitleChecker {
   constructor(pattern) {
     this.formatCheckLabel = 'FormatCheckRequested';
-    this.pattern = pattern;
+    this.pattern = pattern || '';
   }
 
   // Checks if label matches with the FormatCheckLabel
   // Case insensitive.
   hasCheckRequestLabel(labels) {
     return labels.map(label => {
-                  return label.name.toLowerCase() === this.formatCheckLabel.toLowerCase();
-                })
-                .reduce((a, b) => a || b, false);
+      return label.name.toLowerCase() === this.formatCheckLabel.toLowerCase();
+    })
+      .reduce((a, b) => a || b, false);
   }
 
   check(title) {
-    if (pattern === undefined) {
-      return
-    }
     return this.pattern.exec(title);
   }
 }
