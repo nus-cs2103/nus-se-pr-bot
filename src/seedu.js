@@ -1,11 +1,12 @@
 const utility = require('./utility');
+const path = require('path');
 let semesterAccount = require('./data').semesterAccount;
 const mu = require('mu2');
-mu.root = __dirname + '/templates';
+mu.root = path.join(__dirname, '/templates');
 
 module.exports = (accuser, repoName, titleRegex) => {
   mu.compile('wrong-repository.mst', () => {});
-  var repo = accuser.addRepository('se-edu', repoName);
+  let repo = accuser.addRepository('se-edu', repoName);
 
   repo.newWorker()
     .filter((repository, issue) => {
@@ -13,8 +14,8 @@ module.exports = (accuser, repoName, titleRegex) => {
       return issue.pull_request;
     })
     .do((repository, issue) => {
-      console.log("Looking at se-edu/" + repoName + " PR #" + issue.number);
-      var result = titleRegex.exec(issue.title);
+      console.log('Looking at se-edu/' + repoName + ' PR #' + issue.number);
+      let result = titleRegex.exec(issue.title);
 
       // The PR is probably a legtimate one based on title regex no match
       // so we shall skip this issue.
@@ -22,7 +23,7 @@ module.exports = (accuser, repoName, titleRegex) => {
         return;
       }
 
-      console.log("Commenting & closing se-edu/" + repoName + " PR #" + issue.number);
+      console.log('Commenting & closing se-edu/' + repoName + ' PR #' + issue.number);
       let view = {
         semesterAccount: semesterAccount
       };
