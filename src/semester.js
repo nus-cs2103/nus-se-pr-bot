@@ -3,7 +3,7 @@ const path = require('path');
 let dataMapping = require('./DataParser').parse(path.join(__dirname, '../data.csv'));
 let semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
-mu.root = path.join(__dirname, '/templates');
+mu.root = path.join(__dirname, 'templates');
 
 let FormatCheckLabel = 'FormatCheckRequested';
 
