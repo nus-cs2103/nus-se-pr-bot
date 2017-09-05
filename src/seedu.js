@@ -1,5 +1,5 @@
 const utility = require('./utility');
-let semesterAccount = require('./data').semesterAccount;
+let semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
 mu.root = __dirname + '/templates';
 
