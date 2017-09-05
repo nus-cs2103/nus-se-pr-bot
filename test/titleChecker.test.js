@@ -13,9 +13,9 @@ describe('PR Title Checker ', () => {
     expect(checker.pattern).toBeInstanceOf(RegExp);
   });
 
-  it('should have undefined pattern by default', () => {
+  it('should have empty string by default', () => {
     const checker = new Checker();
-    expect(checker.pattern).toBeUndefined();
+    expect(checker.pattern).toBe('');
   });
 
   it('should check for invalid format request labels', () => {
