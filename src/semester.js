@@ -10,21 +10,6 @@ let FormatCheckLabel = 'FormatCheckRequested';
 module.exports = (accuser, repoName) => {
   // Checks if the issue has a label that matches with the FormatCheckLabel
   // method checks insensitively.
-  let hasFormatCheckRequestedLabel = (issue) => {
-    let result = false;
-    issue.labels.forEach(label => {
-      // find a case insensitive match for the label
-      if (label.name.toLowerCase() === FormatCheckLabel.toLowerCase()) {
-        result = true;
-      }
-    });
-    return result;
-  };
-
-  mu.compile('format-check-request.mst', () => {});
-
-  // Checks if the issue has a label that matches with the FormatCheckLabel
-  // method checks insensitively.
   const hasFormatCheckRequestedLabel = (issue) => {
     var result = false;
     issue.labels.forEach(label => {
@@ -35,6 +20,8 @@ module.exports = (accuser, repoName) => {
     });
     return result;
   };
+
+  mu.compile('format-check-request.mst', () => {});
 
   const warnInvalidTitle = (repository, issue) => {
     if (hasFormatCheckRequestedLabel(issue)) {
@@ -79,6 +66,8 @@ module.exports = (accuser, repoName) => {
         warnInvalidTitle(repository, issue);
         return;
       }
+
+      let studentGithubId = issue.user.login;
 
       if (!dataMapping[studentGithubId]) {
         // not a student of this course
