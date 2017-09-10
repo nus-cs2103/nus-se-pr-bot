@@ -72,7 +72,6 @@ module.exports = (accuser, repoName) => {
       if (!dataMapping[studentGithubId]) {
         // not a student of this course
         console.log('student ' + studentGithubId + ' is not in this course');
-        warnInvalidTitle(repository, issue);
         return;
       }
 
