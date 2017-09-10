@@ -21,32 +21,17 @@ module.exports = (accuser, repoName) => {
     return result;
   };
 
-  const warnInvalidTitle = (repository, issue) => {
-    if (hasLabel(issue, FormatCheckLabel)) {
+  const warnAbout = (repository, issue, label, warning, logText) => {
+    if (hasLabel(issue, label)) {
       return;
     }
 
-    console.log('Adding warning for format fail to PR #' + issue.number);
-    accuser.addLabels(repository, issue, [FormatCheckLabel]);
+    console.log(`${logText} ${issue.number}`);
+    accuser.addLabels(repository, issue, [label]);
     let student = {
       username: issue.user.login
     };
-    let commentStream = mu.compileAndRender('format-check-request.mst', student);
-    utility.castStreamToString(commentStream)
-      .then(comment => accuser.comment(repository, issue, comment));
-  };
-
-  const warnUnknownUser = (repository, issue) => {
-    if (hasLabel(issue, UserNameCheckLabel)) {
-      return;
-    }
-
-    console.log('Adding warning for unknown user to PR #' + issue.number);
-    accuser.addLabels(repository, issue, [UserNameCheckLabel]);
-    let student = {
-      username: issue.user.login
-    };
-    let commentStream = mu.compileAndRender('username-check-request.mst', student);
+    let commentStream = mu.compileAndRender(warning, student);
     utility.castStreamToString(commentStream)
       .then(comment => accuser.comment(repository, issue, comment));
   };
@@ -76,7 +61,11 @@ module.exports = (accuser, repoName) => {
       if (result === null) {
         console.log('Cannot parse title of PR #' + issue.number);
         // we ignore the PR if we cannot parse the title into our issuee-defined regex
-        warnInvalidTitle(repository, issue);
+        warnAbout(repository,
+          issue,
+          FormatCheckLabel,
+          'format-check-request.mst',
+          'Adding warning for format fail to PR #');
         return;
       }
 
@@ -85,7 +74,11 @@ module.exports = (accuser, repoName) => {
       if (!dataMapping[studentGithubId]) {
         // not a student of this course
         console.log('student ' + studentGithubId + ' is not in this course');
-        warnUnknownUser(repository, issue);
+        warnAbout(repository,
+          issue,
+          UserNameCheckLabel,
+          'username-check-request.mst',
+          'Adding warning for unknown user to PR #');
         return;
       }
 
