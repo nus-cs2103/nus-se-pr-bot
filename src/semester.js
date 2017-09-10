@@ -6,34 +6,32 @@ const mu = require('mu2');
 mu.root = path.join(__dirname, 'templates');
 
 let FormatCheckLabel = 'FormatCheckRequested';
+const UserNameCheckLabel = 'GithubUsernameRequested';
 
 module.exports = (accuser, repoName) => {
-  // Checks if the issue has a label that matches with the FormatCheckLabel
-  // method checks insensitively.
-  const hasFormatCheckRequestedLabel = (issue) => {
+  // Checks if the issue has a label. method checks insensitively.
+  const hasLabel = (issue, labelName) => {
     var result = false;
     issue.labels.forEach(label => {
       // find a case insensitive match for the label
-      if (label.name.toLowerCase() === FormatCheckLabel.toLowerCase()) {
+      if (label.name.toLowerCase() === labelName.toLowerCase()) {
         result = true;
       }
     });
     return result;
   };
 
-  mu.compile('format-check-request.mst', () => {});
-
-  const warnInvalidTitle = (repository, issue) => {
-    if (hasFormatCheckRequestedLabel(issue)) {
+  const warnAbout = (repository, issue, label, warning, logText) => {
+    if (hasLabel(issue, label)) {
       return;
     }
 
-    console.log('Adding warning for format fail to PR #' + issue.number);
-    accuser.addLabels(repository, issue, [FormatCheckLabel]);
+    console.log(`${logText} ${issue.number}`);
+    accuser.addLabels(repository, issue, [label]);
     let student = {
       username: issue.user.login
     };
-    let commentStream = mu.render('format-check-request.mst', student);
+    let commentStream = mu.compileAndRender(warning, student);
     utility.castStreamToString(commentStream)
       .then(comment => accuser.comment(repository, issue, comment));
   };
@@ -63,7 +61,11 @@ module.exports = (accuser, repoName) => {
       if (result === null) {
         console.log('Cannot parse title of PR #' + issue.number);
         // we ignore the PR if we cannot parse the title into our issuee-defined regex
-        warnInvalidTitle(repository, issue);
+        warnAbout(repository,
+          issue,
+          FormatCheckLabel,
+          'format-check-request.mst',
+          'Adding warning for format fail to PR #');
         return;
       }
 
@@ -72,6 +74,11 @@ module.exports = (accuser, repoName) => {
       if (!dataMapping[studentGithubId]) {
         // not a student of this course
         console.log('student ' + studentGithubId + ' is not in this course');
+        warnAbout(repository,
+          issue,
+          UserNameCheckLabel,
+          'username-check-request.mst',
+          'Adding warning for unknown user to PR #');
         return;
       }
 
@@ -81,11 +88,16 @@ module.exports = (accuser, repoName) => {
       const labels = dataMapping[studentGithubId].labels;
       accuser.addLabels(repository, issue, labels);
 
-      if (hasFormatCheckRequestedLabel(issue)) {
+      if (hasLabel(issue, FormatCheckLabel)) {
         // now that the issue has a valid title, but the 'Format Check Requested'
         // label is still on it, let's remove the label.
         console.log('Removing format check request label from PR #' + issue.number);
         accuser.removeLabel(repository, issue, FormatCheckLabel);
+      }
+
+      if (hasLabel(issue, UserNameCheckLabel)) {
+        console.log('Removing username check request label from PR #' + issue.number);
+        accuser.removeLabel(repository, issue, UserNameCheckLabel);
       }
     });
 };
