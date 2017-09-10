@@ -42,8 +42,8 @@ module.exports = (accuser, repoName) => {
         return;
       }
       accuser.addLabels(repository, issue, [label]);
-    })
-  }
+    });
+  };
 
   let assignReviewer = (repository, issue, reviewer) => {
     if (!reviewer) {
