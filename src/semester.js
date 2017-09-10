@@ -6,6 +6,7 @@ const mu = require('mu2');
 mu.root = path.join(__dirname, 'templates');
 
 let FormatCheckLabel = 'FormatCheckRequested';
+const UserNameCheckLabel = 'GithubUsernameRequested';
 
 module.exports = (accuser, repoName) => {
   // Checks if the issue has a label that matches with the FormatCheckLabel
@@ -21,7 +22,16 @@ module.exports = (accuser, repoName) => {
     return result;
   };
 
-  mu.compile('format-check-request.mst', () => {});
+  const hasUsernameCheckRequestedLabel = (issue) => {
+    var result = false;
+    issue.labels.forEach(label => {
+      // find a case insensitive match for the label
+      if (label.name.toLowerCase() === UserNameCheckLabel.toLowerCase()) {
+        result = true;
+      }
+    });
+    return result;
+  };
 
   const warnInvalidTitle = (repository, issue) => {
     if (hasFormatCheckRequestedLabel(issue)) {
@@ -33,7 +43,22 @@ module.exports = (accuser, repoName) => {
     let student = {
       username: issue.user.login
     };
-    let commentStream = mu.render('format-check-request.mst', student);
+    let commentStream = mu.compileAndRender('format-check-request.mst', student);
+    utility.castStreamToString(commentStream)
+      .then(comment => accuser.comment(repository, issue, comment));
+  };
+
+  const warnUnknownUser = (repository, issue) => {
+    if (hasUsernameCheckRequestedLabel(issue)) {
+      return;
+    }
+
+    console.log('Adding warning for unknown user to PR #' + issue.number);
+    accuser.addLabels(repository, issue, [UserNameCheckLabel]);
+    let student = {
+      username: issue.user.login
+    };
+    let commentStream = mu.compileAndRender('username-check-request.mst', student);
     utility.castStreamToString(commentStream)
       .then(comment => accuser.comment(repository, issue, comment));
   };
@@ -72,6 +97,7 @@ module.exports = (accuser, repoName) => {
       if (!dataMapping[studentGithubId]) {
         // not a student of this course
         console.log('student ' + studentGithubId + ' is not in this course');
+        warnUnknownUser(repository, issue);
         return;
       }
 
@@ -86,6 +112,11 @@ module.exports = (accuser, repoName) => {
         // label is still on it, let's remove the label.
         console.log('Removing format check request label from PR #' + issue.number);
         accuser.removeLabel(repository, issue, FormatCheckLabel);
+      }
+
+      if (hasUsernameCheckRequestedLabel(issue)) {
+        console.log('Removing username check request label from PR #' + issue.number);
+        accuser.removeLabel(repository, issue, UserNameCheckLabel);
       }
     });
 };
