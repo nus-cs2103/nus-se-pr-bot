@@ -67,6 +67,13 @@ module.exports = (accuser, repoName) => {
         return;
       }
 
+      if (hasLabel(issue, FormatCheckLabel)) {
+        // now that the issue has a valid title, but the 'Format Check Requested'
+        // label is still on it, let's remove the label.
+        console.log('Removing format check request label from PR #' + issue.number);
+        accuser.removeLabel(repository, issue, FormatCheckLabel);
+      }
+
       let studentGithubId = issue.user.login;
 
       if (!dataMapping[studentGithubId]) {
@@ -75,17 +82,15 @@ module.exports = (accuser, repoName) => {
         return;
       }
 
+      if (hasLabel(issue, UserNameCheckLabel)) {
+        console.log('Removing username check request label from PR #' + issue.number);
+        accuser.removeLabel(repository, issue, UserNameCheckLabel);
+      }
+
       const reviewer = dataMapping[studentGithubId].reviewer;
       assignReviewer(repository, issue, reviewer);
 
       const labels = dataMapping[studentGithubId].labels;
       accuser.addLabels(repository, issue, labels);
-
-      if (hasFormatCheckRequestedLabel(issue)) {
-        // now that the issue has a valid title, but the 'Format Check Requested'
-        // label is still on it, let's remove the label.
-        console.log('Removing format check request label from PR #' + issue.number);
-        accuser.removeLabel(repository, issue, FormatCheckLabel);
-      }
     });
 };
