@@ -7,7 +7,7 @@ const Accuser = require('accuser');
 let currentLevel = require('./config')['currentLevel'];
 let semesterAccount = require('./config').semesterAccount;
 
-const accuser = new Accuser();
+const accuser = new Accuser({  interval: 600000 });
 
 const githubAuthToken = {
   "type": "oauth",
