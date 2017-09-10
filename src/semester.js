@@ -9,24 +9,12 @@ let FormatCheckLabel = 'FormatCheckRequested';
 const UserNameCheckLabel = 'GithubUsernameRequested';
 
 module.exports = (accuser, repoName) => {
-  // Checks if the issue has a label that matches with the FormatCheckLabel
-  // method checks insensitively.
-  const hasFormatCheckRequestedLabel = (issue) => {
+  // Checks if the issue has a label. method checks insensitively.
+  const hasLabel = (issue, labelName) => {
     var result = false;
     issue.labels.forEach(label => {
       // find a case insensitive match for the label
-      if (label.name.toLowerCase() === FormatCheckLabel.toLowerCase()) {
-        result = true;
-      }
-    });
-    return result;
-  };
-
-  const hasUsernameCheckRequestedLabel = (issue) => {
-    var result = false;
-    issue.labels.forEach(label => {
-      // find a case insensitive match for the label
-      if (label.name.toLowerCase() === UserNameCheckLabel.toLowerCase()) {
+      if (label.name.toLowerCase() === labelName.toLowerCase()) {
         result = true;
       }
     });
@@ -34,7 +22,7 @@ module.exports = (accuser, repoName) => {
   };
 
   const warnInvalidTitle = (repository, issue) => {
-    if (hasFormatCheckRequestedLabel(issue)) {
+    if (hasLabel(issue, FormatCheckLabel)) {
       return;
     }
 
@@ -49,7 +37,7 @@ module.exports = (accuser, repoName) => {
   };
 
   const warnUnknownUser = (repository, issue) => {
-    if (hasUsernameCheckRequestedLabel(issue)) {
+    if (hasLabel(issue, UserNameCheckLabel)) {
       return;
     }
 
@@ -107,14 +95,14 @@ module.exports = (accuser, repoName) => {
       const labels = dataMapping[studentGithubId].labels;
       accuser.addLabels(repository, issue, labels);
 
-      if (hasFormatCheckRequestedLabel(issue)) {
+      if (hasLabel(issue, FormatCheckLabel)) {
         // now that the issue has a valid title, but the 'Format Check Requested'
         // label is still on it, let's remove the label.
         console.log('Removing format check request label from PR #' + issue.number);
         accuser.removeLabel(repository, issue, FormatCheckLabel);
       }
 
-      if (hasUsernameCheckRequestedLabel(issue)) {
+      if (hasLabel(issue, UserNameCheckLabel)) {
         console.log('Removing username check request label from PR #' + issue.number);
         accuser.removeLabel(repository, issue, UserNameCheckLabel);
       }
