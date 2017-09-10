@@ -36,6 +36,15 @@ module.exports = (accuser, repoName) => {
       .then(comment => accuser.comment(repository, issue, comment));
   };
 
+  const addUniqueLabels = (repository, issue, labels) => {
+    labels.forEach(label => {
+      if (hasLabel(issue, label)) {
+        return;
+      }
+      accuser.addLabels(repository, issue, [label]);
+    })
+  }
+
   let assignReviewer = (repository, issue, reviewer) => {
     if (!reviewer) {
       console.log('no reviewer found for PR #' + issue.number);
@@ -98,6 +107,6 @@ module.exports = (accuser, repoName) => {
       assignReviewer(repository, issue, reviewer);
 
       const labels = dataMapping[studentGithubId].labels;
-      accuser.addLabels(repository, issue, labels);
+      addUniqueLabels(repository, issue, labels);
     });
 };
