@@ -104,7 +104,7 @@ module.exports = (accuser, repoName) => {
         accuser.removeLabel(repository, issue, UserNameCheckLabel);
       }
 
-      const studentData = dataMapping.getInfoForStudent(studentGithubId)
+      const studentData = dataMapping.getInfoForStudent(studentGithubId);
 
       const reviewer = studentData.reviewer;
       assignReviewer(repository, issue, reviewer);
