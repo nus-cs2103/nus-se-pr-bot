@@ -1,6 +1,7 @@
 const utility = require('./utility');
 const path = require('path');
-let dataMapping = require('./DataParser').parse(path.join(__dirname, '../data.csv'));
+const StudentMapping = require('./StudentMapping');
+let dataMapping = new StudentMapping(path.join(__dirname, '../data.csv'));
 let semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
 mu.root = path.join(__dirname, 'templates');
@@ -87,7 +88,7 @@ module.exports = (accuser, repoName) => {
 
       let studentGithubId = issue.user.login;
 
-      if (!dataMapping[studentGithubId]) {
+      if (!dataMapping.getInfoForStudent(studentGithubId)) {
         // not a student of this course
         console.log('student ' + studentGithubId + ' is not in this course');
         warnAbout(repository,
@@ -103,10 +104,12 @@ module.exports = (accuser, repoName) => {
         accuser.removeLabel(repository, issue, UserNameCheckLabel);
       }
 
-      const reviewer = dataMapping[studentGithubId].reviewer;
+      const studentData = dataMapping.getInfoForStudent(studentGithubId)
+
+      const reviewer = studentData.reviewer;
       assignReviewer(repository, issue, reviewer);
 
-      const labels = dataMapping[studentGithubId].labels;
+      const labels = studentData.labels;
       addUniqueLabels(repository, issue, labels);
     });
 };
