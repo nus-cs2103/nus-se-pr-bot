@@ -2,17 +2,17 @@ const Papa = require('babyparse');
 
 class StudentMapping {
   constructor(dataPath) {
-    let rows = Papa.parseFiles(dataPath).data;
+    const rows = Papa.parseFiles(dataPath).data;
 
     // First row include headers
-    let headers = rows[0];
-    let indexRange = Array.from(Array(headers.length).keys());
-    let getIndicesForHeader =
+    const headers = rows[0];
+    const indexRange = Array.from(Array(headers.length).keys());
+    const getIndicesForHeader =
       header => indexRange.filter(index => headers[index].toLowerCase() === header.toLowerCase());
-    let githubIdIndex = getIndicesForHeader('Github ID')[0];
-    let tutorIndex = getIndicesForHeader('Tutor')[0];
-    let reviewerIndex = getIndicesForHeader('Reviewer')[0];
-    let labelIndices = getIndicesForHeader('Label');
+    const githubIdIndex = getIndicesForHeader('Github ID')[0];
+    const tutorIndex = getIndicesForHeader('Tutor')[0];
+    const reviewerIndex = getIndicesForHeader('Reviewer')[0];
+    const labelIndices = getIndicesForHeader('Label');
 
     // The rest are data rows
     let data = {};
@@ -23,10 +23,10 @@ class StudentMapping {
         return;
       }
 
-      let githubId = row[githubIdIndex].toLowerCase();
-      let tutor = row[tutorIndex];
-      let reviewer = row[reviewerIndex];
-      let labels = labelIndices.map(index => row[index]);
+      const githubId = row[githubIdIndex].toLowerCase();
+      const tutor = row[tutorIndex];
+      const reviewer = row[reviewerIndex];
+      const labels = labelIndices.map(index => row[index]);
 
       data[githubId] = {
         tutor, reviewer, labels
