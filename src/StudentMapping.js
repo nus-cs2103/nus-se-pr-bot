@@ -1,7 +1,7 @@
 const Papa = require('babyparse');
 
-class DataParser {
-  static parse(dataPath) {
+class StudentMapping {
+  constructor(dataPath) {
     let rows = Papa.parseFiles(dataPath).data;
 
     // First row include headers
@@ -23,7 +23,7 @@ class DataParser {
         return;
       }
 
-      let githubId = row[githubIdIndex];
+      let githubId = row[githubIdIndex].toLowerCase();
       let tutor = row[tutorIndex];
       let reviewer = row[reviewerIndex];
       let labels = labelIndices.map(index => row[index]);
@@ -33,8 +33,12 @@ class DataParser {
       };
     });
 
-    return data;
+    this.data = data;
+  }
+
+  getInfoForStudent(studentGithubId) {
+    return this.data[studentGithubId.toLowerCase()];
   }
 }
 
-module.exports = DataParser;
+module.exports = StudentMapping;
