@@ -1,7 +1,8 @@
 const utility = require('./utility');
 const path = require('path');
-let dataMapping = require('./DataParser').parse(path.join(__dirname, '../data.csv'));
-let semesterAccount = require('../config').semesterAccount;
+const StudentMapping = require('./StudentMapping');
+const dataMapping = new StudentMapping(path.join(__dirname, '../data.csv'));
+const semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
 mu.root = path.join(__dirname, 'templates');
 
@@ -11,7 +12,7 @@ const UserNameCheckLabel = 'GithubUsernameRequested';
 module.exports = (accuser, repoName) => {
   // Checks if the issue has a label. method checks insensitively.
   const hasLabel = (issue, labelName) => {
-    var result = false;
+    let result = false;
     issue.labels.forEach(label => {
       // find a case insensitive match for the label
       if (label.name.toLowerCase() === labelName.toLowerCase()) {
@@ -28,10 +29,10 @@ module.exports = (accuser, repoName) => {
 
     console.log(`${logText} ${issue.number}`);
     accuser.addLabels(repository, issue, [label]);
-    let student = {
+    const student = {
       username: issue.user.login
     };
-    let commentStream = mu.compileAndRender(warning, student);
+    const commentStream = mu.compileAndRender(warning, student);
     utility.castStreamToString(commentStream)
       .then(comment => accuser.comment(repository, issue, comment));
   };
@@ -65,7 +66,7 @@ module.exports = (accuser, repoName) => {
     .do((repository, issue) => {
       console.log('Looking at PR #' + issue.number);
 
-      let result = utility._titleRegex.exec(issue.title);
+      const result = utility._titleRegex.exec(issue.title);
 
       if (result === null) {
         console.log('Cannot parse title of PR #' + issue.number);
@@ -85,9 +86,9 @@ module.exports = (accuser, repoName) => {
         accuser.removeLabel(repository, issue, FormatCheckLabel);
       }
 
-      let studentGithubId = issue.user.login;
+      const studentGithubId = issue.user.login;
 
-      if (!dataMapping[studentGithubId]) {
+      if (!dataMapping.getInfoForStudent(studentGithubId)) {
         // not a student of this course
         console.log('student ' + studentGithubId + ' is not in this course');
         warnAbout(repository,
@@ -103,10 +104,12 @@ module.exports = (accuser, repoName) => {
         accuser.removeLabel(repository, issue, UserNameCheckLabel);
       }
 
-      const reviewer = dataMapping[studentGithubId].reviewer;
+      const studentData = dataMapping.getInfoForStudent(studentGithubId);
+
+      const reviewer = studentData.reviewer;
       assignReviewer(repository, issue, reviewer);
 
-      const labels = dataMapping[studentGithubId].labels;
+      const labels = studentData.labels;
       addUniqueLabels(repository, issue, labels);
     });
 };
