@@ -1,7 +1,9 @@
 const utility = require('./utility');
 const path = require('path');
 const StudentMapping = require('./StudentMapping');
-const dataMapping = new StudentMapping(path.join(__dirname, '../data.csv'));
+const A = new StudentMapping(path.join(__dirname, '../data-A.csv'));
+const B = new StudentMapping(path.join(__dirname, '../data-B.csv'));
+const phaseMappings = { A, B };
 const semesterAccount = require('../config').semesterAccount;
 const mu = require('mu2');
 mu.root = path.join(__dirname, 'templates');
@@ -87,6 +89,10 @@ module.exports = (accuser, repoName) => {
       }
 
       const studentGithubId = issue.user.login;
+
+      // Only valid phase is allowed here, enforced by regex
+      const phase = result[2];
+      const dataMapping = phaseMappings[phase];
 
       if (!dataMapping.getInfoForStudent(studentGithubId)) {
         // not a student of this course
