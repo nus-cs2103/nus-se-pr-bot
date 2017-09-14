@@ -28,5 +28,6 @@ it('should invalidate invalid titles', () => {
 it('should extract classId & teamId from valid titles', () => {
   let result = titleRegex.exec('[W2.2b][W09-A1]James Yong');
   expect(result[1]).toBe('W09');
-  expect(result[2]).toBe('1');
+  expect(result[2]).toBe('A');
+  expect(result[3]).toBe('1');
 });
