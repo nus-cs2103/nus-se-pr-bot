@@ -12,7 +12,7 @@ The Github access token is to be stored in an environment variable called `GITHU
 
 The current semester's Github account / organization name can be set in the `config.json`, along with the highest level of `addressbook` (1-4) repository available to the students in the `currentLevel` setting in the same file.
 
-The students' tutor and reviewer class mapping can be set in the `data.csv` file.
+The students' tutor and reviewer class mapping can be set in the `data-*.csv` file. (Different data files for different phases).
 
 ## Architecture
 
