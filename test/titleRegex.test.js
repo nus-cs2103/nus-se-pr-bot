@@ -22,6 +22,7 @@ it('should invalidate invalid titles', () => {
   expect(titleRegex.test('W2.2b][W09-A1]')).toBeFalsy();
   expect(titleRegex.test('[W2.2]')).toBeFalsy();
   expect(titleRegex.test('[W09-A1]')).toBeFalsy();
+  expect(titleRegex.test('[W2.2ab][W09-A1]James Yong')).toBeFalsy();
 });
 
 it('should extract classId & teamId from valid titles', () => {
