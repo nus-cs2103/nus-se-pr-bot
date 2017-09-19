@@ -1,8 +1,3 @@
-const path = require('path');
-const StudentMapping = require('./StudentMapping');
-const A = new StudentMapping(path.join(__dirname, '../data-A.csv'));
-const B = new StudentMapping(path.join(__dirname, '../data-B.csv'));
-const phaseMappings = { A, B };
 const Validator = require('./src/Validator');
 
 // Handles blacklisted repository
