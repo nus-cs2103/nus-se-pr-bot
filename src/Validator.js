@@ -45,7 +45,7 @@ class Validator {
 
     console.log(`${logText}`);
 
-    this.addUniqueLabels(issue, labelsToApply);
+    this.addUniqueLabels(issue, labelToApply);
     this.comment(issue, warningTemplate, mapping);
   }
 
@@ -60,26 +60,32 @@ class Validator {
   }
 
   removeLabel(issue, label) {
-    console.log(`PR # ${issue.number}: Removing ${label}`);
+    console.log(`${this.account}/PR # ${issue.number}: Removing ${label}`);
     this.accuser.removeLabel(this.repo, issue, label);
   }
 
   // assigns a user to the issue
   assign(issue, user) {
     if (!user) {
-      console.log(`PR #${issue.number}: No reviewer found`);
+      console.log(`${this.account}/PR #${issue.number}: No reviewer found`);
       return;
     }
 
-    console.log(`PR #${issue.number}: Assigning ${user}`);
-    this.accuser.accuse(this.repository, issue, user);
+    console.log(`${this.account}/PR #${issue.number}: Assigning ${user}`);
+    this.accuser.accuse(this.repo, issue, user);
   }
 
   comment(issue, commentTemplate, mapping) {
+    console.log(`${this.account}/PR #${issue.number}: Commenting`);
     const strMapping = mapping || {};
     const commentStream = mu.compileAndRender(commentTemplate, strMapping);
     util.castStreamToString(commentStream)
       .then(comment => this.accuser.comment(this.repo, issue, comment));
+  }
+
+  close(issue) {
+    console.log(`${this.account}/PR #${issue.number}: Closing`);
+    this.accuser.close(this.repo, issue);
   }
 }
 
