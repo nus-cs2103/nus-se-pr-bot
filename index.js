@@ -7,7 +7,7 @@ const Accuser = require('accuser');
 let currentLevel = require('./config')['currentLevel'];
 let semesterAccount = require('./config').semesterAccount;
 
-const accuser = new Accuser({  interval: 600000 });
+const accuser = new Accuser({ interval: 600000 });
 
 const githubAuthToken = {
   "type": "oauth",
@@ -16,14 +16,31 @@ const githubAuthToken = {
 
 accuser.authenticate(githubAuthToken);
 
-// this section of code initializes Accuser for the current semester's repository
-// currentLevel in data.json determines which highest level repository is already
-//    made available to the students.
-// previous semesters are no longer handled by this bot.
-let initializeSemesterRepositories = require('./src/semester');
+// Whitelisted
+const SubmissionRepos = require('./src/whitelist');
 for (var level = 1; level <= currentLevel; ++level) {
-  initializeSemesterRepositories(accuser, 'addressbook-level' + level);
+  SubmissionRepos(accuser, `addressbook-level${level}`);
 }
+
+// Blacklisted
+const BlackListed = require('./src/blacklist');
+const blackListedRepos = [
+  'sameplrepo-pr-practice',
+  'samplerepo-workflow-practice',
+  'samplerepo-things'
+];
+
+const blackListedAccounts = [
+  'se-edu',
+  semesterAccount
+];
+
+blackListedAccounts.forEach(account => {
+  blackListedRepos.forEach(repo => {
+    BlackListed(accuser, account, repo, 'practice-fork.mst');
+  })
+});
+
 
 // this section of code ensures that student do not send pull requests to the
 // se-edu repositories.
@@ -36,18 +53,8 @@ intializeSeEduRepositories(accuser, 'addressbook-level4', utility._titleRegex);
 // note that rcs repository has a different title regex string
 intializeSeEduRepositories(accuser, 'rcs', utility._rcsTitleRegex);
 
-// this section of code ensures that students do not send pull requests created for practice against
-// upstream se-edu and semester repo
-let initializePracticeForkRepository = require('./src/practiceFork');
-let practiceRepositories = ['samplerepo-pr-practice'];
-let practiceAccounts = ['se-edu', semesterAccount];
-practiceAccounts.forEach(account => {
-  practiceRepositories.forEach(repo => initializePracticeForkRepository(accuser, account, repo));
-});
-
 console.log("Bot Service has started");
 
 
 // start the bot
-accuser
-  .run({ assignee: "none" });
+accuser.run({ assignee: "none" });
