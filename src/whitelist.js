@@ -3,7 +3,8 @@ const StudentMapping = require('./StudentMapping');
 const A = new StudentMapping(path.join(__dirname, '../data-A.csv'));
 const B = new StudentMapping(path.join(__dirname, '../data-B.csv'));
 const phaseMappings = { A, B };
-const Validator = require('./src/Validator');
+const Validator = require('./Validator');
+const util = require('./utility');
 
 // Any repo that needs to be reviewed by a human should use this class
 // i.e. this is a whitelist repo
@@ -17,7 +18,7 @@ module.exports = (accuser, account, repository) => {
   let doBlock = (repo, issue) => {
     const formatCheckLabel = 'FormatCheckRequested';
     const usernameCheckLabel = 'GithubUsernameRequested';
-    const titlePattern = /^\s*\[W\d{1,2}\.\d{1,2}\D?\]\s*\[([WTF]\d{2})-([AB])(\d)\]/i;
+    const titlePattern = util._titleRegex;
     const titleCheckResult = Validator.checkTitle(issue.title, titlePattern);
 
     if (titleCheckResult === null) { // bad title
