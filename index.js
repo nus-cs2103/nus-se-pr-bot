@@ -1,7 +1,6 @@
 // Load dotenv first
 require('dotenv').config({ silent: true });
 
-const utility = require('./src/utility');
 const Accuser = require('accuser');
 
 let currentLevel = require('./config').currentLevel;
@@ -18,7 +17,7 @@ accuser.authenticate(githubAuthToken);
 
 // Whitelisted
 const SubmissionRepos = require('./src/whitelist');
-for (var level = 1; level <= currentLevel; level++) {
+for (let level = 1; level <= currentLevel; level += 1) {
   SubmissionRepos(accuser, `addressbook-level${level}`);
 }
 
