@@ -40,21 +40,9 @@ blackListedAccounts.forEach(account => {
     BlackListed(accuser, account, repo, 'practice-fork.mst');
   });
 });
-
-
-// this section of code ensures that student do not send pull requests to the
-// se-edu repositories.
-let intializeSeEduRepositories = require('./src/seedu');
-intializeSeEduRepositories(accuser, 'addressbook-level1', utility._titleRegex);
-intializeSeEduRepositories(accuser, 'addressbook-level2', utility._titleRegex);
-intializeSeEduRepositories(accuser, 'addressbook-level3', utility._titleRegex);
-intializeSeEduRepositories(accuser, 'addressbook-level4', utility._titleRegex);
-
-// note that rcs repository has a different title regex string
-intializeSeEduRepositories(accuser, 'rcs', utility._rcsTitleRegex);
+BlackListed(accuser, 'se-edu', 'rcs', 'practice-fork.mst');
 
 console.log('Bot Service has started');
-
 
 // start the bot
 accuser.run({ assignee: 'none' });
