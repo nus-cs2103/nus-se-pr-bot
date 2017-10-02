@@ -1,8 +1,8 @@
 // Load dotenv first
 require('dotenv').config({ silent: true });
-
+const SubmissionRepos = require('./src/whitelist');
+const BlackListed = require('./src/blacklist');
 const Accuser = require('accuser');
-
 let currentLevel = require('./config').currentLevel;
 let semesterAccount = require('./config').semesterAccount;
 
@@ -16,13 +16,11 @@ const githubAuthToken = {
 accuser.authenticate(githubAuthToken);
 
 // Whitelisted
-const SubmissionRepos = require('./src/whitelist');
 for (let level = 1; level <= currentLevel; level += 1) {
   SubmissionRepos(accuser, `addressbook-level${level}`);
 }
 
 // Blacklisted
-const BlackListed = require('./src/blacklist');
 const blackListedRepos = [
   'sameplrepo-pr-practice',
   'samplerepo-workflow-practice',
