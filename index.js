@@ -22,7 +22,7 @@ for (let level = 1; level <= currentLevel; level += 1) {
 
 // Blacklisted
 const blackListedRepos = [
-  'sameplrepo-pr-practice',
+  'samplerepo-pr-practice',
   'samplerepo-workflow-practice',
   'samplerepo-things'
 ];
