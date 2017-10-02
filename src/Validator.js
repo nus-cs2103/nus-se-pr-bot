@@ -32,8 +32,7 @@ class Validator {
   // label: label to search for
   static hasLabel(issue, labelName) {
     return issue.labels.map(issueLabel => issueLabel.name.toLowerCase())
-      .map(issueLabelName => issueLabelName === labelName.toLowerCase())
-      .reduce((val1, val2) => val1 || val2, false);
+      .includes(labelName.toLowerCase());
   }
 
   // apply a warning label and comment to issue
