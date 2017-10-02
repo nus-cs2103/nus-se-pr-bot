@@ -27,6 +27,15 @@ class Validator {
     return pattern.exec(title);
   }
 
+
+  // check if title conforms to pattern given
+  // title: string to check
+  // pattern: regex pattern to use for checking
+  // return: true if pattern matches else false
+  static testTitle(title, pattern) {
+    return pattern.test(title);
+  }
+
   // check if label is contain in list of labels from issue
   // issue: labels from this issue
   // label: label to search for
