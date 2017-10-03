@@ -55,18 +55,16 @@ class Validator {
 
     console.log(`${logText}`);
 
-    this.addUniqueLabels(issue, labelToApply);
+    this.addUniqueLabel(issue, labelToApply);
     this.comment(issue, warningTemplate, mapping);
   }
 
   // adds labels to issue
   // TODO: find out how duplicate labels are caused in github history
-  addUniqueLabels(issue, labels) {
-    labels.forEach(label => {
-      if (!Validator.hasLabel(issue, label)) {
-        this.accuser.addLabels(this.repo, issue, [label]);
-      }
-    });
+  addUniqueLabel(issue, label) {
+    if (!Validator.hasLabel(issue, label)) {
+      this.accuser.addLabels(this.repo, issue, [label]);
+    }
   }
 
   removeLabel(issue, label) {

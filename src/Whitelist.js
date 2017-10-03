@@ -60,7 +60,7 @@ module.exports = (accuser, account, repository) => {
     const teamLabels = student.labels;
 
     validator.assign(issue, reviewer);
-    validator.addLabels(issue, teamLabels);
+    teamLabels.forEach(label => validator.addUniqueLabel(issue, label));
   };
 
   validator.filterBlock = filterBlock;
