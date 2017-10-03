@@ -1,4 +1,4 @@
-const Validator = require('./src/Validator');
+const Validator = require('./Validator');
 
 // Handles blacklisted repository
 // Any PRs will be closed automatically

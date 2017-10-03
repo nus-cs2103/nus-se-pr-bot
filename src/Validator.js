@@ -1,5 +1,7 @@
 const util = require('./utility');
 const mu = require('mu2');
+const path = require('path');
+mu.root = path.join(__dirname, 'templates');
 
 class Validator {
   constructor(accuser, account, repoName) {
