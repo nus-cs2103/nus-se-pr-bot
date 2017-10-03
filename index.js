@@ -15,9 +15,9 @@ const githubAuthToken = {
 
 accuser.authenticate(githubAuthToken);
 
-// Whitelisted
+//Whitelisted
 for (let level = 1; level <= currentLevel; level += 1) {
-  SubmissionRepos(accuser, `addressbook-level${level}`);
+  SubmissionRepos(accuser, semesterAccount, `addressbook-level${level}`);
 }
 
 // Blacklisted
