@@ -1,53 +1,45 @@
 // Load dotenv first
 require('dotenv').config({ silent: true });
-
-const utility = require('./src/utility');
+const SubmissionRepos = require('./src/Whitelist');
+const BlackListed = require('./src/Blacklist');
 const Accuser = require('accuser');
-
-let currentLevel = require('./config')['currentLevel'];
+let currentLevel = require('./config').currentLevel;
 let semesterAccount = require('./config').semesterAccount;
 
-const accuser = new Accuser({  interval: 600000 });
+const accuser = new Accuser({ interval: 600000 });
 
 const githubAuthToken = {
-  "type": "oauth",
-  "token": process.env.GITHUB_TOKEN
+  type: 'oauth',
+  token: process.env.GITHUB_TOKEN
 };
 
 accuser.authenticate(githubAuthToken);
 
-// this section of code initializes Accuser for the current semester's repository
-// currentLevel in data.json determines which highest level repository is already
-//    made available to the students.
-// previous semesters are no longer handled by this bot.
-let initializeSemesterRepositories = require('./src/semester');
-for (var level = 1; level <= currentLevel; ++level) {
-  initializeSemesterRepositories(accuser, 'addressbook-level' + level);
+// Whitelisted
+for (let level = 1; level <= currentLevel; level += 1) {
+  SubmissionRepos(accuser, `addressbook-level${level}`);
 }
 
-// this section of code ensures that student do not send pull requests to the
-// se-edu repositories.
-let intializeSeEduRepositories = require('./src/seedu');
-intializeSeEduRepositories(accuser, 'addressbook-level1', utility._titleRegex);
-intializeSeEduRepositories(accuser, 'addressbook-level2', utility._titleRegex);
-intializeSeEduRepositories(accuser, 'addressbook-level3', utility._titleRegex);
-intializeSeEduRepositories(accuser, 'addressbook-level4', utility._titleRegex);
+// Blacklisted
+const blackListedRepos = [
+  'samplerepo-pr-practice',
+  'samplerepo-workflow-practice',
+  'samplerepo-things'
+];
 
-// note that rcs repository has a different title regex string
-intializeSeEduRepositories(accuser, 'rcs', utility._rcsTitleRegex);
+const blackListedAccounts = [
+  'se-edu',
+  semesterAccount
+];
 
-// this section of code ensures that students do not send pull requests created for practice against
-// upstream se-edu and semester repo
-let initializePracticeForkRepository = require('./src/practiceFork');
-let practiceRepositories = ['samplerepo-pr-practice'];
-let practiceAccounts = ['se-edu', semesterAccount];
-practiceAccounts.forEach(account => {
-  practiceRepositories.forEach(repo => initializePracticeForkRepository(accuser, account, repo));
+blackListedAccounts.forEach(account => {
+  blackListedRepos.forEach(repo => {
+    BlackListed(accuser, account, repo, 'practice-fork.mst');
+  });
 });
+BlackListed(accuser, 'se-edu', 'rcs', 'practice-fork.mst');
 
-console.log("Bot Service has started");
-
+console.log('Bot Service has started');
 
 // start the bot
-accuser
-  .run({ assignee: "none" });
+accuser.run({ assignee: 'none' });
