@@ -18,6 +18,7 @@ module.exports = (accuser, account, repository) => {
   let doBlock = (repo, issue) => {
     const formatCheckLabel = 'FormatCheckRequested';
     const usernameCheckLabel = 'GithubUsernameRequested';
+    const studentGithubId = issue.user.login;
     const titlePattern = util._titleRegex;
     const titleCheckResult = Validator.checkTitle(issue.title, titlePattern);
 
@@ -26,7 +27,7 @@ module.exports = (accuser, account, repository) => {
         issue,
         formatCheckLabel,
         'format-check-request.mst',
-        {},
+        { username: studentGithubId },
         `${account}/${repository}/PR #${issue.number}: Bad title`
       );
 
@@ -37,7 +38,6 @@ module.exports = (accuser, account, repository) => {
       validator.removeLabel(issue, formatCheckLabel);
     }
 
-    const studentGithubId = issue.user.login;
     const phase = titleCheckResult[2];
     const dataMapping = phaseMappings[phase];
     const student = dataMapping.getInfoForStudent(studentGithubId);
@@ -47,12 +47,8 @@ module.exports = (accuser, account, repository) => {
         issue,
         usernameCheckLabel,
         'username-check-request.mst',
-<<<<<<< HEAD
-        `${account}/PR #${issue.number}: ${studentGithubId} not found`
-=======
         { username: studentGithubId },
         `${account}/${repository}/PR #${issue.number}: ${studentGithubId} not found`
->>>>>>> e088db8... f
       );
 
       return;
