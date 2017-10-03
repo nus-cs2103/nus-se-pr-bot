@@ -68,23 +68,23 @@ class Validator {
   }
 
   removeLabel(issue, label) {
-    console.log(`${this.account}/PR # ${issue.number}: Removing ${label}`);
+    console.log(`${this.account}/${this.repoName}/PR # ${issue.number}: Removing ${label}`);
     this.accuser.removeLabel(this.repo, issue, label);
   }
 
   // assigns a user to the issue
   assign(issue, user) {
     if (!user) {
-      console.log(`${this.account}/PR #${issue.number}: No reviewer found`);
+      console.log(`${this.account}/${this.repoName}/PR #${issue.number}: No reviewer found`);
       return;
     }
 
-    console.log(`${this.account}/PR #${issue.number}: Assigning ${user}`);
+    console.log(`${this.account}/${this.repoName}/PR #${issue.number}: Assigning ${user}`);
     this.accuser.accuse(this.repo, issue, user);
   }
 
   comment(issue, commentTemplate, mapping) {
-    console.log(`${this.account}/PR #${issue.number}: Commenting`);
+    console.log(`${this.account}/${this.repoName}/PR #${issue.number}: Commenting`);
     const strMapping = mapping || {};
     const commentStream = mu.compileAndRender(commentTemplate, strMapping);
     util.castStreamToString(commentStream)
@@ -92,7 +92,7 @@ class Validator {
   }
 
   close(issue) {
-    console.log(`${this.account}/PR #${issue.number}: Closing`);
+    console.log(`${this.account}/${this.repoName}/PR #${issue.number}: Closing`);
     this.accuser.close(this.repo, issue);
   }
 }

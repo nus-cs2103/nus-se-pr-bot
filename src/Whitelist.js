@@ -22,11 +22,12 @@ module.exports = (accuser, account, repository) => {
     const titleCheckResult = Validator.checkTitle(issue.title, titlePattern);
 
     if (titleCheckResult === null) { // bad title
-      validator.warn(issue,
+      validator.warn(
+        issue,
         formatCheckLabel,
         'format-check-request.mst',
         {},
-        `${account}/PR #${issue.number}: Bad title`
+        `${account}/${repository}/PR #${issue.number}: Bad title`
       );
 
       return;
@@ -46,7 +47,12 @@ module.exports = (accuser, account, repository) => {
         issue,
         usernameCheckLabel,
         'username-check-request.mst',
+<<<<<<< HEAD
         `${account}/PR #${issue.number}: ${studentGithubId} not found`
+=======
+        { username: studentGithubId },
+        `${account}/${repository}/PR #${issue.number}: ${studentGithubId} not found`
+>>>>>>> e088db8... f
       );
 
       return;
