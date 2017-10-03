@@ -15,28 +15,31 @@ const githubAuthToken = {
 
 accuser.authenticate(githubAuthToken);
 
-//Whitelisted
+// Whitelisted
 for (let level = 1; level <= currentLevel; level += 1) {
   SubmissionRepos(accuser, semesterAccount, `addressbook-level${level}`);
 }
 
 // Blacklisted
-const blackListedRepos = [
+const blackListedSeEduRepos = [
   'samplerepo-pr-practice',
   'samplerepo-workflow-practice',
   'samplerepo-things'
 ];
 
-const blackListedAccounts = [
-  'se-edu',
-  semesterAccount
+const blackListedSemesterRepos = [
+  'samplerepo-pr-practice',
+  'samplerepo-things'
 ];
 
-blackListedAccounts.forEach(account => {
-  blackListedRepos.forEach(repo => {
-    BlackListed(accuser, account, repo, 'practice-fork.mst');
-  });
+blackListedSeEduRepos.forEach(repo => {
+  BlackListed(accuser, 'se-edu', repo, 'practice-fork.mst');
 });
+
+blackListedSemesterRepos.forEach(repo => {
+  BlackListed(accuser, semesterAccount, repo, 'practice-fork.mst');
+});
+
 BlackListed(accuser, 'se-edu', 'rcs', 'practice-fork.mst');
 
 console.log('Bot Service has started');
