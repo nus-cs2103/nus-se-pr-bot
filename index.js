@@ -8,11 +8,10 @@ let semesterAccount = require('./config').semesterAccount;
 
 const accuser = new Accuser({ interval: 600000 });
 const seEduAccount = 'se-edu';
-let runMethod = 'checkAndRun';
+
 // Can pass optional argument to do a dry run that checks for required permissions
-if (process.argv.length > 2 && process.argv[2] === 'dry') {
-  runMethod = 'dryCheck';
-}
+const isDryRun = process.argv.length > 2 && process.argv[2] === 'dry';
+const runMethod = isDryRun ? 'dryCheck' : 'checkAndRun';
 
 const githubAuthToken = {
   type: 'oauth',
@@ -51,7 +50,9 @@ for (let level = 1; level <= currentLevel; level += 1) {
   repo[runMethod]();
 }
 
+if (!isDryRun) {
 // start the bot
-console.log('Bot Service has started');
+  console.log('Bot Service has started');
 
-accuser.run({ assignee: 'none' });
+  accuser.run({assignee: 'none'});
+}

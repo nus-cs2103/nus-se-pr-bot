@@ -26,6 +26,12 @@ In our case, CS2103 PR Bot employs the interval polling method to retrieve pull 
 
 # Deployment
 
+## Checking for repository permissions
+
+Since we are assigning permission for the PR Bot for each invidual repository separately, it's good to check that the bot has all the required permissions for every relevant repositories before deployment.
+To check that the bot has enough permissions:
+    `npm run checkPermissions`
+
 ## Requirements
 
 The bot requires the following in the production environment:

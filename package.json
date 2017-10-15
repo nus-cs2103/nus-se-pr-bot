@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --verbose",
     "testDev": "jest --verbose --watchAll",
-    "lint": "eslint src ./index.js"
+    "lint": "eslint src ./index.js",
+    "checkPermissions": "node index.js dry"
   },
   "homepage": "https://github.com/nus-cs2103/cs2103-pr-bot",
   "repository": {
