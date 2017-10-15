@@ -7,6 +7,12 @@ let currentLevel = require('./config').currentLevel;
 let semesterAccount = require('./config').semesterAccount;
 
 const accuser = new Accuser({ interval: 600000 });
+const seEduAccount = 'se-edu';
+let runMethod = 'checkAndRun';
+// Can pass optional argument to do a dry run that checks for required permissions
+if (process.argv.length > 2 && process.argv[2] === 'dry') {
+  runMethod = 'dryCheck';
+}
 
 const githubAuthToken = {
   type: 'oauth',
@@ -15,16 +21,13 @@ const githubAuthToken = {
 
 accuser.authenticate(githubAuthToken);
 
-// Whitelisted
-for (let level = 1; level <= currentLevel; level += 1) {
-  SubmissionRepos(accuser, semesterAccount, `addressbook-level${level}`);
-}
 
 // Blacklisted
 const blackListedSeEduRepos = [
   'samplerepo-pr-practice',
   'samplerepo-workflow-practice',
-  'samplerepo-things'
+  'samplerepo-things',
+  'rcs'
 ];
 
 const blackListedSemesterRepos = [
@@ -32,17 +35,23 @@ const blackListedSemesterRepos = [
   'samplerepo-things'
 ];
 
-blackListedSeEduRepos.forEach(repo => {
-  BlackListed(accuser, 'se-edu', repo, 'practice-fork.mst');
+blackListedSeEduRepos.forEach(repoName => {
+  const repo = new BlackListed(accuser, seEduAccount, repoName);
+  repo[runMethod]();
 });
 
-blackListedSemesterRepos.forEach(repo => {
-  BlackListed(accuser, semesterAccount, repo, 'practice-fork.mst');
+blackListedSemesterRepos.forEach(repoName => {
+  const repo = new BlackListed(accuser, semesterAccount, repoName);
+  repo[runMethod]();
 });
 
-BlackListed(accuser, 'se-edu', 'rcs', 'practice-fork.mst');
-
-console.log('Bot Service has started');
+// Whitelisted
+for (let level = 1; level <= currentLevel; level += 1) {
+  const repo = new SubmissionRepos(accuser, semesterAccount, `addressbook-level${level}`);
+  repo[runMethod]();
+}
 
 // start the bot
+console.log('Bot Service has started');
+
 accuser.run({ assignee: 'none' });

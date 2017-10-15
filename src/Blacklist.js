@@ -1,19 +1,25 @@
 const Validator = require('./Validator');
+const Repository = require('./Repository');
 
 // Handles blacklisted repository
 // Any PRs will be closed automatically
-module.exports = (accuser, account, repository, commentTemplate) => {
-  let validator = new Validator(accuser, account, repository);
+class Blacklist extends Repository {
+  run() {
+    const { accuser, account, repository } = this;
+    const validator = new Validator(accuser, account, repository);
 
-  let filterBlock = (repo, issue) => {
-    return issue.pull_request;
-  };
+    const filterBlock = (repo, issue) => {
+      return issue.pull_request;
+    };
 
-  let doBlock = (repo, issue) => {
-    validator.comment(issue, commentTemplate);
-    validator.close(issue);
-  };
+    const doBlock = (repo, issue) => {
+      validator.comment(issue, 'practice-fork.mst');
+      validator.close(issue);
+    };
 
-  validator.filterBlock = filterBlock;
-  validator.doBlock = doBlock;
-};
+    validator.filterBlock = filterBlock;
+    validator.doBlock = doBlock;
+  }
+}
+
+module.exports = Blacklist;
