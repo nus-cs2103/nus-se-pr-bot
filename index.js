@@ -2,9 +2,12 @@
 require('dotenv').config({ silent: true });
 const SubmissionRepos = require('./src/Whitelist');
 const BlackListed = require('./src/Blacklist');
+const Greylisted = require('./src/Greylist');
 const Accuser = require('accuser');
 let currentLevel = require('./config').currentLevel;
 let semesterAccount = require('./config').semesterAccount;
+const seEduAccount = 'se-edu';
+const maxLevel = 4;
 
 const accuser = new Accuser({ interval: 600000 });
 
@@ -14,6 +17,11 @@ const githubAuthToken = {
 };
 
 accuser.authenticate(githubAuthToken);
+
+// Greylisted
+for (let level = 1; level <= maxLevel; level += 1) {
+  Greylisted(accuser, seEduAccount, `addressbook-level${level}`);
+}
 
 // Whitelisted
 for (let level = 1; level <= currentLevel; level += 1) {
