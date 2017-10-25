@@ -4,8 +4,8 @@ const SubmissionRepos = require('./src/Whitelist');
 const BlackListed = require('./src/Blacklist');
 const Greylisted = require('./src/Greylist');
 const Accuser = require('accuser');
-let currentLevel = require('./config').currentLevel;
-let semesterAccount = require('./config').semesterAccount;
+const currentLevel = require('./config').currentLevel;
+const semesterAccount = require('./config').semesterAccount;
 const seEduAccount = 'se-edu';
 const maxLevel = 4;
 
