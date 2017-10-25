@@ -1,7 +1,7 @@
 // Load dotenv first
 require('dotenv').config({ silent: true });
 const SubmissionRepos = require('./src/Whitelist');
-const BlackListed = require('./src/Blacklist');
+const Blacklisted = require('./src/Blacklist');
 const Greylisted = require('./src/Greylist');
 const Accuser = require('accuser');
 const currentLevel = require('./config').currentLevel;
@@ -41,14 +41,14 @@ const blackListedSemesterRepos = [
 ];
 
 blackListedSeEduRepos.forEach(repo => {
-  BlackListed(accuser, 'se-edu', repo, 'practice-fork.mst');
+  Blacklisted(accuser, 'se-edu', repo, 'practice-fork.mst');
 });
 
 blackListedSemesterRepos.forEach(repo => {
-  BlackListed(accuser, semesterAccount, repo, 'practice-fork.mst');
+  Blacklisted(accuser, semesterAccount, repo, 'practice-fork.mst');
 });
 
-BlackListed(accuser, 'se-edu', 'rcs', 'practice-fork.mst');
+Blacklisted(accuser, 'se-edu', 'rcs', 'practice-fork.mst');
 
 console.log('Bot Service has started');
 
