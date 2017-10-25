@@ -48,8 +48,6 @@ blackListedSemesterRepos.forEach(repo => {
   Blacklisted(accuser, semesterAccount, repo, 'practice-fork.mst');
 });
 
-Blacklisted(accuser, originAccount, 'rcs', 'practice-fork.mst');
-
 console.log('Bot Service has started');
 
 // start the bot
