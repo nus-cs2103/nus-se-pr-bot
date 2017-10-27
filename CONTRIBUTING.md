@@ -47,6 +47,15 @@ To use the code linter, run
 
     npm run lint
 
+## Testing
+PR bot uses `Jest` for testing. Ensure that dev dependency is installed. To run tests during development:
+
+    npm run testDev
+
+All test files should be named `*.test.js` and reside in the `test` directory.
+Jest is [configured to watch](http://facebook.github.io/jest/docs/en/cli.html#watchall) for changes.
+
+
 ## Adding dependencies
 
 For all dependencies (both installation and development):
