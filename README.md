@@ -14,6 +14,7 @@ The current semester's Github account / organization name can be set in the `con
 
 The students' tutor and reviewer class mapping can be set in the `data-*.csv` file. (Different data files for different phases).
 
+# Design
 ## Architecture
 
 There are two main way of getting information about the repositories that the bot is watching: webhooks or interval polling.
@@ -23,6 +24,12 @@ Webhooks require the bot to expose a HTTP URL endpoint which Github can perform 
 Interval polling on the other hand would require the bot to request information periodically from Github through their API resources. Authentication is handled by giving the bot access to a Github account which has read/write access to all the repositories it process. However, the bot has to determine which pieces of information are new and which were previously processed. This can be seen as a pull model.
 
 In our case, CS2103 PR Bot employs the interval polling method to retrieve pull requests' information from Github on those repositories that the bot is watching. The bot is currently registered on Github with the handle [nus-cs2103-bot](https://github.com/nus-cs2103-bot). All comments sent from the bot will be shown from that account. The authentication details of the account are currently with Prof Damith and a Github authentication token (env variable `GITHUB_TOKEN`) is used for automated access to Github. By default, the bot will poll Github every 5 mins (default setting of underlying library).
+
+## Components
+### Validator
+Validator provides two points of entries for interacting with Github PRs, `doBlock` and `filterBlock` as well a customised subset of Github CRUD operations for dealing with PR.
+
+`Blacklist`, `Whitelist` and `Greylist` composes of `Validator` to perform specialised operations. `Blacklist` closes all PR in given repositories. `Whitelist` closes PRs when conditions are met while `Greylist` does the same but with more lax conditions. The three classes have been delibrately separated to highlight their customised functionalities i.e. conditions to close, comments and labelling.
 
 # Deployment
 
