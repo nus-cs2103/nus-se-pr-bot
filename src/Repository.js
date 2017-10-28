@@ -1,6 +1,9 @@
 const GitHubApi = require('github');
+const Promise = require('bluebird');
 require('dotenv').config({ silent: true });
 
+// Implements methods to check the required permissions for a repo
+// Classes that extends this class should implement the `run` method
 class Repository {
   constructor(accuser, account, repository) {
     this.accuser = accuser;
@@ -20,7 +23,7 @@ class Repository {
       github.authenticate(githubAuth);
       github.users.get({}, (userError, userData) => {
         if (userError) {
-          reject(`Error retrieving the username for repo ${account}/${repository}.`);
+          reject(new Error(`Error retrieving the username for repo ${account}/${repository}.`));
           return;
         }
 
@@ -29,13 +32,13 @@ class Repository {
         github.repos.reviewUserPermissionLevel(permissionParams,
           (permissionError, permissionData) => {
             if (permissionError) {
-              reject(`Error retrieving permission information for repo ${account}/${repository}.`);
+              reject(new Error(`Error retrieving permission information for repo ${account}/${repository}.`));
               return;
             }
 
             const validPermissions = ['admin', 'write'];
             if (!permissionData || !validPermissions.includes(permissionData.data.permission)) {
-              reject(`Pr-bot does not have the required permissions for ${account}/${repository}.`);
+              reject(new Error(`Pr-bot does not have the required permissions for ${account}/${repository}.`));
               return;
             }
 
@@ -48,15 +51,32 @@ class Repository {
 
   dryCheck() {
     const { account, repository } = this;
-    this.checkPermission()
-      .then(() => console.log(`Pr-bot has the required permissions for ${account}/${repository}.`),
-        error => console.log(error));
+    const promise = new Promise((resolve, reject) => {
+      this.checkPermission()
+        .then(() => {
+          console.log(`Pr-bot has the required permissions for ${account}/${repository}.`);
+          resolve();
+        }, error => {
+          console.log(error.message);
+          reject(error);
+        });
+    });
+    return promise;
   }
 
   checkAndRun() {
-    const self = this;
-    this.checkPermission()
-      .then(self.run, error => console.log(error));
+    const promise = new Promise((resolve, reject) => {
+      this.checkPermission()
+        .then(() => {
+          this.run.apply(this);
+          console.log(`Do & Filter blocks added for repo ${this.account}/${this.repository}`);
+          resolve();
+        }, error => {
+          console.log(error.message);
+          reject(error);
+        });
+    });
+    return promise;
   }
 }
 

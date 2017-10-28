@@ -1,5 +1,6 @@
 // Load dotenv first
 require('dotenv').config({ silent: true });
+const Promise = require('bluebird');
 const SubmissionRepos = require('./src/Whitelist');
 const Blacklisted = require('./src/Blacklist');
 const Greylisted = require('./src/Greylist');
@@ -22,10 +23,12 @@ const githubAuthToken = {
 
 accuser.authenticate(githubAuthToken);
 
+let repoPromises = [];
+
 // Greylisted
 for (let level = 1; level <= maxLevel; level += 1) {
   const repo = new Greylisted(accuser, originAccount, `addressbook-level${level}`);
-  repo[runMethod]();
+  repoPromises.push(repo[runMethod]());
 }
 
 // Blacklisted
@@ -42,23 +45,27 @@ const blackListedSemesterRepos = [
 
 blackListedOriginRepos.forEach(repoName => {
   const repo = new Blacklisted(accuser, originAccount, repoName);
-  repo[runMethod]();
+  repoPromises.push(repo[runMethod]());
 });
 
 blackListedSemesterRepos.forEach(repoName => {
   const repo = new Blacklisted(accuser, semesterAccount, repoName);
-  repo[runMethod]();
+  repoPromises.push(repo[runMethod]());
 });
 
 // Whitelisted
 for (let level = 1; level <= currentLevel; level += 1) {
   const repo = new SubmissionRepos(accuser, semesterAccount, `addressbook-level${level}`);
-  repo[runMethod]();
+  repoPromises.push(repo[runMethod]());
 }
 
-if (!isDryRun) {
-// start the bot
-  console.log('Bot Service has started');
+Promise.all(repoPromises).then(() => {
+  if (!isDryRun) {
+    // start the bot
+    console.log('Bot Service has started');
 
-  accuser.run({ assignee: 'none' });
-}
+    accuser.run({ assignee: 'none' });
+  }
+}, () => {
+  console.log('Not all permissions are satisfied :-)');
+});
