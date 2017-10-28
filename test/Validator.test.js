@@ -60,12 +60,4 @@ describe('Validator methods', () => {
 
     expect(Validator.hasLabel(mockIssue, 'a')).toBeTruthy();
   });
-
-  it('should ignore case sensitivity for checking label existence', () => {
-    const mockIssue = {
-      labels: [{ name: 'A'}]
-    }
-
-    expect(Validator.hasLabel(mockIssue, 'a')).toBeTruthy();
-  });
 });

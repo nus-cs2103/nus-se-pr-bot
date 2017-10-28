@@ -1,13 +1,15 @@
 // Load dotenv first
 require('dotenv').config({ silent: true });
 const SubmissionRepos = require('./src/Whitelist');
-const BlackListed = require('./src/Blacklist');
+const Blacklisted = require('./src/Blacklist');
+const Greylisted = require('./src/Greylist');
 const Accuser = require('accuser');
-let currentLevel = require('./config').currentLevel;
-let semesterAccount = require('./config').semesterAccount;
+const currentLevel = require('./config').currentLevel;
+const semesterAccount = require('./config').semesterAccount;
+const originAccount = require('./config').originAccount;
+const maxLevel = 4;
 
 const accuser = new Accuser({ interval: 600000 });
-const seEduAccount = 'se-edu';
 
 // Can pass optional argument to do a dry run that checks for required permissions
 const isDryRun = process.argv.length > 2 && process.argv[2] === 'dry';
@@ -20,13 +22,17 @@ const githubAuthToken = {
 
 accuser.authenticate(githubAuthToken);
 
+// Greylisted
+for (let level = 1; level <= maxLevel; level += 1) {
+  const repo = new Greylisted(accuser, originAccount, `addressbook-level${level}`);
+  repo[runMethod]();
+}
 
 // Blacklisted
-const blackListedSeEduRepos = [
+const blackListedOriginRepos = [
   'samplerepo-pr-practice',
   'samplerepo-workflow-practice',
-  'samplerepo-things',
-  'rcs'
+  'samplerepo-things'
 ];
 
 const blackListedSemesterRepos = [
@@ -34,13 +40,13 @@ const blackListedSemesterRepos = [
   'samplerepo-things'
 ];
 
-blackListedSeEduRepos.forEach(repoName => {
-  const repo = new BlackListed(accuser, seEduAccount, repoName);
+blackListedOriginRepos.forEach(repoName => {
+  const repo = new Blacklisted(accuser, originAccount, repoName);
   repo[runMethod]();
 });
 
 blackListedSemesterRepos.forEach(repoName => {
-  const repo = new BlackListed(accuser, semesterAccount, repoName);
+  const repo = new Blacklisted(accuser, semesterAccount, repoName);
   repo[runMethod]();
 });
 
@@ -54,5 +60,5 @@ if (!isDryRun) {
 // start the bot
   console.log('Bot Service has started');
 
-  accuser.run({assignee: 'none'});
+  accuser.run({ assignee: 'none' });
 }
