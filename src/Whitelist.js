@@ -41,7 +41,7 @@ class Whitelist extends Repository {
         validator.removeLabel(issue, formatCheckLabel);
       }
 
-      const phase = titleCheckResult[2];
+      const phase = titleCheckResult[3];
       const dataMapping = phaseMappings[phase];
       const student = dataMapping.getInfoForStudent(studentGithubId);
 
