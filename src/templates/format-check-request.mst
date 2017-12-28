@@ -1,6 +1,9 @@
 Hi @{{username}}, your pull request title is invalid.
 
-It should be in the format of `[Learning Outcome ID][Team ID] Your Name`, where `[Learning Outcome ID]` has no dashes or spaces (e.g. `[W3.1a]`) and `[Team ID]` has one dash only and no spaces (e.g. `[W14-A2]` means `W`ednesday 2pm (`14` hrs), Phase `A`, Team `2`).
+For phase A, it should be in the format of `[Learning Outcome ID][Team ID] Your Name`, where `[Learning
+Outcome ID]` has no dashes or spaces (e.g. `[W3.1a]`) and `[Team ID]` has one dash only and no spaces (e.g. `[W14-A2]` means `W`ednesday 2pm (`14` hrs), Phase `A`, Team `2`).
+
+For phase B, it should be in the format of `[v1.x][Team ID] Product Name`.
 
 Please follow the instructions given strictly and edit your title for reprocessing.
 
