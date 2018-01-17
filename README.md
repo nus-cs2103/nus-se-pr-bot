@@ -21,7 +21,7 @@ The students' tutor and reviewer class mapping can be set in the `data-*.csv` fi
 
 There are two main way of getting information about the repositories that the bot is watching: webhooks or interval polling.
 
-Webhooks require the bot to expose a HTTP URL endpoint which Github can perform a HTTP request to whenever there are new changes to the repository. Specifically for Github, new PRs can be received as notifications through this endpoint. This can be thought of as a push model. However, having an unsecured HTTP resource available to the internet may subject the bot to spam or denial of service attacks. The need to secure the HTTP resource may also pose additional requirements which may be out of scope for the bot.
+Webhooks require the bot to expose a HTTP URL endpoint which Github can perform a HTTP request to whenever there are new changes to the repository. Specifically for Github, new PRs can be received as notifications through this endpoint. This can be thought of as a push model. However, having an unsecured HTTP resource available to the internet may subject the bot to spam or denial of service attacks. The need to secure the HTTP resource may also pose additional requirements which may be out of scope for the bot. Furthermore redelivery of failed delivery of events is not supported by Github.
 
 Interval polling on the other hand would require the bot to request information periodically from Github through their API resources. Authentication is handled by giving the bot access to a Github account which has read/write access to all the repositories it process. However, the bot has to determine which pieces of information are new and which were previously processed. This can be seen as a pull model.
 
