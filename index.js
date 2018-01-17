@@ -10,6 +10,8 @@ const semesterAccount = require('./config').semesterAccount;
 const originAccount = require('./config').originAccount;
 const maxLevel = 4;
 
+// interval in miliseconds
+// 10 min interval
 const accuser = new Accuser({ interval: 600000 });
 
 // Can pass optional argument to do a dry run that checks for required permissions
