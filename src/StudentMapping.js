@@ -1,5 +1,7 @@
 const Papa = require('babyparse');
 
+// Maps csv data file to an object
+// Name of keys in the resulting objects are based on csv headers
 class StudentMapping {
   constructor(dataPath) {
     const rows = Papa.parseFiles(dataPath).data;
