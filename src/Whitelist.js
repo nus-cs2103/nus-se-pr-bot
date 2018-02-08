@@ -62,9 +62,11 @@ class Whitelist extends Repository {
       }
 
       const reviewer = student.reviewer;
+      const supervisor = student.supervisor;
       const teamLabels = student.labels;
 
       validator.assign(issue, reviewer);
+      validator.assign(issue, supervisor);
       teamLabels.forEach(label => validator.addUniqueLabel(issue, label));
     };
 
