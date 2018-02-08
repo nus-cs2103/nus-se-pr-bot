@@ -11,7 +11,7 @@ class StudentMapping {
     const indexRange = Array.from(Array(headers.length).keys());
     const getIndicesForHeader =
       header => indexRange.filter(index => headers[index].toLowerCase() === header.toLowerCase());
-    const githubIdIndex = getIndicesForHeader('Github ID')[0];
+    const githubUsernameIndex = getIndicesForHeader('Github Username')[0];
     const tutorIndex = getIndicesForHeader('Tutor')[0];
     const reviewerIndex = getIndicesForHeader('Reviewer')[0];
     const labelIndices = getIndicesForHeader('Label');
@@ -25,12 +25,12 @@ class StudentMapping {
         return;
       }
 
-      const githubId = row[githubIdIndex].toLowerCase();
+      const githubUsername = row[githubUsernameIndex].toLowerCase();
       const tutor = row[tutorIndex];
       const reviewer = row[reviewerIndex];
       const labels = labelIndices.map(index => row[index]);
 
-      data[githubId] = {
+      data[githubUsername] = {
         tutor, reviewer, labels
       };
     });
@@ -38,8 +38,8 @@ class StudentMapping {
     this.data = data;
   }
 
-  getInfoForStudent(studentGithubId) {
-    return this.data[studentGithubId.toLowerCase()];
+  getInfoForStudent(studentGithubUsername) {
+    return this.data[studentGithubUsername.toLowerCase()];
   }
 }
 
