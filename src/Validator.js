@@ -68,7 +68,7 @@ class Validator {
   }
 
   removeLabel(issue, label) {
-    console.log(`${this.account}/${this.repoName}/PR # ${issue.number}: Removing ${label}`);
+    console.log(`${this.account}/${this.repoName}/PR #${issue.number}: Removing ${label}`);
     this.accuser.removeLabel(this.repo, issue, label);
   }
 
