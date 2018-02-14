@@ -6,6 +6,7 @@ const phaseMappings = { A, B };
 const Validator = require('./Validator');
 const util = require('./utility');
 const Repository = require('./Repository');
+const config = require('../config')
 
 // Any repo that needs to be reviewed by a human should use this class
 // i.e. this is a whitelist repo
@@ -44,13 +45,13 @@ class Whitelist extends Repository {
       const phase = titleCheckResult[3];
       const dataMapping = phaseMappings[phase];
       const student = dataMapping.getInfoForStudent(studentGithubId);
-
+      const issueLink = config.githubUsernameIssueLink
       if (!student) {
         validator.warn(
           issue,
           usernameCheckLabel,
           'username-check-request.mst',
-          { username: studentGithubId },
+          { username: studentGithubId, githubUsernameIssueLink: issueLink},
           `${account}/${repository}/PR #${issue.number}: ${studentGithubId} not found`
         );
 
