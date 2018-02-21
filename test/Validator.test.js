@@ -36,6 +36,7 @@ describe('Validator methods', () => {
 
   it('should extract classId & teamId from valid titles', () => {
     let result = Validator.checkTitle('[W2.2b][W09-A1]James Yong', titleRegex);
+    expect(result[1]).toBe('W2.2b');
     expect(result[2]).toBe('W09');
     expect(result[3]).toBe('A');
     expect(result[4]).toBe('1');
