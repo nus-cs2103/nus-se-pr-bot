@@ -64,7 +64,7 @@ class Validator {
   addUniqueLabel(issue, label) {
     if (!Validator.hasLabel(issue, label)) {
       this.accuser.addLabels(this.repo, issue, [label]);
-      console.log(`${this.account}/${this.repoName}/PR #${issue.number}: Adding ${label}`);
+      console.log(`${this.account}/${this.repoName}/PR #${issue.number}: Adding ${label} label`);
     }
   }
 

@@ -25,6 +25,10 @@ class Whitelist extends Repository {
       const titlePattern = util._titleRegex;
       const titleCheckResult = Validator.checkTitle(issue.title, titlePattern);
 
+      // this is to catch students using phase A team for some W6 LOs in level 3
+      const week6TitlePattern = /W6/i;
+      const phasePattern = /A/i;
+
       if (titleCheckResult === null) { // bad title
         validator.warn(
           issue,
@@ -34,6 +38,18 @@ class Whitelist extends Repository {
           `${account}/${repository}/PR #${issue.number}: Bad title`
         );
 
+        return;
+      } else if (repo.repo === 'addressbook_level3'
+      && Validator.testTitle(titleCheckResult[1], week6TitlePattern)
+      && Validator.testTitle(titleCheckResult[3], phasePattern)) {
+        // this is to catch students using phase A team for some W6 LOs in level 3
+        validator.warn(
+          issue,
+          formatCheckLabel,
+          'wrong-phase-LO.mst',
+          {},
+          `${account}/${repository}/PR #${issue.number}: Bad LO-team mapping`
+        );
         return;
       }
 
