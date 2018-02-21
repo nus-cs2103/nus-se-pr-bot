@@ -39,9 +39,9 @@ class Whitelist extends Repository {
         );
 
         return;
-      } else if (repo.repo === 'addressbook_level3'
-      && Validator.testTitle(titleCheckResult[1], week6TitlePattern)
-      && Validator.testTitle(titleCheckResult[3], phasePattern)) {
+      } else if (repo.repo === 'addressbook-level3'
+        && Validator.testTitle(titleCheckResult[1], week6TitlePattern)
+        && Validator.testTitle(titleCheckResult[3], phasePattern)) {
         // this is to catch students using phase A team for some W6 LOs in level 3
         validator.warn(
           issue,
