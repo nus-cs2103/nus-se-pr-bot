@@ -47,6 +47,13 @@ To use the code linter, run
 
     npm run lint
 
+### Checking for repo permissions
+```bash
+npm run checkPermissions
+```
+This will check if all the required permissions are satisfied but does not start the bot service. This same step is performed automatically before deploying the bot and will fail fast if the permissions are not granted.
+
+
 ## Testing
 PR bot uses `Jest` for testing. Ensure that dev dependency is installed. To run tests during development:
 
