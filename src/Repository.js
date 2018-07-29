@@ -1,4 +1,4 @@
-const GitHubApi = require('github');
+const GitHubApi = require('@octokit/rest');
 const Promise = require('bluebird');
 require('dotenv').config({ silent: true });
 
