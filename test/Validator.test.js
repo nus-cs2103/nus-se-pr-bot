@@ -1,7 +1,22 @@
 const Validator = require('../src/Validator');
 const titleRegex = require('../src/utility')._titleRegex;
+const sinon = require('sinon');
+const Accuser = require('accuser');
 
 describe('Validator methods', () => {
+
+  let validator;
+
+  beforeEach(() => {
+    const stubAccuser = sinon.createStubInstance(Accuser);
+    stubAccuser.addRepository = function() { return { newWorker: sinon.stub() }; };
+    validator = new Validator(stubAccuser, 'test', 'testRepo');
+  });
+
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('should validate valid titles', () => {
     const testTitle = Validator.testTitle;
     expect(testTitle('[W2.2b][W09-A1]James Yong', titleRegex)).toBeTruthy();
@@ -44,25 +59,53 @@ describe('Validator methods', () => {
 
   it('should show label existence', () => {
     const mockIssue = {
-      labels: [{ name: 'A'}, {name: 'B'}]
-    }
+      labels: [{ name: 'A' }, { name: 'B' }]
+    };
 
     expect(Validator.hasLabel(mockIssue, 'A')).toBeTruthy();
   });
 
   it('should show label non existence', () => {
     const mockIssue = {
-      labels: [{ name: 'A'}, {name: 'B'}]
-    }
+      labels: [{ name: 'A' }, { name: 'B' }]
+    };
 
     expect(Validator.hasLabel(mockIssue, 'C')).toBeFalsy();
   });
 
   it('should ignore case sensitivity for checking label existence', () => {
     const mockIssue = {
-      labels: [{ name: 'A'}]
-    }
+      labels: [{ name: 'A' }]
+    };
 
     expect(Validator.hasLabel(mockIssue, 'a')).toBeTruthy();
+  });
+
+  it('should not warn if label to apply already found', () => {
+     const spyAddUniqueLabel = sinon.spy(validator, 'addUniqueLabel');
+     const spyComment = sinon.spy(validator, 'comment');
+
+     const issue = {
+       labels: [{ name: 'existing' }]
+     };
+
+     validator.warn(issue, 'existing', 'testMu', {}, 'logged');
+     expect(spyAddUniqueLabel.notCalled).toBeTruthy();
+     expect(spyComment.notCalled).toBeTruthy();
+  });
+
+  it('should warn if label to apply not found', () => {
+    const spyAddUniqueLabel = sinon.spy(validator, 'addUniqueLabel');
+    const spyComment = sinon.spy(validator, 'comment');
+
+    const issue = {
+      labels: [{ name: 'existing' }]
+    };
+
+    validator.warn(issue, 'new', 'testMu', {}, 'logged');
+    expect(spyAddUniqueLabel.calledWithExactly(issue, 'new')).toBeTruthy();
+    expect(spyAddUniqueLabel.calledOnce).toBeTruthy();
+    expect(spyComment.calledWithExactly(issue, 'testMu', {})).toBeTruthy();
+    expect(spyComment.calledOnce).toBeTruthy();
   });
 });
