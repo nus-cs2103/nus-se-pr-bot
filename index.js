@@ -60,7 +60,7 @@ blackListedOriginRepos.forEach(repoName => {
 });
 
 blackListedSemesterRepos.forEach(repoName => {
-  const validator = new Validator(accuser, originAccount, repoName);
+  const validator = new Validator(accuser, semesterAccount, repoName);
   const repo = new Blacklisted(accuser, semesterAccount, repoName, validator);
   repoPromises.push(repo[runMethod]());
 });
@@ -68,7 +68,7 @@ blackListedSemesterRepos.forEach(repoName => {
 // Whitelisted
 for (let level = 1; level <= currentLevel; level += 1) {
   const repoName = `addressbook-level${level}`;
-  const validator = new Validator(accuser, originAccount, repoName);
+  const validator = new Validator(accuser, semesterAccount, repoName);
   const repo = new SubmissionRepos(accuser, semesterAccount, repoName, validator, phaseMappings);
   repoPromises.push(repo[runMethod]());
 }
