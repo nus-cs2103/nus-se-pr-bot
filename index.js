@@ -7,9 +7,9 @@ const Blacklisted = require('./src/Blacklist');
 const Greylisted = require('./src/Greylist');
 const Accuser = require('accuser');
 const Validator = require('./src/Validator');
-const StudentMapping = require('./StudentMapping');
-const A = new StudentMapping(path.join(__dirname, '../data-A.csv'));
-const B = new StudentMapping(path.join(__dirname, '../data-B.csv'));
+const StudentMapping = require('./src/StudentMapping');
+const A = new StudentMapping(path.join(__dirname, './data-A.csv'));
+const B = new StudentMapping(path.join(__dirname, './data-B.csv'));
 const phaseMappings = { A, B };
 const currentLevel = require('./config').currentLevel;
 const semesterAccount = require('./config').semesterAccount;
@@ -33,45 +33,13 @@ accuser.authenticate(githubAuthToken);
 
 let repoPromises = [];
 
-// Greylisted
-for (let level = 1; level <= maxLevel; level += 1) {
-  const repoName = `addressbook-level${level}`;
-  const validator = new Validator(accuser, originAccount, repoName);
-  const repo = new Greylisted(accuser, originAccount, repoName, validator);
-  repoPromises.push(repo[runMethod]());
-}
-
-// Blacklisted
-const blackListedOriginRepos = [
-  'samplerepo-pr-practice',
-  'samplerepo-workflow-practice',
-  'samplerepo-things'
-];
-
-const blackListedSemesterRepos = [
-  'samplerepo-pr-practice',
-  'samplerepo-things'
-];
-
-blackListedOriginRepos.forEach(repoName => {
-  const validator = new Validator(accuser, originAccount, repoName);
-  const repo = new Blacklisted(accuser, originAccount, repoName, validator);
-  repoPromises.push(repo[runMethod]());
-});
-
-blackListedSemesterRepos.forEach(repoName => {
-  const validator = new Validator(accuser, semesterAccount, repoName);
-  const repo = new Blacklisted(accuser, semesterAccount, repoName, validator);
-  repoPromises.push(repo[runMethod]());
-});
-
 // Whitelisted
-for (let level = 1; level <= currentLevel; level += 1) {
-  const repoName = `addressbook-level${level}`;
+// for (let level = 1; level <= currentLevel; level += 1) {
+  const repoName = `dummy_repo`;
   const validator = new Validator(accuser, semesterAccount, repoName);
   const repo = new SubmissionRepos(accuser, semesterAccount, repoName, validator, phaseMappings);
   repoPromises.push(repo[runMethod]());
-}
+// }
 
 Promise.all(repoPromises).then(() => {
   if (!isDryRun) {
