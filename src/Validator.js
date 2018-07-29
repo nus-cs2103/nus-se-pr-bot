@@ -84,6 +84,16 @@ class Validator {
     this.accuser.accuse(this.repo, issue, user);
   }
 
+  requestReview(issue, user) {
+    if (!user) {
+      console.log(`${this.account}/${this.repoName}/PR #${issue.number}: No reviewer found`);
+      return;
+    }
+
+    console.log(`${this.account}/${this.repoName}/PR #${issue.number}: Request review from ${user}`);
+    this.accuser.requestReview(this.repo, issue, user);
+  }
+
   comment(issue, commentTemplate, mapping) {
     console.log(`${this.account}/${this.repoName}/PR #${issue.number}: Commenting`);
     const strMapping = mapping || {};
