@@ -5,6 +5,11 @@ const SubmissionRepos = require('./src/Whitelist');
 const Blacklisted = require('./src/Blacklist');
 const Greylisted = require('./src/Greylist');
 const Accuser = require('accuser');
+const Validator = require('./src/Validator');
+const StudentMapping = require('./StudentMapping');
+const A = new StudentMapping(path.join(__dirname, '../data-A.csv'));
+const B = new StudentMapping(path.join(__dirname, '../data-B.csv'));
+const phaseMappings = { A, B };
 const currentLevel = require('./config').currentLevel;
 const semesterAccount = require('./config').semesterAccount;
 const originAccount = require('./config').originAccount;
@@ -29,7 +34,9 @@ let repoPromises = [];
 
 // Greylisted
 for (let level = 1; level <= maxLevel; level += 1) {
-  const repo = new Greylisted(accuser, originAccount, `addressbook-level${level}`);
+  const repoName = `addressbook-level${level}`;
+  const validator = new Validator(accuser, originAccount, repoName);
+  const repo = new Greylisted(accuser, originAccount, repoName, validator);
   repoPromises.push(repo[runMethod]());
 }
 
@@ -46,18 +53,22 @@ const blackListedSemesterRepos = [
 ];
 
 blackListedOriginRepos.forEach(repoName => {
-  const repo = new Blacklisted(accuser, originAccount, repoName);
+  const validator = new Validator(accuser, originAccount, repoName);
+  const repo = new Blacklisted(accuser, originAccount, repoName, validator);
   repoPromises.push(repo[runMethod]());
 });
 
 blackListedSemesterRepos.forEach(repoName => {
-  const repo = new Blacklisted(accuser, semesterAccount, repoName);
+  const validator = new Validator(accuser, originAccount, repoName);
+  const repo = new Blacklisted(accuser, semesterAccount, repoName, validator);
   repoPromises.push(repo[runMethod]());
 });
 
 // Whitelisted
 for (let level = 1; level <= currentLevel; level += 1) {
-  const repo = new SubmissionRepos(accuser, semesterAccount, `addressbook-level${level}`);
+  const repoName = `addressbook-level${level}`;
+  const validator = new Validator(accuser, originAccount, repoName);
+  const repo = new SubmissionRepos(accuser, semesterAccount, repoName, validator, phaseMappings);
   repoPromises.push(repo[runMethod]());
 }
 

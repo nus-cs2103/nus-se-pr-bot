@@ -7,8 +7,7 @@ const semesterAccount = require('../config').semesterAccount;
 // Bad title PR from students will fall through
 class Greylist extends Repository {
   run() {
-    const { accuser, account, repository } = this;
-    let validator = new Validator(accuser, account, repository);
+    const { validator } = this;
 
     let filterBlock = (repo, issue) => {
       return issue.pull_request;

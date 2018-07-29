@@ -4,12 +4,11 @@ const sinon = require('sinon');
 const Accuser = require('accuser');
 
 describe('Validator methods', () => {
-
   let validator;
 
   beforeEach(() => {
     const stubAccuser = sinon.createStubInstance(Accuser);
-    stubAccuser.addRepository = function() { return { newWorker: sinon.stub() }; };
+    stubAccuser.addRepository = function () { return { newWorker: sinon.stub() }; };
     validator = new Validator(stubAccuser, 'test', 'testRepo');
   });
 
@@ -82,30 +81,30 @@ describe('Validator methods', () => {
   });
 
   it('should not warn if label to apply already found', () => {
-     const spyAddUniqueLabel = sinon.spy(validator, 'addUniqueLabel');
-     const spyComment = sinon.spy(validator, 'comment');
+    const mockAddUniqueLabel = sinon.stub(validator, 'addUniqueLabel');
+    const mockComment = sinon.stub(validator, 'comment');
 
-     const issue = {
-       labels: [{ name: 'existing' }]
-     };
+    const issue = {
+      labels: [{ name: 'existing' }]
+    };
 
-     validator.warn(issue, 'existing', 'testMu', {}, 'logged');
-     expect(spyAddUniqueLabel.notCalled).toBeTruthy();
-     expect(spyComment.notCalled).toBeTruthy();
+    validator.warn(issue, 'existing', 'testMu', {}, 'logged');
+    expect(mockAddUniqueLabel.notCalled).toBeTruthy();
+    expect(mockComment.notCalled).toBeTruthy();
   });
 
   it('should warn if label to apply not found', () => {
-    const spyAddUniqueLabel = sinon.spy(validator, 'addUniqueLabel');
-    const spyComment = sinon.spy(validator, 'comment');
+    const mockAddUniqueLabel = sinon.stub(validator, 'addUniqueLabel');
+    const mockComment = sinon.stub(validator, 'comment');
 
     const issue = {
       labels: [{ name: 'existing' }]
     };
 
     validator.warn(issue, 'new', 'testMu', {}, 'logged');
-    expect(spyAddUniqueLabel.calledWithExactly(issue, 'new')).toBeTruthy();
-    expect(spyAddUniqueLabel.calledOnce).toBeTruthy();
-    expect(spyComment.calledWithExactly(issue, 'testMu', {})).toBeTruthy();
-    expect(spyComment.calledOnce).toBeTruthy();
+    expect(mockAddUniqueLabel.calledWithExactly(issue, 'new')).toBeTruthy();
+    expect(mockAddUniqueLabel.calledOnce).toBeTruthy();
+    expect(mockComment.calledWithExactly(issue, 'testMu', {})).toBeTruthy();
+    expect(mockComment.calledOnce).toBeTruthy();
   });
 });

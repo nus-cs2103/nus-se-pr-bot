@@ -5,10 +5,11 @@ require('dotenv').config({ silent: true });
 // Implements methods to check the required permissions for a repo
 // Classes that extends this class should implement the `run` method
 class Repository {
-  constructor(accuser, account, repository) {
+  constructor(accuser, account, repository, validator) {
     this.accuser = accuser;
     this.account = account;
     this.repository = repository;
+    this.validator = validator;
   }
 
   checkPermission() {

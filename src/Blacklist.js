@@ -1,12 +1,10 @@
-const Validator = require('./Validator');
 const Repository = require('./Repository');
 
 // Handles blacklisted repository
 // Any PRs will be closed automatically
 class Blacklist extends Repository {
   run() {
-    const { accuser, account, repository } = this;
-    const validator = new Validator(accuser, account, repository);
+    const { validator } = this;
 
     const filterBlock = (repo, issue) => {
       return issue.pull_request;
