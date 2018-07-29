@@ -1,5 +1,6 @@
 // Load dotenv first
 require('dotenv').config({ silent: true });
+const path = require('path');
 const Promise = require('bluebird');
 const SubmissionRepos = require('./src/Whitelist');
 const Blacklisted = require('./src/Blacklist');

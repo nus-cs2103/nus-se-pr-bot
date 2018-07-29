@@ -1,4 +1,3 @@
-const path = require('path');
 const Validator = require('./Validator');
 const util = require('./utility');
 const Repository = require('./Repository');
