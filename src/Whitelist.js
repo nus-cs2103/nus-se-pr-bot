@@ -6,13 +6,13 @@ const config = require('../config');
 // Any repo that needs to be reviewed by a human should use this class
 // i.e. this is a whitelist repo
 class Whitelist extends Repository {
-  constructor(accuser, account, repository, validator, phaseMappings) {
+  constructor(accuser, account, repository, validator, phaseMapping) {
     super(accuser, account, repository, validator);
-    this.phaseMappings = phaseMappings;
+    this.phaseMapping = phaseMapping;
   }
 
   run() {
-    const { account, phaseMappings, repository, validator } = this;
+    const { account, phaseMapping, repository, validator } = this;
 
     let filterBlock = (repo, issue) => {
       return issue.pull_request;
@@ -25,10 +25,6 @@ class Whitelist extends Repository {
       const titlePattern = util._titleRegex;
       const titleCheckResult = Validator.checkTitle(issue.title, titlePattern);
 
-      // this is to catch students using phase A team for some W6 LOs in level 3
-      const week6TitlePattern = /W6/i;
-      const phasePattern = /A/i;
-
       if (titleCheckResult === null) { // bad title
         validator.warn(
           issue,
@@ -39,27 +35,13 @@ class Whitelist extends Repository {
         );
 
         return;
-      } else if (repo.repo === 'addressbook-level3'
-        && Validator.testTitle(titleCheckResult[1], week6TitlePattern)
-        && Validator.testTitle(titleCheckResult[3], phasePattern)) {
-        // this is to catch students using phase A team for some W6 LOs in level 3
-        validator.warn(
-          issue,
-          formatCheckLabel,
-          'wrong-phase-LO.mst',
-          {},
-          `${account}/${repository}/PR #${issue.number}: Bad LO-team mapping`
-        );
-        return;
       }
 
       if (Validator.hasLabel(issue, formatCheckLabel)) {
         validator.removeLabel(issue, formatCheckLabel);
       }
 
-      const phase = titleCheckResult[3];
-      const dataMapping = phaseMappings[phase];
-      const student = dataMapping.getInfoForStudent(studentGithubId);
+      const student = phaseMapping.getInfoForStudent(studentGithubId);
       const issueLink = config.githubUsernameIssueLink;
       if (!student) {
         validator.warn(

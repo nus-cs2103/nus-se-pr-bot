@@ -8,9 +8,7 @@ const Greylisted = require('./src/Greylist');
 const Accuser = require('accuser');
 const Validator = require('./src/Validator');
 const StudentMapping = require('./src/StudentMapping');
-const A = new StudentMapping(path.join(__dirname, './data-A.csv'));
-const B = new StudentMapping(path.join(__dirname, './data-B.csv'));
-const phaseMappings = { A, B };
+const phaseMapping = new StudentMapping(path.join(__dirname, './data.csv'));
 const currentLevel = require('./config').currentLevel;
 const semesterAccount = require('./config').semesterAccount;
 const originAccount = require('./config').originAccount;
@@ -69,7 +67,7 @@ blackListedSemesterRepos.forEach(repoName => {
 for (let level = 1; level <= currentLevel; level += 1) {
   const repoName = `addressbook-level${level}`;
   const validator = new Validator(accuser, semesterAccount, repoName);
-  const repo = new SubmissionRepos(accuser, semesterAccount, repoName, validator, phaseMappings);
+  const repo = new SubmissionRepos(accuser, semesterAccount, repoName, validator, phaseMapping);
   repoPromises.push(repo[runMethod]());
 }
 
