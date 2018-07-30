@@ -14,7 +14,7 @@ Write permissions is required by the bot for tutor assignment, label application
 
 The current semester's Github account / organization name can be set in the `config.json`, along with the highest level of `addressbook` (1-4) repository available to the students in the `currentLevel` setting in the same file.
 
-The students' tutor and reviewer class mapping can be set in the `data-*.csv` file. (Different data files for different phases).
+The students' tutor and reviewer class mapping can be set in the `data.csv` file.
 
 # Design
 ## Architecture

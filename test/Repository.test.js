@@ -41,7 +41,7 @@ describe('Repository methods', () => {
   });
 
   it('Greylist should comment and close if title is valid', () => {
-    const mockIssue = { pull_request: {}, title: '[W2.2b][W09-A1]James Yong' };
+    const mockIssue = { pull_request: {}, title: '[W2.2b][W09-1]James Yong' };
 
     executeMockRun(Greylist, {}, mockIssue);
 
@@ -82,67 +82,19 @@ describe('Repository methods', () => {
     expect(validator.requestReview.notCalled).toBeTruthy();
   });
 
-  it('Whitelist should warn if phase A submitted for AB3 during W6', () => {
-    const mockIssue = {
-      pull_request: {},
-      user: { login: 'abc' },
-      title: '[W6.2b][W09-A1]James Yong',
-      labels: []
-    };
-    const mockRepo = {
-      repo: 'addressbook-level3'
-    };
-
-    executeMockRun(Whitelist, mockRepo, mockIssue);
-
-    expect(validator.warn.calledOnce).toBeTruthy();
-    expect(
-      validator.warn.calledWith(mockIssue, 'FormatCheckRequested',
-        'wrong-phase-LO.mst', {}))
-      .toBeTruthy();
-    expect(validator.removeLabel.notCalled).toBeTruthy();
-    expect(validator.addUniqueLabel.notCalled).toBeTruthy();
-    expect(validator.assign.notCalled).toBeTruthy();
-    expect(validator.requestReview.notCalled).toBeTruthy();
-  });
-
-  it('Whitelist should warn if phase A submitted for AB3 during W6', () => {
-    const mockIssue = {
-      pull_request: {},
-      user: { login: 'abc' },
-      title: '[W6.2b][W09-A1]James Yong',
-      labels: []
-    };
-    const mockRepo = {
-      repo: 'addressbook-level3'
-    };
-
-    executeMockRun(Whitelist, mockRepo, mockIssue);
-
-    expect(validator.warn.calledOnce).toBeTruthy();
-    expect(
-      validator.warn.calledWith(mockIssue, 'FormatCheckRequested',
-        'wrong-phase-LO.mst', {}))
-      .toBeTruthy();
-    expect(validator.removeLabel.notCalled).toBeTruthy();
-    expect(validator.addUniqueLabel.notCalled).toBeTruthy();
-    expect(validator.assign.notCalled).toBeTruthy();
-    expect(validator.requestReview.notCalled).toBeTruthy();
-  });
-
   it('Whitelist should warn if username not found', () => {
     const mockIssue = {
       pull_request: {},
       user: { login: 'abc' },
-      title: '[W6.2b][W09-A1]James Yong',
+      title: '[W6.2b][W09-1]James Yong',
       labels: []
     };
     const mockRepo = {
       repo: 'test'
     };
-    const mockPhaseMappings = { A: sinon.createStubInstance(StudentMapping) };
+    const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMappings);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping);
 
     expect(validator.warn.calledOnce).toBeTruthy();
     expect(
@@ -159,15 +111,15 @@ describe('Repository methods', () => {
     const mockIssue = {
       pull_request: {},
       user: { login: 'abc' },
-      title: '[W6.2b][W09-A1]James Yong',
+      title: '[W6.2b][W09-1]James Yong',
       labels: [{ name: 'FormatCheckRequested' }]
     };
     const mockRepo = {
       repo: 'test'
     };
-    const mockPhaseMappings = { A: sinon.createStubInstance(StudentMapping) };
+    const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMappings);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping);
     expect(validator.removeLabel.calledWith(mockIssue, 'FormatCheckRequested')).toBeTruthy();
   });
 
@@ -175,49 +127,41 @@ describe('Repository methods', () => {
     const mockIssue = {
       pull_request: {},
       user: { login: 'abc' },
-      title: '[W6.2b][W09-A1]James Yong',
+      title: '[W6.2b][W09-1]James Yong',
       labels: [{ name: 'GithubUsernameRequested' }]
     };
     const mockRepo = {
       repo: 'test'
     };
-    const phaseAMapping = sinon.createStubInstance(StudentMapping);
-    phaseAMapping.getInfoForStudent.withArgs('abc').returns({
+    const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
+    mockPhaseMapping.getInfoForStudent.withArgs('abc').returns({
       supervisor: '',
       reviewer: 'OuyangDanwen',
       labels: ['team.A1', 'tutorial.T11']
     });
-    const mockPhaseMappings = { A: phaseAMapping };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMappings);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping);
     expect(validator.removeLabel.calledWith(mockIssue, 'GithubUsernameRequested')).toBeTruthy();
   });
 
-  it('Whitelist should assign correct phase A issue with labels for valid PR', () => {
+  it('Whitelist should assign correct issue with labels for valid PR', () => {
     const mockIssue = {
       pull_request: {},
       user: { login: 'abc' },
-      title: '[W6.2b][W09-A1]James Yong',
+      title: '[W6.2b][W09-1]James Yong',
       labels: []
     };
     const mockRepo = {
       repo: 'test'
     };
-    const phaseAMapping = sinon.createStubInstance(StudentMapping);
-    phaseAMapping.getInfoForStudent.withArgs('abc').returns({
+    const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
+    mockPhaseMapping.getInfoForStudent.withArgs('abc').returns({
       supervisor: 'a',
       reviewer: 'b',
       labels: ['team.A1', 'tutorial.T11']
     });
-    const phaseBMapping = sinon.createStubInstance(StudentMapping);
-    phaseBMapping.getInfoForStudent.withArgs('abc').returns({
-      supervisor: 'c',
-      reviewer: 'd',
-      labels: ['team.B1', 'tutorial.T12']
-    });
-    const mockPhaseMappings = { A: phaseAMapping, B: phaseBMapping };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMappings);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping);
 
     expect(validator.warn.notCalled).toBeTruthy();
     expect(validator.removeLabel.notCalled).toBeTruthy();
@@ -228,42 +172,5 @@ describe('Repository methods', () => {
     expect(validator.assign.calledWith(mockIssue, 'a')).toBeTruthy();
     expect(validator.requestReview.calledOnce).toBeTruthy();
     expect(validator.requestReview.calledWith(mockIssue, 'b')).toBeTruthy();
-  });
-
-  it('Whitelist should assign correct phase B issue with labels for valid PR', () => {
-    const mockIssue = {
-      pull_request: {},
-      user: { login: 'abc' },
-      title: '[W6.2b][W09-B1]James Yong',
-      labels: []
-    };
-    const mockRepo = {
-      repo: 'test'
-    };
-    const phaseAMapping = sinon.createStubInstance(StudentMapping);
-    phaseAMapping.getInfoForStudent.withArgs('abc').returns({
-      supervisor: 'a',
-      reviewer: 'b',
-      labels: ['team.A1', 'tutorial.T11']
-    });
-    const phaseBMapping = sinon.createStubInstance(StudentMapping);
-    phaseBMapping.getInfoForStudent.withArgs('abc').returns({
-      supervisor: 'c',
-      reviewer: 'd',
-      labels: ['team.B1', 'tutorial.T12']
-    });
-    const mockPhaseMappings = { A: phaseAMapping, B: phaseBMapping };
-
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMappings);
-
-    expect(validator.warn.notCalled).toBeTruthy();
-    expect(validator.removeLabel.notCalled).toBeTruthy();
-    expect(validator.addUniqueLabel.calledTwice).toBeTruthy();
-    expect(validator.addUniqueLabel.calledWith(mockIssue, 'team.B1')).toBeTruthy();
-    expect(validator.addUniqueLabel.calledWith(mockIssue, 'tutorial.T12')).toBeTruthy();
-    expect(validator.assign.calledOnce).toBeTruthy();
-    expect(validator.assign.calledWith(mockIssue, 'c')).toBeTruthy();
-    expect(validator.requestReview.calledOnce).toBeTruthy();
-    expect(validator.requestReview.calledWith(mockIssue, 'd')).toBeTruthy();
   });
 });
