@@ -33,13 +33,45 @@ accuser.authenticate(githubAuthToken);
 
 let repoPromises = [];
 
+// Greylisted
+for (let level = 1; level <= maxLevel; level += 1) {
+  const repoName = `addressbook-level${level}`;
+  const validator = new Validator(accuser, originAccount, repoName);
+  const repo = new Greylisted(accuser, originAccount, repoName, validator);
+  repoPromises.push(repo[runMethod]());
+}
+
+// Blacklisted
+const blackListedOriginRepos = [
+  'samplerepo-pr-practice',
+  'samplerepo-workflow-practice',
+  'samplerepo-things'
+];
+
+const blackListedSemesterRepos = [
+  'samplerepo-pr-practice',
+  'samplerepo-things'
+];
+
+blackListedOriginRepos.forEach(repoName => {
+  const validator = new Validator(accuser, originAccount, repoName);
+  const repo = new Blacklisted(accuser, originAccount, repoName, validator);
+  repoPromises.push(repo[runMethod]());
+});
+
+blackListedSemesterRepos.forEach(repoName => {
+  const validator = new Validator(accuser, semesterAccount, repoName);
+  const repo = new Blacklisted(accuser, semesterAccount, repoName, validator);
+  repoPromises.push(repo[runMethod]());
+});
+
 // Whitelisted
-// for (let level = 1; level <= currentLevel; level += 1) {
-  const repoName = `dummy_repo`;
+for (let level = 1; level <= currentLevel; level += 1) {
+  const repoName = `addressbook-level${level}`;
   const validator = new Validator(accuser, semesterAccount, repoName);
   const repo = new SubmissionRepos(accuser, semesterAccount, repoName, validator, phaseMappings);
   repoPromises.push(repo[runMethod]());
-// }
+}
 
 Promise.all(repoPromises).then(() => {
   if (!isDryRun) {
