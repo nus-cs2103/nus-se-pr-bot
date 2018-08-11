@@ -1,5 +1,4 @@
 const GitHubApi = require('@octokit/rest');
-const Promise = require('bluebird');
 require('dotenv').config({ silent: true });
 
 // Implements methods to check the required permissions for a repo

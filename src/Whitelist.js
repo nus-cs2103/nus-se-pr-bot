@@ -1,7 +1,6 @@
 const Validator = require('./Validator');
 const util = require('./utility');
 const Repository = require('./Repository');
-const config = require('../config');
 
 // Any repo that needs to be reviewed by a human should use this class
 // i.e. this is a whitelist repo

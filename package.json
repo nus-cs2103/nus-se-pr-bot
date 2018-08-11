@@ -26,10 +26,9 @@
     "node": "^10.0.0"
   },
   "dependencies": {
-    "@octokit/rest": "^15.9.4",
-    "accuser": "nus-cs2103/accuser#release",
+    "@octokit/rest": "^15.9.5",
+    "accuser": "github:nus-cs2103/accuser#release",
     "babyparse": "^0.4.6",
-    "bluebird": "^3.5.0",
     "dotenv": "^2.0.0",
     "mu2": "^0.5.21"
   },
@@ -38,6 +37,6 @@
     "eslint-config-airbnb-base": "^11.3.2",
     "eslint-plugin-import": "^2.7.0",
     "jest": "^20.0.4",
-    "sinon": "^6.1.4"
+    "sinon": "^6.1.5"
   }
 }
