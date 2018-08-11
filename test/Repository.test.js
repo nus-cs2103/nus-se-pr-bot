@@ -4,7 +4,6 @@ const Greylist = require('../src/Greylist');
 const Whitelist = require('../src/Whitelist');
 const StudentMapping = require('../src/StudentMapping');
 const sinon = require('sinon');
-const config = require('../config');
 
 describe('Repository methods', () => {
   let validator;
@@ -17,7 +16,7 @@ describe('Repository methods', () => {
     sinon.restore();
   });
 
-  const executeMockRun = (klass, repo, issue, phaseMappings) => {
+  const executeMockRun = (klass, repo, issue, phaseMappings, moduleConfig) => {
     Object.defineProperty(validator, 'doBlock', {
       set: block => block(repo, issue)
     });
@@ -25,7 +24,7 @@ describe('Repository methods', () => {
       set: filter => expect(filter(repo, issue)).toBeTruthy()
     });
 
-    const listItem = new klass({}, '', '', validator, phaseMappings);
+    const listItem = new klass({}, '', '', validator, phaseMappings, moduleConfig);
     listItem.run();
   };
 
@@ -93,13 +92,14 @@ describe('Repository methods', () => {
       repo: 'test'
     };
     const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
+    const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, mockModuleConfig);
 
     expect(validator.warn.calledOnce).toBeTruthy();
     expect(
       validator.warn.calledWith(mockIssue, 'GithubUsernameRequested', 'username-check-request.mst',
-        { username: 'abc', githubUsernameIssueLink: config.githubUsernameIssueLink }))
+        { username: 'abc', githubUsernameIssueLink: mockModuleConfig.githubUsernameIssueLink }))
       .toBeTruthy();
     expect(validator.removeLabel.notCalled).toBeTruthy();
     expect(validator.addUniqueLabel.notCalled).toBeTruthy();
@@ -118,8 +118,9 @@ describe('Repository methods', () => {
       repo: 'test'
     };
     const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
+    const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, mockModuleConfig);
     expect(validator.removeLabel.calledWith(mockIssue, 'FormatCheckRequested')).toBeTruthy();
   });
 
@@ -139,8 +140,9 @@ describe('Repository methods', () => {
       reviewer: 'OuyangDanwen',
       labels: ['team.A1', 'tutorial.T11']
     });
+    const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, mockModuleConfig);
     expect(validator.removeLabel.calledWith(mockIssue, 'GithubUsernameRequested')).toBeTruthy();
   });
 
@@ -160,8 +162,9 @@ describe('Repository methods', () => {
       reviewer: 'b',
       labels: ['team.A1', 'tutorial.T11']
     });
+    const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, mockModuleConfig);
 
     expect(validator.warn.notCalled).toBeTruthy();
     expect(validator.removeLabel.notCalled).toBeTruthy();
