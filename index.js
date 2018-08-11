@@ -14,7 +14,7 @@ const modules = config.modules;
 const maxLevel = 4;
 
 
-// interval in miliseconds
+// interval in milliseconds
 // 10 min interval
 const accuser = new Accuser({ interval: 600000 });
 
