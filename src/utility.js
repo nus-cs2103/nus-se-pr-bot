@@ -1,5 +1,3 @@
-const Promise = require('bluebird');
-
 const castStreamToString = (stream) => {
   let promise = new Promise((resolve, reject) => {
     let s = '';
