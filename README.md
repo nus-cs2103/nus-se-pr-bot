@@ -14,8 +14,6 @@ Write permissions is required by the bot for tutor assignment, label application
 
 The current semester's Github account / organization name can be set in the `config.json`, along with the highest level of `addressbook` (1-4) repository available to the students in the `currentLevel` setting in the same file.
 
-The students' tutor and reviewer class mapping can be set in the `data.csv` file.
-
 # Design
 ## Architecture
 
@@ -28,6 +26,14 @@ Interval polling on the other hand would require the bot to request information 
 In our case, CS2103 PR Bot employs the interval polling method to retrieve pull requests' information from Github on those repositories that the bot is watching. The bot is currently registered on Github with the handle [nus-cs2103-bot](https://github.com/nus-cs2103-bot). All comments sent from the bot will be shown from that account. The authentication details of the account are currently with Prof Damith and a Github authentication token (env variable `GITHUB_TOKEN`) is used for automated access to Github. By default, the bot will poll Github every `10 mins`.
 
 ## Components
+
+### Config
+
+The main config is `config.json`. The module-specific config for the semester lies inside the `semester` directory (thought it can be changed in the root config file), with the following structure:
+- <module_code>
+    - `config.json`: configuration for organisation name and current AB level
+    - `data.json`: contains the tutor-student mapping for this module
+
 ### Validator
 Validator provides two points of entries for interacting with Github PRs, `doBlock` and `filterBlock` as well a customised subset of Github CRUD operations for dealing with PR.
 
@@ -37,9 +43,13 @@ Validator provides two points of entries for interacting with Github PRs, `doBlo
 
 ## Checking for repository permissions
 
-Since we are assigning permission for the PR Bot for each invidual repository separately, it's good to check that the bot has all the required permissions for every relevant repositories before deployment.
+Since we are assigning permission for the PR Bot for each individual repository separately, it's good to check that the bot has all the required permissions for every relevant repositories before deployment.
 To check that the bot has enough permissions:
     `npm run checkPermissions`
+
+## Checking for tutor's organisation membership
+
+Make sure that **ALL** the tutors are added to the organisation as members.
 
 ## Requirements
 
