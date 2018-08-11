@@ -2,7 +2,6 @@
 // & tutor-student mapping
 // Basically a very thin wrapper around the config files
 
-const StudentMapping = require('./StudentMapping');
 const path = require('path');
 const rootConfig = require(path.join(__dirname, '../config.json'));
 
@@ -20,7 +19,7 @@ class Config {
     const moduleConfigDir = path.join(__dirname, '../', semesterConfigDir, module);
     // eslint-disable-next-line global-require
     const moduleConfig = require(path.join(moduleConfigDir, 'config.json'));
-    const studentMappingPath = new StudentMapping(path.join(moduleConfigDir, './data.csv'));
+    const studentMappingPath = path.join(moduleConfigDir, './data.csv');
     return { moduleConfig, studentMappingPath };
   }
 }

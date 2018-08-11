@@ -6,13 +6,14 @@ const config = require('../config');
 // Any repo that needs to be reviewed by a human should use this class
 // i.e. this is a whitelist repo
 class Whitelist extends Repository {
-  constructor(accuser, account, repository, validator, phaseMapping) {
+  constructor(accuser, account, repository, validator, phaseMapping, moduleConfig) {
     super(accuser, account, repository, validator);
+    this.moduleConfig = moduleConfig;
     this.phaseMapping = phaseMapping;
   }
 
   run() {
-    const { account, phaseMapping, repository, validator } = this;
+    const { account, moduleConfig, phaseMapping, repository, validator } = this;
 
     let filterBlock = (repo, issue) => {
       return issue.pull_request;
@@ -42,7 +43,7 @@ class Whitelist extends Repository {
       }
 
       const student = phaseMapping.getInfoForStudent(studentGithubId);
-      const issueLink = config.githubUsernameIssueLink;
+      const issueLink = moduleConfig.githubUsernameIssueLink;
       if (!student) {
         validator.warn(
           issue,
