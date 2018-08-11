@@ -1,5 +1,4 @@
 {
   "originAccount": "se-edu",
-  "semesterConfigDir": "semester",
-  "modules": ["cs2103", "cs2113"]
+  "semesterConfigDir": "semester"
 }

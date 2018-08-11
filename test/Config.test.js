@@ -8,16 +8,20 @@ describe('Config should', () => {
   });
 
   it('have all values set', () => {
-    Object.values(config).forEach(value => expect(value).toBeDefined());
+    Object.values(config).forEach(value => expect(value).toBeTruthy());
+  });
+
+  it('have at least 1 module', () => {
+    expect(Object.keys(config.modules).length > 1);
   });
 
   it('have modules set with module configs set', () => {
     Object.values(config.modules)
       .forEach(module => {
-        expect(module.studentMappingPath).toBeDefined();
-        expect(module.moduleConfig.currentLevel).toBeDefined();
-        expect(module.moduleConfig.semesterAccount).toBeDefined();
-        expect(module.moduleConfig.githubUsernameIssueLink).toBeDefined();
+        expect(module.studentMappingPath).toBeTruthy();
+        expect(module.moduleConfig.currentLevel).toBeDefined(); // since 0 is not truthy
+        expect(module.moduleConfig.semesterAccount).toBeTruthy();
+        expect(module.moduleConfig.githubUsernameIssueLink).toBeTruthy();
       });
   });
 });
