@@ -1,6 +1,5 @@
 {
-  "currentLevel": 0,
-  "semesterAccount": "nus-cs2103-AY1718S2",
   "originAccount": "se-edu",
-  "githubUsernameIssueLink": "https://github.com/nus-cs2103-AY1718S2/forum/issues/11"
+  "semesterConfigDir": "semester",
+  "modules": ["cs2103", "cs2113"]
 }
