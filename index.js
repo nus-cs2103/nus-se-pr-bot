@@ -46,10 +46,7 @@ const blackListedOriginRepos = [
   'samplerepo-things'
 ];
 
-const blackListedSemesterRepos = [
-  'samplerepo-pr-practice',
-  'samplerepo-things'
-];
+const blackListedSemesterRepos = [];
 
 blackListedOriginRepos.forEach(repoName => {
   const validator = new Validator(accuser, originAccount, repoName);
