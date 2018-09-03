@@ -1,12 +1,8 @@
 Hi @{{username}}, your pull request title is invalid.
 
-For the first six weeks, it should be in the format of `[Learning Outcome ID][Team ID] Your Name`, where `[Learning
+The PR name should be in the format of `[Learning Outcome ID][Team ID] Your Name`, where `[Learning
 Outcome ID]` has no dashes or spaces (e.g. `[W3.1a]`) and `[Team ID]` has one dash only and no spaces (e.g. `[W14-2]` means `W`ednesday 2pm (`14` hrs), Team `2`).
 
-For the later weeks, it should be in the format of `[v1.x][Team ID] Product Name`, replacing `v1.x` with current milestone progress.
+Please follow the above format strictly and edit your title for reprocessing.
 
-Please follow the instructions given strictly and edit your title for reprocessing.
-
-Submit only one learning outcome per pull request (unless otherwise stated in instructions) and do remember to create your branches from the commit where the `master` branch is pointing at so that each PR you submit only consist of commits meant for the activity.
-
-Note: this comment is posted by a bot. If you believe this is done in error, please create an issue at [cs2103-pr-bot](https://github.com/nus-cs2103/cs2103-pr-bot/issues) and add a link to this PR.
+Note: this comment is posted by a bot. If you believe this is done in error, please create an issue at [nus-se-pr-bot](https://github.com/nus-cs2103/nus-se-pr-bot/issues) and add a link to this PR.
