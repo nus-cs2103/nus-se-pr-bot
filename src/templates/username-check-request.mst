@@ -2,4 +2,4 @@ Hi @{{username}},
 
 Your Github username is not recognized. Please post [here]({{githubUsernameIssueLink}}).
 
-Note: this comment is posted by a bot. If you believe this is done in error, please create an issue at cs2103-pr-bot and add a link to this PR.
+Note: this comment is posted by a bot. If you believe this is done in error, please create an issue at [nus-se-pr-bot](https://github.com/nus-cs2103/nus-se-pr-bot/issues) and add a link to this PR.
