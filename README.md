@@ -51,6 +51,13 @@ To check that the bot has enough permissions:
 
 Make sure that **ALL** the tutors are added to the organisation as members.
 
+## Pre-populate labels for repositories
+
+When a label does not exist yet inside a repository, and there are multiple concurrent requests trying
+to add that label to a PR, duplicate labels might get created (This is an issue with Github). Therefore, a safe strategy is to pre-populate all the labels that we need in each repository.
+
+To do that, run `npm run addLabels`
+
 ## Requirements
 
 The bot requires the following in the production environment:

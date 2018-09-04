@@ -7,7 +7,8 @@
     "test": "jest --verbose",
     "testDev": "jest --verbose --watchAll",
     "lint": "eslint src ./index.js",
-    "checkPermissions": "node index.js dry"
+    "checkPermissions": "node index.js dry",
+    "addLabels": "node label.js"
   },
   "homepage": "https://github.com/nus-cs2103/cs2103-pr-bot",
   "repository": {
