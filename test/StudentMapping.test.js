@@ -31,6 +31,10 @@ it('should extract data correctly when all fields are given', () => {
   expect(mapping.getInfoForStudent('louislai')).toEqual(louislai);
 });
 
+it('should extract data correctly when usernames have trailing spaces', () => {
+  expect(mapping.getInfoForStudent(' louislai ')).toEqual(louislai);
+});
+
 it('should extract data correctly when some fields are missing', () => {
   expect(mapping.getInfoForStudent('pokka')).toEqual(pokka);
 });

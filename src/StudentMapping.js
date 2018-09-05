@@ -26,7 +26,7 @@ class StudentMapping {
         return;
       }
 
-      const githubUsername = row[githubUsernameIndex].toLowerCase();
+      const githubUsername = row[githubUsernameIndex].toLowerCase().trim();
       const tutor = row[tutorIndex];
       const supervisor = row[supervisorIndex];
       const reviewer = row[reviewerIndex];
@@ -41,7 +41,7 @@ class StudentMapping {
   }
 
   getInfoForStudent(studentGithubUsername) {
-    return this.data[studentGithubUsername.toLowerCase()];
+    return this.data[studentGithubUsername.toLowerCase().trim()];
   }
 }
 
