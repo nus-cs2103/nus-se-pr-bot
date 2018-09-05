@@ -1,17 +1,24 @@
 require('dotenv').config({ silent: true });
-const fetch = require('node-fetch');
+const GitHubApi = require('@octokit/rest');
 const Config = require('./src/Config');
 const StudentMapping = require('./src/StudentMapping');
 
 const config = new Config();
 const modules = config.modules;
-const token = process.env.GITHUB_TOKEN;
 
 // TODO: How to make it less manual?
 const warningLabels = {
   FormatCheckRequested: 'ba3940',
   GithubUserNameRequested: 'd73a4a'
 };
+
+const github = new GitHubApi({});
+const githubAuth = {
+  type: 'oauth',
+  token: process.env.GITHUB_TOKEN
+};
+
+github.authenticate(githubAuth);
 
 Object.values(modules).forEach(module => {
   const { moduleConfig, studentMappingPath } = module;
@@ -28,18 +35,32 @@ Object.values(modules).forEach(module => {
   });
 
   for (let level = 1; level <= currentLevel; level += 1) {
-    const repoName = `addressbook-level${level}`;
-
-    // TODO: Use octokit once it supports creating label on repo
-    console.log(`Adding ${Object.keys(uniqueLabels).length} labels to ${semesterAccount}/${repoName}`);
+    const repo = `addressbook-level${level}`;
+    let repoPromises = [];
     Object.keys(uniqueLabels)
       .forEach(name => {
         const color = uniqueLabels[name];
-        fetch(`https://api.github.com/repos/${semesterAccount}/${repoName}`
-          + `/labels?access_token=${encodeURIComponent(token)}`, {
-          method: 'post',
-          body: JSON.stringify({ name, color })
-        });
+        repoPromises.push(new Promise((resolve, reject) => {
+          github.issues
+            .createLabel({ name, color, repo, owner: semesterAccount }, userError => {
+              if (!userError) {
+                resolve();
+                return;
+              }
+
+              const errorObj = JSON.parse(userError.message);
+              if (!!errorObj.errors && !!errorObj.errors[0]
+                && errorObj.errors[0].code === 'already_exists') {
+                resolve(); // consider a success if label already exists
+                return;
+              }
+
+              reject(userError);
+            });
+        }));
       });
+    Promise.all(repoPromises)
+      .then(() => `Added ${Object.keys(uniqueLabels).length} labels to ${semesterAccount}/${repo}`)
+      .catch(err => console.log(err));
   }
 });
