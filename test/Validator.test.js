@@ -20,7 +20,7 @@ describe('Validator methods', () => {
     const testTitle = Validator.testTitle;
     expect(testTitle('[W2.2b][W09-1]James Yong', titleRegex)).toBeTruthy();
     expect(testTitle('[W2.2][W09-1]James Yong', titleRegex)).toBeTruthy();
-    expect(testTitle('[W10.2][W09-1]James Yong', titleRegex)).toBeTruthy();
+    expect(testTitle('[W10.2][W09-01]James Yong', titleRegex)).toBeTruthy();
     expect(testTitle('[W10.10][W09-1]James Yong', titleRegex)).toBeTruthy();
     expect(testTitle('[v1.2][W09-1]James Yong', titleRegex)).toBeTruthy();
     expect(testTitle('[V1.0][W09-1]James Yong', titleRegex)).toBeTruthy();
