@@ -62,7 +62,7 @@ To do that, run `npm run addLabels`
 
 The bot requires the following in the production environment:
 
-- Node.js v6.3.0 or newer installed
+- Node.js v10.0.0 or newer installed
 - Internet access (in/out on HTTP/HTTPS)
 
 All Node.js dependencies and their version numbers are described in `package.json`.
