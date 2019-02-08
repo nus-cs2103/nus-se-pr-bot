@@ -105,3 +105,6 @@ $RECYCLE.BIN/
 .Trash-*
 
 .env
+
+# JetBrain WebStorm Project Settings
+.idea/
