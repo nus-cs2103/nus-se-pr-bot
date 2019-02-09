@@ -30,6 +30,7 @@ Object.values(modules).forEach(module => {
     uniqueLabels[label] = warningLabels[label];
   });
 
+  // eslint-disable-next-line
   [].concat.apply([], Object.values(phaseMapping.data).map(value => value.labels)).forEach(label => {
     uniqueLabels[label] = 'ededed';
   });
