@@ -67,7 +67,9 @@ Object.values(modules).forEach(module => {
 
 
   // Whitelisted
-  for (let level = 1; level <= currentLevel; level += 1) {
+  // TODO: @yunpengn change the line back to
+  //  `for (let level = 1; level <= currentLevel; level += 1) {`
+  for (let level = currentLevel; level <= currentLevel; level += 1) {
     const repoName = `addressbook-level${level}`;
     const validator = new Validator(accuser, semesterAccount, repoName);
     const repo = new SubmissionRepos(accuser, semesterAccount, repoName, validator,
