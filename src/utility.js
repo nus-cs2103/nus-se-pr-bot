@@ -9,7 +9,7 @@ const castStreamToString = (stream) => {
 };
 
 module.exports = {
-  _titleRegex: /^\s*(\[(W\d{1,2}\.\d{1,2}\D?|v1\.\d?)])?\s*\[([MWTF]\d{1,2})-(\d{1,2})\][^[\]]+/i,
+  _titleRegex: /^\s*(\[(W\d{1,2}(\.\d{1,2}\D?)?|v1\.\d?)])?\s*\[([MWTF]\d{1,2})-(\d{1,2})\][^[\]]+/i,
   _rcsTitleRegex: /^Add(ing|ed){0,1}\s.+\.txt/i,
   castStreamToString: castStreamToString
 };
