@@ -16,7 +16,7 @@ describe('Repository methods', () => {
     sinon.restore();
   });
 
-  const executeMockRun = (klass, repo, issue, phaseMappings, moduleConfig) => {
+  const executeMockRun = (klass, repo, issue, phaseMappings, moduleName, moduleConfig) => {
     Object.defineProperty(validator, 'doBlock', {
       set: block => block(repo, issue)
     });
@@ -24,7 +24,7 @@ describe('Repository methods', () => {
       set: filter => expect(filter(repo, issue)).toBeTruthy()
     });
 
-    const listItem = new klass({}, '', '', validator, phaseMappings, moduleConfig);
+    const listItem = new klass({}, '', '', validator, phaseMappings, moduleName, moduleConfig);
     listItem.run();
   };
 
@@ -67,13 +67,14 @@ describe('Repository methods', () => {
       title: 'not valid',
       labels: []
     };
-
-    executeMockRun(Whitelist, {}, mockIssue);
+    // TODO: @yunpengn avoid the hack below, what if there is module named cs2103?
+    const mockModuleName = 'cs2103';
+    executeMockRun(Whitelist, {}, mockIssue, {}, mockModuleName, {});
 
     expect(validator.warn.calledOnce).toBeTruthy();
     expect(
       validator.warn.calledWith(mockIssue, 'FormatCheckRequested',
-        'format-check-request.mst', { username: 'abc' }))
+        `${mockModuleName}/format-check-request.mst`, { username: 'abc' }))
       .toBeTruthy();
     expect(validator.removeLabel.notCalled).toBeTruthy();
     expect(validator.addUniqueLabel.notCalled).toBeTruthy();
@@ -94,7 +95,7 @@ describe('Repository methods', () => {
     const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
     const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, mockModuleConfig);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, '', mockModuleConfig);
 
     expect(validator.warn.calledOnce).toBeTruthy();
     expect(
@@ -120,7 +121,7 @@ describe('Repository methods', () => {
     const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
     const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, mockModuleConfig);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, '', mockModuleConfig);
     expect(validator.removeLabel.calledWith(mockIssue, 'FormatCheckRequested')).toBeTruthy();
   });
 
@@ -142,7 +143,7 @@ describe('Repository methods', () => {
     });
     const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, mockModuleConfig);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, '', mockModuleConfig);
     expect(validator.removeLabel.calledWith(mockIssue, 'GithubUsernameRequested')).toBeTruthy();
   });
 
@@ -164,7 +165,7 @@ describe('Repository methods', () => {
     });
     const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
 
-    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, mockModuleConfig);
+    executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, '', mockModuleConfig);
 
     expect(validator.warn.notCalled).toBeTruthy();
     expect(validator.removeLabel.notCalled).toBeTruthy();
