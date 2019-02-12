@@ -29,7 +29,7 @@ class Whitelist extends Repository {
         validator.warn(
           issue,
           formatCheckLabel,
-          'format-check-request.mst',
+          'cs2103/format-check-request.mst',
           { username: studentGithubId },
           `${account}/${repository}/PR #${issue.number}: Bad title`
         );
