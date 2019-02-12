@@ -54,8 +54,9 @@ blackListedOriginRepos.forEach(repoName => {
   repoPromises.push(repo[runMethod]());
 });
 
-Object.values(modules).forEach(module => {
-  const { moduleConfig, studentMappingPath } = module;
+Object.entries(modules).forEach(module => {
+  const moduleName = module[0];
+  const { moduleConfig, studentMappingPath } = module[1];
   const { currentLevel, semesterAccount } = moduleConfig;
   const phaseMapping = new StudentMapping(studentMappingPath);
 
@@ -71,7 +72,7 @@ Object.values(modules).forEach(module => {
     const repoName = `addressbook-level${level}`;
     const validator = new Validator(accuser, semesterAccount, repoName);
     const repo = new SubmissionRepos(accuser, semesterAccount, repoName, validator,
-      phaseMapping, moduleConfig);
+      phaseMapping, moduleName, moduleConfig);
     repoPromises.push(repo[runMethod]());
   }
 });

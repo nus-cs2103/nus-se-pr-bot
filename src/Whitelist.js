@@ -5,10 +5,15 @@ const Repository = require('./Repository');
 // Any repo that needs to be reviewed by a human should use this class
 // i.e. this is a whitelist repo
 class Whitelist extends Repository {
-  constructor(accuser, account, repository, validator, phaseMapping, moduleConfig) {
+  constructor(accuser, account, repository, validator, phaseMapping, moduleName, moduleConfig) {
     super(accuser, account, repository, validator);
+    this.moduleName = moduleName;
     this.moduleConfig = moduleConfig;
     this.phaseMapping = phaseMapping;
+  }
+
+  getTemplatePath(templateFileName) {
+    return `${this.moduleName}/${templateFileName}`;
   }
 
   run() {
@@ -29,7 +34,7 @@ class Whitelist extends Repository {
         validator.warn(
           issue,
           formatCheckLabel,
-          'cs2103/format-check-request.mst',
+          this.getTemplatePath('format-check-request.mst'),
           { username: studentGithubId },
           `${account}/${repository}/PR #${issue.number}: Bad title`
         );
