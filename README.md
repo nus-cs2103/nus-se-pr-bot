@@ -32,7 +32,10 @@ In our case, NUS SE PR Bot employs the interval polling method to retrieve pull 
 The main config is `config.json`. The module-specific config for the semester lies inside the `semester` directory (thought it can be changed in the root config file), with the following structure:
 - <module_code>
     - `config.json`: configuration for organisation name and current AB level
-    - `data.json`: contains the tutor-student mapping for this module
+    - `data.csv`: contains the tutor-student mapping for this module
+        - Try to avoid whitespaces for all fields;
+        - For students with more than one supervisors, please separate the GitHub usernames of the supervisors by comma, such as `"louis,neil"`. Notice that you need to surround it with double quotation marks to escape the comma;
+        - As shown in `data.sample.csv`, use multiple columns if you want to add multiple labels.
 
 ### Validator
 Validator provides two points of entries for interacting with Github PRs, `doBlock` and `filterBlock` as well a customised subset of Github CRUD operations for dealing with PR.
