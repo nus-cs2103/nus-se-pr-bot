@@ -1,8 +1,7 @@
 Hi @{{username}}, your pull request title is invalid.
 
-For PR sent to satisfy a learning outcome, the PR name should be in the format of `[Learning Outcome ID][Team ID] Your Name`, where `[Learning
-Outcome ID]` has no dashes or spaces (e.g. `[W3.1a]`) and `[Team ID]` has one dash only and no spaces (e.g. `[W14-2]` means `W`ednesday 2pm (`14` hrs), Team `2`).
-E.g. If you are in tutorial W09 (i.e. Wednesday 9am), team 1, and is submitting a PR for LO W2.2b, the PR title would be `[W2.2b][W09-1] James Yong`. Note that your tutorial IDs are different from those shown in CORS/IVLE.
+For PR sent as submission of learning a topic/graded exercise, the PR name should be in the format of `[Week ID][Team ID] Your Name`, where `[Week ID]` has no dashes or spaces (e.g. `[W5]`) and `[Team ID]` has one dash only and no spaces (e.g. `[W14-2]` means `W`ednesday 2pm (`14` hrs), Team `2`).
+E.g. If you are in tutorial W09 (i.e. Wednesday 9am), team 1, the PR title would be `[W5][W09-1] James Yong`. Note that your tutorial IDs are different from those shown in CORS/IVLE.
 
 For team PR, the PR name should be in the format of `[Team ID] Product Name` (e.g. `[T09-2] Contact List Pro`).
 
