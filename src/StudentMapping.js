@@ -28,7 +28,7 @@ class StudentMapping {
 
       const githubUsername = row[githubUsernameIndex].toLowerCase().trim();
       const tutor = row[tutorIndex];
-      const supervisor = row[supervisorIndex];
+      const supervisor = row[supervisorIndex].split(',');
       const reviewer = row[reviewerIndex];
       const labels = labelIndices.map(index => row[index]);
 

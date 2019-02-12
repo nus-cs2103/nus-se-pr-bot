@@ -2,22 +2,22 @@ const StudentMapping = require('../src/StudentMapping');
 const path = require('path');
 const mapping = new StudentMapping(path.join(__dirname, '../data.sample.csv'));
 const louislai = {
-  supervisor: 'madsonic',
+  supervisor: ['madsonic'],
   reviewer: 'mauris',
   labels: ['team.nonExistent', 'tutorial.nonExistent']
 };
 const phua = {
-  supervisor: '',
+  supervisor: [''],
   reviewer: 'OuyangDanwen',
   labels: ['team.A2', 'tutorial.T11']
 };
 const pokka = {
-  supervisor: '',
+  supervisor: [''],
   reviewer: 'OuyangDanwen',
   labels: ['team.A1', 'tutorial.T11']
 };
 const mario = {
-  supervisor: 'Aquaman',
+  supervisor: ['Aquaman'],
   reviewer: 'Superman',
   labels: ['team.A2', 'tutorial.T11']
 };
