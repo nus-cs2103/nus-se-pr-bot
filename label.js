@@ -22,7 +22,7 @@ github.authenticate(githubAuth);
 
 Object.values(modules).forEach(module => {
   const { moduleConfig, studentMappingPath } = module;
-  const { currentLevel, semesterAccount } = moduleConfig;
+  const { repositories, semesterAccount } = moduleConfig;
   const phaseMapping = new StudentMapping(studentMappingPath);
 
   let uniqueLabels = {};
@@ -35,8 +35,7 @@ Object.values(modules).forEach(module => {
     uniqueLabels[label] = 'ededed';
   });
 
-  for (let level = 1; level <= currentLevel; level += 1) {
-    const repo = `addressbook-level${level}`;
+  repositories.forEach(repo => {
     let repoPromises = [];
     Object.keys(uniqueLabels)
       .forEach(name => {
@@ -63,5 +62,5 @@ Object.values(modules).forEach(module => {
     Promise.all(repoPromises)
       .then(() => `Added ${Object.keys(uniqueLabels).length} labels to ${semesterAccount}/${repo}`)
       .catch(err => console.log(err));
-  }
+  });
 });
