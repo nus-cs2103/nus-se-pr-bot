@@ -9,7 +9,7 @@ const castStreamToString = (stream) => {
 };
 
 module.exports = {
-  _titleRegex: /^\s*\[[a-zA-Z\s]+]\sDuke\sIncrements/i,
+  _titleRegex: /^\s*\[[a-zA-Z\s,()]+]\sDuke\sIncrements/i,
   _rcsTitleRegex: /^Add(ing|ed){0,1}\s.+\.txt/i,
   castStreamToString: castStreamToString
 };
