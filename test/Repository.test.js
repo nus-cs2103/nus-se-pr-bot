@@ -40,7 +40,7 @@ describe('Repository methods', () => {
   });
 
   it('Greylist should comment and close if title is valid', () => {
-    const mockIssue = { pull_request: {}, title: '[W2.2b][W09-1]James Yong' };
+    const mockIssue = { pull_request: {}, title: '[James Yong] Duke Increments' };
 
     executeMockRun(Greylist, {}, mockIssue);
 
@@ -69,7 +69,13 @@ describe('Repository methods', () => {
     };
     // TODO: @yunpengn avoid the hack below, what if there is module named cs2103?
     const mockModuleName = 'cs2103';
-    executeMockRun(Whitelist, {}, mockIssue, {}, mockModuleName, {});
+    const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
+    mockPhaseMapping.getInfoForStudent.withArgs('abc').returns({
+      supervisor: '',
+      reviewer: '',
+      labels: [],
+    });
+    executeMockRun(Whitelist, {}, mockIssue, mockPhaseMapping, mockModuleName, {});
 
     expect(validator.warn.calledOnce).toBeTruthy();
     expect(
@@ -86,7 +92,7 @@ describe('Repository methods', () => {
     const mockIssue = {
       pull_request: {},
       user: { login: 'abc' },
-      title: '[W6.2b][W09-1]James Yong',
+      title: '[James Yong] Duke Increments',
       labels: []
     };
     const mockRepo = {
@@ -112,7 +118,7 @@ describe('Repository methods', () => {
     const mockIssue = {
       pull_request: {},
       user: { login: 'abc' },
-      title: '[W6.2b][W09-1]James Yong',
+      title: '[James Yong] Duke Increments',
       labels: [{ name: 'FormatCheckRequested' }]
     };
     const mockRepo = {
@@ -129,7 +135,7 @@ describe('Repository methods', () => {
     const mockIssue = {
       pull_request: {},
       user: { login: 'abc' },
-      title: '[W6.2b][W09-1]James Yong',
+      title: '[James Yong] Duke Increments',
       labels: [{ name: 'GithubUsernameRequested' }]
     };
     const mockRepo = {
@@ -151,7 +157,7 @@ describe('Repository methods', () => {
     const mockIssue = {
       pull_request: {},
       user: { login: 'abc' },
-      title: '[W6.2b][W09-1]James Yong',
+      title: '[James Yong] Duke Increments',
       labels: []
     };
     const mockRepo = {

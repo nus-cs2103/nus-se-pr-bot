@@ -7,12 +7,12 @@ const louislai = {
   labels: ['team.nonExistent', 'tutorial.nonExistent']
 };
 const phua = {
-  supervisor: [''],
+  supervisor: undefined,
   reviewer: 'OuyangDanwen',
   labels: ['team.A2', 'tutorial.T11']
 };
 const pokka = {
-  supervisor: [''],
+  supervisor: undefined,
   reviewer: 'OuyangDanwen',
   labels: ['team.A1', 'tutorial.T11']
 };

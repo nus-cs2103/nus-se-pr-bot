@@ -30,7 +30,8 @@ class Whitelist extends Repository {
       const titlePattern = util._titleRegex;
       const titleCheckResult = Validator.checkTitle(issue.title, titlePattern);
 
-      if (titleCheckResult === null) { // bad title
+      if (titleCheckResult === null) {
+        // the title is bad
         validator.warn(
           issue,
           formatCheckLabel,
@@ -38,17 +39,15 @@ class Whitelist extends Repository {
           { username: studentGithubId },
           `${account}/${repository}/PR #${issue.number}: Bad title`
         );
-
-        return;
-      }
-
-      if (Validator.hasLabel(issue, formatCheckLabel)) {
+      } else if (Validator.hasLabel(issue, formatCheckLabel)) {
+        // the title was bad, but has been corrected now
         validator.removeLabel(issue, formatCheckLabel);
       }
 
       const student = phaseMapping.getInfoForStudent(studentGithubId);
       const issueLink = moduleConfig.githubUsernameIssueLink;
       if (!student) {
+        // the student is not found
         validator.warn(
           issue,
           usernameCheckLabel,
@@ -58,9 +57,8 @@ class Whitelist extends Repository {
         );
 
         return;
-      }
-
-      if (Validator.hasLabel(issue, usernameCheckLabel)) {
+      } else if (Validator.hasLabel(issue, usernameCheckLabel)) {
+        // the student was not found, but has been added now
         validator.removeLabel(issue, usernameCheckLabel);
       }
 
