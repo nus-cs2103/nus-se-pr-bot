@@ -73,7 +73,7 @@ describe('Repository methods', () => {
     mockPhaseMapping.getInfoForStudent.withArgs('abc').returns({
       supervisor: '',
       reviewer: '',
-      labels: [],
+      labels: []
     });
     executeMockRun(Whitelist, {}, mockIssue, mockPhaseMapping, mockModuleName, {});
 
