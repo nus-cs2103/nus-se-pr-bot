@@ -1,7 +1,7 @@
-Hi @{{username}}, your pull request title is invalid.
+Hi @{{username}}, your pull request title is invalid. Please rectify the PR title to match the following requirement:
 
 For PR sent as submission of iP (Individual Project), the PR name should be in the format of `[{Your name}] Duke Increments` (such as `[John Doe] Duke Increments`).
 
-Please follow the above format strictly and edit your title for reprocessing.
+Please follow the above format strictly. Once the title is edited, the PR will be reprocessed by the bot.
 
 Note: this comment is posted by a bot. If you believe this is done in error, please create an issue at [nus-se-pr-bot](https://github.com/nus-cs2103/nus-se-pr-bot/issues) and add a link to this PR.
