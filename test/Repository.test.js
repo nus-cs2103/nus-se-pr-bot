@@ -213,4 +213,24 @@ describe('Repository methods', () => {
     expect(validator.requestReview.calledOnce).toBeTruthy();
     expect(validator.requestReview.calledWith(mockIssue, 'b')).toBeTruthy();
   });
+
+  it('should comment and close if not from correct originating branch', () => {
+    const mockIssue = {
+      head: {
+        ref: 'branch-other'
+      },
+      pull_request: {},
+      user: { login: 'abc' },
+      title: '[James Yong] Duke Increments',
+      labels: []
+    };
+    const mockModuleConfig = {
+      originatingBranches: ['master']
+    };
+
+    executeMockRun(Whitelist, {}, mockIssue, {}, '', mockModuleConfig);
+
+    expect(validator.comment.calledOnce).toBeTruthy();
+    expect(validator.close.calledOnce).toBeTruthy();
+  });
 });
