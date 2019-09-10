@@ -1,5 +1,6 @@
 {
   "repositories": ["duke"],
+  "originatingBranches": ["master"],
   "semesterAccount": "nus-cs2103-AY1920S1",
   "githubUsernameIssueLink": "https://github.com/nus-cs2103-AY1920S1/forum/issues/46"
 }

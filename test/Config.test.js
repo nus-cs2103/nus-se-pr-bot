@@ -19,7 +19,8 @@ describe('Config should', () => {
     Object.values(config.modules)
       .forEach(module => {
         expect(module.studentMappingPath).toBeTruthy();
-        expect(module.moduleConfig.repositories).toBeDefined(); // since 0 is not truthy
+        expect(module.moduleConfig.repositories).toBeDefined();
+        expect(module.moduleConfig.originatingBranches).toBeDefined();
         expect(module.moduleConfig.semesterAccount).toBeTruthy();
         expect(module.moduleConfig.githubUsernameIssueLink).toBeTruthy();
       });

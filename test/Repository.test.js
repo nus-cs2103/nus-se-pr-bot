@@ -62,6 +62,9 @@ describe('Repository methods', () => {
 
   it('Whitelist should warn if title not valid', () => {
     const mockIssue = {
+      head: {
+        ref: 'master'
+      },
       pull_request: {},
       user: { login: 'abc' },
       title: 'not valid',
@@ -69,13 +72,16 @@ describe('Repository methods', () => {
     };
     // TODO: @yunpengn avoid the hack below, what if there is module named cs2103?
     const mockModuleName = 'cs2103';
+    const mockModuleConfig = {
+      originatingBranches: ['master']
+    };
     const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
     mockPhaseMapping.getInfoForStudent.withArgs('abc').returns({
       supervisor: '',
       reviewer: '',
       labels: []
     });
-    executeMockRun(Whitelist, {}, mockIssue, mockPhaseMapping, mockModuleName, {});
+    executeMockRun(Whitelist, {}, mockIssue, mockPhaseMapping, mockModuleName, mockModuleConfig);
 
     expect(validator.warn.calledOnce).toBeTruthy();
     expect(
@@ -90,6 +96,9 @@ describe('Repository methods', () => {
 
   it('Whitelist should warn if username not found', () => {
     const mockIssue = {
+      head: {
+        ref: 'master'
+      },
       pull_request: {},
       user: { login: 'abc' },
       title: '[James Yong] Duke Increments',
@@ -99,7 +108,10 @@ describe('Repository methods', () => {
       repo: 'test'
     };
     const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
-    const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
+    const mockModuleConfig = {
+      githubUsernameIssueLink: 'random text',
+      originatingBranches: ['master']
+    };
 
     executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, '', mockModuleConfig);
 
@@ -116,6 +128,9 @@ describe('Repository methods', () => {
 
   it('Whitelist should should remove format check request once title is valid', () => {
     const mockIssue = {
+      head: {
+        ref: 'master'
+      },
       pull_request: {},
       user: { login: 'abc' },
       title: '[James Yong] Duke Increments',
@@ -125,7 +140,10 @@ describe('Repository methods', () => {
       repo: 'test'
     };
     const mockPhaseMapping = sinon.createStubInstance(StudentMapping);
-    const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
+    const mockModuleConfig = {
+      githubUsernameIssueLink: 'random text',
+      originatingBranches: ['master']
+    };
 
     executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, '', mockModuleConfig);
     expect(validator.removeLabel.calledWith(mockIssue, 'FormatCheckRequested')).toBeTruthy();
@@ -133,6 +151,9 @@ describe('Repository methods', () => {
 
   it('Whitelist should should remove username not found request once username is found', () => {
     const mockIssue = {
+      head: {
+        ref: 'master'
+      },
       pull_request: {},
       user: { login: 'abc' },
       title: '[James Yong] Duke Increments',
@@ -147,7 +168,10 @@ describe('Repository methods', () => {
       reviewer: 'OuyangDanwen',
       labels: ['team.A1', 'tutorial.T11']
     });
-    const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
+    const mockModuleConfig = {
+      githubUsernameIssueLink: 'random text',
+      originatingBranches: ['master']
+    };
 
     executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, '', mockModuleConfig);
     expect(validator.removeLabel.calledWith(mockIssue, 'GithubUsernameRequested')).toBeTruthy();
@@ -155,6 +179,9 @@ describe('Repository methods', () => {
 
   it('Whitelist should assign correct issue with labels for valid PR', () => {
     const mockIssue = {
+      head: {
+        ref: 'master'
+      },
       pull_request: {},
       user: { login: 'abc' },
       title: '[James Yong] Duke Increments',
@@ -169,7 +196,10 @@ describe('Repository methods', () => {
       reviewer: 'b',
       labels: ['team.A1', 'tutorial.T11']
     });
-    const mockModuleConfig = { githubUsernameIssueLink: 'random text' };
+    const mockModuleConfig = {
+      githubUsernameIssueLink: 'random text',
+      originatingBranches: ['master']
+    };
 
     executeMockRun(Whitelist, mockRepo, mockIssue, mockPhaseMapping, '', mockModuleConfig);
 
