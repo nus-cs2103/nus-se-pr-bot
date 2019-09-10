@@ -26,7 +26,7 @@ class Whitelist extends Repository {
     let doBlock = (repo, issue) => {
       const formatCheckLabel = 'FormatCheckRequested';
       const usernameCheckLabel = 'GithubUsernameRequested';
-      const originatingBranch = issue.head.ref;
+      const originatingBranch = 'master';
       const studentGithubId = issue.user.login;
       const titlePattern = util._titleRegex;
       const titleCheckResult = Validator.checkTitle(issue.title, titlePattern);
