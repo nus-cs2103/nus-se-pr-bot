@@ -1,0 +1,7 @@
+Hi @{{username}},
+
+This PR is invalid because it is made from an invalid originating branch `{{wrongBranch}}`.  This PR will be closed now.
+
+Please make a PR from the `master` branch of your forked repository and submit it again.
+
+Note: this comment is posted by a bot. If you believe this is done in error, please create an issue at [nus-se-pr-bot](https://github.com/nus-cs2103/nus-se-pr-bot/issues) and add a link to this PR.

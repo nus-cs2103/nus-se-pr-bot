@@ -32,6 +32,10 @@ class Whitelist extends Repository {
       const titleCheckResult = Validator.checkTitle(issue.title, titlePattern);
 
       if (!moduleConfig.originatingBranches.includes(originatingBranch)) {
+        validator.comment(issue, 'wrong-originating-branch.mst', {
+          username: studentGithubId,
+          wrongBranch: originatingBranch
+        });
         validator.close(issue);
         return;
       }
