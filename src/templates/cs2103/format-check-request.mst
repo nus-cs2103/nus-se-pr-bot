@@ -1,6 +1,8 @@
-Hi @{{username}}, your pull request title is invalid. Please rectify the PR title to match the following requirement:
+Hi @{{username}}, your pull request title is not as specified. Please rectify the PR title to match the following requirement:
 
-For PR sent as submission of iP (Individual Project), the PR name should be in the format of `[{Your name}] Duke Increments` (such as `[John Doe] Duke Increments`).
+For PR sent as submission of iP (Individual Project), the PR name should be in the format of `[Your name] Duke Increments` (such as `[John Doe] Duke Increments`).
+
+For PR sent as submission of tP (Team Project), the PR name should be in the format of `[Module Code-Tutorial Slot-Team ID] Product Name` (such as `[CS2103-T09-2] Peter Printer`).
 
 Please follow the above format strictly. Once the title is edited, the PR will be reprocessed by the bot.
 
