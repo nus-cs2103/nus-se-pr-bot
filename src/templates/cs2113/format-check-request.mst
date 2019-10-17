@@ -1,11 +1,9 @@
-Hi @{{username}}, your pull request title is invalid.
+Hi @{{username}}, your pull request title is not as specified. Please rectify the PR title to match the following requirement.
 
-For PR sent as submission of learning a topic, the PR name should be in the format of `[Topic ID][Team ID] Your Name`, where `[Topic ID]` has no dashes or spaces (e.g. `[W3.1a]`) and `[Team ID]` has one dash only and no spaces (e.g. `[M11-2]` means `M`onday 11am (`11` hrs), Team `2`).
-E.g. If you are in tutorial M11 (i.e. Monday 11 am), team 1, and is submitting a PR for Topic 4.2f, the PR title would be `[W4.2f][M11-1] James Yong`. Note that your tutorial IDs are different from those shown in CORS/IVLE.
+The PR name should be in the format of `[Semester-Module Code-Tutorial Slot-Team ID] Product Name`. For example:
 
-For PR sent as submission of a graded exercise, the PR name should be in the format of `[Week ID][Team ID] Your Name`, where `[Week ID]` has no dashes, dots or spaces (e.g. `[W5]`). Rest of the conventions are same as above.
-
-For team PR, the PR name should be in the format of `[Team ID] Product Name` (e.g. `[T09-2] Contact List Pro`).
+- If you are from CS2113, `[AY1920S1-CS2113-T13-1] Contact List Pro`;
+- If you are from CS2113T, `[AY1920S1-CS2113T-W13-1] Contact List Pro`.
 
 Please follow the above format strictly and edit your title for reprocessing.
 

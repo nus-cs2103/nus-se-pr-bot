@@ -18,14 +18,27 @@ describe('Validator methods', () => {
 
   it('should validate valid titles', () => {
     const testTitle = Validator.testTitle;
+
+    // CS2103/T Individual PR
     expect(testTitle('[James Yong] Duke Increments', titleRegex)).toBeTruthy();
     expect(testTitle('[James, Yong] Duke Increments', titleRegex)).toBeTruthy();
     expect(testTitle('[James (Yong)] Duke Increments', titleRegex)).toBeTruthy();
     expect(testTitle('[James/Yong] Duke Increments', titleRegex)).toBeTruthy();
+
+    // CS2103/T Team PR
+    expect(testTitle('[CS2103-T09-2] Digital Log', titleRegex)).toBeTruthy();
+    expect(testTitle('[CS2103T-W13-4] Dog and Cat', titleRegex)).toBeTruthy();
+    expect(testTitle('[CS2103T-F13-1] Someone and Her', titleRegex)).toBeTruthy();
+
+    // CS2113/T PR
+    expect(testTitle('[AY1920S1-CS2113-T08-3] Some Product', titleRegex)).toBeTruthy();
+    expect(testTitle('[AY1920S1-CS2113T-W11-1] Handsome Guy', titleRegex)).toBeTruthy();
   });
 
   it('should invalidate invalid titles', () => {
     const testTitle = Validator.testTitle;
+
+    // CS2103/T Individual PR
     expect(testTitle('[James Yong]Duke Increments', titleRegex)).toBeFalsy();
     expect(testTitle('[James Yong]Duke Increment', titleRegex)).toBeFalsy();
     expect(testTitle('James Yong Duke Increments', titleRegex)).toBeFalsy();
@@ -33,6 +46,11 @@ describe('Validator methods', () => {
     expect(testTitle('W2.2b][W09-1]', titleRegex)).toBeFalsy();
     expect(testTitle('Week 1', titleRegex)).toBeFalsy();
     expect(testTitle('[W2.2ab][W09-1]James Yong', titleRegex)).toBeFalsy();
+
+    // CS2113/T PR
+    expect(testTitle('AY1920S1-CS2113-T08-3] Wrong Product', titleRegex)).toBeFalsy();
+    expect(testTitle('[AY1819S2-CS2113-T08-3] Wrong Product', titleRegex)).toBeFalsy();
+    expect(testTitle('[AY1920S1-CS2113-M08-3] This Issue', titleRegex)).toBeFalsy();
   });
 
   it('should show label existence', () => {

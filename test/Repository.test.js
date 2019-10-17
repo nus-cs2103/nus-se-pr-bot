@@ -217,7 +217,7 @@ describe('Repository methods', () => {
   it('should comment and close if not from correct originating branch', () => {
     const mockIssue = {
       head: {
-        ref: 'branch-other'
+        ref: 'master'
       },
       pull_request: {},
       user: { login: 'abc' },
@@ -225,7 +225,7 @@ describe('Repository methods', () => {
       labels: []
     };
     const mockModuleConfig = {
-      originatingBranches: ['master']
+      originatingBranches: ['master-other']
     };
 
     executeMockRun(Whitelist, {}, mockIssue, {}, '', mockModuleConfig);
