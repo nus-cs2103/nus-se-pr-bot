@@ -9,8 +9,9 @@ class StudentMapping {
     // First row include headers
     const headers = rows[0];
     const indexRange = Array.from(Array(headers.length).keys());
-    const getIndicesForHeader =
-      header => indexRange.filter(index => headers[index].toLowerCase() === header.toLowerCase());
+    const getIndicesForHeader = header => {
+      return indexRange.filter(index => headers[index].toLowerCase() === header.toLowerCase());
+    };
     const githubUsernameIndex = getIndicesForHeader('Github Username')[0];
     const tutorIndex = getIndicesForHeader('Tutor')[0];
     const supervisorIndex = getIndicesForHeader('Supervisor')[0];

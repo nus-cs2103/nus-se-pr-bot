@@ -17,7 +17,9 @@ class Whitelist extends Repository {
   }
 
   run() {
-    const { account, moduleConfig, phaseMapping, repository, validator } = this;
+    const {
+      account, moduleConfig, phaseMapping, repository, validator
+    } = this;
 
     let filterBlock = (repo, issue) => {
       return issue.pull_request;
@@ -56,8 +58,9 @@ class Whitelist extends Repository {
 
       const student = phaseMapping.getInfoForStudent(studentGithubId);
       const issueLink = moduleConfig.githubUsernameIssueLink;
+
+      // Adds username check and returns if the student is not found.
       if (!student) {
-        // the student is not found
         validator.warn(
           issue,
           usernameCheckLabel,
@@ -67,8 +70,10 @@ class Whitelist extends Repository {
         );
 
         return;
-      } else if (Validator.hasLabel(issue, usernameCheckLabel)) {
-        // the student was not found, but has been added now
+      }
+
+      // Removes username check if the user was not found but can be found now.
+      if (Validator.hasLabel(issue, usernameCheckLabel)) {
         validator.removeLabel(issue, usernameCheckLabel);
       }
 
