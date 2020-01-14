@@ -80,4 +80,4 @@ To report a bug, create an [issue](https://github.com/nus-cs2103/nus-se-pr-bot/i
 
 # License
 
-Code released under the MIT license.
+[MIT license](LICENSE)

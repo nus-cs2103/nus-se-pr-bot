@@ -1,4 +1,5 @@
 const GitHubApi = require('@octokit/rest');
+
 require('dotenv').config({ silent: true });
 
 // Implements methods to check the required permissions for a repo
@@ -13,45 +14,42 @@ class Repository {
 
   checkPermission() {
     const { account, repository } = this;
-    const promise = new Promise((resolve, reject) => {
-      const github = new GitHubApi({});
-      const githubAuth = {
-        type: 'oauth',
-        token: process.env.GITHUB_TOKEN
-      };
+    return new Promise((resolve, reject) => {
+      const github = new GitHubApi({
+        auth: process.env.GITHUB_TOKEN
+      });
 
-      github.authenticate(githubAuth);
-      github.users.get({}, (userError, userData) => {
-        if (userError) {
-          reject(new Error(`Error retrieving the username for repo ${account}/${repository}.`));
-          return;
-        }
+      github.users.getAuthenticated().then(resp => {
+        const username = resp.data.login;
 
-        const username = userData.data.login;
-        const permissionParams = { owner: account, repo: repository, username };
-        github.repos.reviewUserPermissionLevel(permissionParams,
-          (permissionError, permissionData) => {
-            if (permissionError) {
-              reject(new Error(`Error retrieving permission information for repo ${account}/${repository}.`));
-              return;
-            }
-
-            const validPermissions = ['admin', 'write'];
-            if (!permissionData || !validPermissions.includes(permissionData.data.permission)) {
-              reject(new Error(`Pr-bot does not have the required permissions for ${account}/${repository}.`));
-              return;
-            }
-
+        // Checks permission for this repository.
+        github.repos.getCollaboratorPermissionLevel({
+          owner: account,
+          repo: repository,
+          username
+        }).then(resp2 => {
+          const validPermissions = ['admin', 'write'];
+          if (validPermissions.includes(resp2.data.permission)) {
             resolve();
-          });
+            return;
+          }
+          const err = new Error(`Pr-bot does not have the required permissions for ${account}/${repository}.`);
+          console.log(err);
+          reject(err);
+        }, err => {
+          console.log(`Error retrieving permission information for repo ${account}/${repository}.`);
+          reject(err);
+        });
+      }, err => {
+        console.log(`Error retrieving the username for repo ${account}/${repository}.`);
+        reject(err);
       });
     });
-    return promise;
   }
 
   dryCheck() {
     const { account, repository } = this;
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.checkPermission()
         .then(() => {
           console.log(`Pr-bot has the required permissions for ${account}/${repository}.`);
@@ -61,11 +59,10 @@ class Repository {
           reject(error);
         });
     });
-    return promise;
   }
 
   checkAndRun() {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.checkPermission()
         .then(() => {
           this.run.apply(this);
@@ -76,7 +73,6 @@ class Repository {
           reject(error);
         });
     });
-    return promise;
   }
 }
 

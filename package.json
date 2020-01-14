@@ -32,7 +32,7 @@
     "node": "^10.0.0"
   },
   "dependencies": {
-    "@octokit/rest": "^15.9.5",
+    "@octokit/rest": "^16.35.2",
     "accuser": "github:nus-cs2103/accuser#release",
     "babyparse": "^0.4.6",
     "dotenv": "^2.0.0",

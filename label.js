@@ -1,4 +1,5 @@
 require('dotenv').config({ silent: true });
+
 const GitHubApi = require('@octokit/rest');
 const Config = require('./src/Config');
 const StudentMapping = require('./src/StudentMapping');
@@ -12,13 +13,9 @@ const warningLabels = {
   GithubUserNameRequested: 'd73a4a'
 };
 
-const github = new GitHubApi({});
-const githubAuth = {
-  type: 'oauth',
-  token: process.env.GITHUB_TOKEN
-};
-
-github.authenticate(githubAuth);
+const github = new GitHubApi({
+  auth: process.env.GITHUB_TOKEN
+});
 
 Object.values(modules).forEach(module => {
   const { moduleConfig, studentMappingPath } = module;
@@ -37,28 +34,33 @@ Object.values(modules).forEach(module => {
 
   repositories.forEach(repo => {
     let repoPromises = [];
-    Object.keys(uniqueLabels)
-      .forEach(name => {
-        const color = uniqueLabels[name];
-        repoPromises.push(new Promise((resolve, reject) => {
-          github.issues
-            .createLabel({ name, color, repo, owner: semesterAccount }, userError => {
-              if (!userError) {
-                resolve();
-                return;
-              }
+    Object.keys(uniqueLabels).forEach(name => {
+      const color = uniqueLabels[name];
+      repoPromises.push(new Promise((resolve, reject) => {
+        github.issues.createLabel({
+          owner: semesterAccount,
+          repo: repo,
+          name: name,
+          color: color
+        }).then(() => {
+          resolve();
+        }, err => {
+          if (!err) {
+            resolve();
+            return;
+          }
 
-              const errorObj = JSON.parse(userError.message);
-              if (!!errorObj.errors && !!errorObj.errors[0]
-                && errorObj.errors[0].code === 'already_exists') {
-                resolve(); // consider a success if label already exists
-                return;
-              }
+          // Checks whether the error is because the label already exists.
+          const errObj = JSON.parse(err.message);
+          if (errObj.errors && errObj.errors[0] && errObj.errors[0].code === 'already_exists') {
+            resolve();
+            return;
+          }
+          reject(err);
+        });
+      }));
+    });
 
-              reject(userError);
-            });
-        }));
-      });
     Promise.all(repoPromises)
       .then(() => `Added ${Object.keys(uniqueLabels).length} labels to ${semesterAccount}/${repo}`)
       .catch(err => console.log(err));
